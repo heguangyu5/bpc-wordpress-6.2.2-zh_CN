@@ -102,8 +102,9 @@ class WP_Theme_JSON_Schema {
 
 		// Process individual block settings.
 		if ( isset( $new_settings['blocks'] ) && is_array( $new_settings['blocks'] ) ) {
-			foreach ( $new_settings['blocks'] as &$block_settings ) {
+			foreach ( $new_settings['blocks'] as $idx => $block_settings ) {
 				self::rename_settings( $block_settings, $paths_to_rename );
+				$new_settings['blocks'][$idx] = $block_settings;
 			}
 		}
 

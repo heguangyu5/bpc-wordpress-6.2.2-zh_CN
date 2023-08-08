@@ -535,7 +535,7 @@ class Requests {
 			}
 		}
 
-		foreach ($requests as $id => &$request) {
+		foreach ($requests as $id => $request) {
 			if (!isset($request['headers'])) {
 				$request['headers'] = [];
 			}
@@ -568,6 +568,8 @@ class Requests {
 					$request['options']['hooks']->register('multiple.request.complete', $request['options']['complete']);
 				}
 			}
+
+			$requests[$idx] = $request;
 		}
 
 		unset($request);
@@ -584,13 +586,14 @@ class Requests {
 
 		$responses = $transport->request_multiple($requests, $options);
 
-		foreach ($responses as $id => &$response) {
+		foreach ($responses as $id => $response) {
 			// If our hook got messed with somehow, ensure we end up with the
 			// correct response
 			if (is_string($response)) {
 				$request = $requests[$id];
 				self::parse_multiple($response, $request);
 				$request['options']['hooks']->dispatch('multiple.request.complete', [&$response, $id]);
+				$responses[$id] = $response;
 			}
 		}
 

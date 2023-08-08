@@ -1836,6 +1836,10 @@ class WP_Site_Health {
 			'test'        => 'background_updates',
 		);
 
+        if (defined('__BPC__')) {
+            $result['label'] = __( 'Background updates are not working as expected' );
+            $result['status'] = 'critical';
+        } else {
 		if ( ! class_exists( 'WP_Site_Health_Auto_Updates' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-site-health-auto-updates.php';
 		}
@@ -1882,6 +1886,7 @@ class WP_Site_Health {
 		if ( 'good' !== $result['status'] ) {
 			$result['description'] .= $output;
 		}
+        }
 
 		return $result;
 	}
@@ -3139,26 +3144,26 @@ class WP_Site_Health {
 	 */
 	public function get_page_cache_headers() {
 
-		$cache_hit_callback = static function ( $header_value ) {
+		$cache_hit_callback = function ( $header_value ) {
 			return false !== strpos( strtolower( $header_value ), 'hit' );
 		};
 
 		$cache_headers = array(
-			'cache-control'          => static function ( $header_value ) {
+			'cache-control'          => function ( $header_value ) {
 				return (bool) preg_match( '/max-age=[1-9]/', $header_value );
 			},
-			'expires'                => static function ( $header_value ) {
+			'expires'                => function ( $header_value ) {
 				return strtotime( $header_value ) > time();
 			},
-			'age'                    => static function ( $header_value ) {
+			'age'                    => function ( $header_value ) {
 				return is_numeric( $header_value ) && $header_value > 0;
 			},
 			'last-modified'          => '',
 			'etag'                   => '',
-			'x-cache-enabled'        => static function ( $header_value ) {
+			'x-cache-enabled'        => function ( $header_value ) {
 				return 'true' === strtolower( $header_value );
 			},
-			'x-cache-disabled'       => static function ( $header_value ) {
+			'x-cache-disabled'       => function ( $header_value ) {
 				return ( 'on' !== strtolower( $header_value ) );
 			},
 			'x-srcache-store-status' => $cache_hit_callback,

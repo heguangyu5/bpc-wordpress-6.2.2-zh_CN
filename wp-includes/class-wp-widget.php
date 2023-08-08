@@ -550,7 +550,7 @@ class WP_Widget {
 			 * @param null      $return   Return null if new fields are added.
 			 * @param array     $instance An array of the widget's settings.
 			 */
-			do_action_ref_array( 'in_widget_form', array( &$this, &$return, $instance ) );
+			do_action_ref_array( 'in_widget_form', array( $this, &$return, $instance ) );
 		}
 
 		return $return;

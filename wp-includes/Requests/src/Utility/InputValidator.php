@@ -100,9 +100,12 @@ final class InputValidator {
 			return get_resource_type($input) === 'curl';
 		}
 
+        if (defined('__BPC__')) {
+        } else {
 		if (is_object($input)) {
 			return $input instanceof CurlHandle;
 		}
+        }
 
 		return false;
 	}

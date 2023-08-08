@@ -630,9 +630,10 @@ class WP_Theme_JSON {
 		}
 
 		if ( isset( $new_theme_json['settings']['blocks'] ) && is_array( $new_theme_json['settings']['blocks'] ) ) {
-			foreach ( $new_theme_json['settings']['blocks'] as &$block ) {
+			foreach ( $new_theme_json['settings']['blocks'] as $idx => $block ) {
 				if ( isset( $block['appearanceTools'] ) && ( true === $block['appearanceTools'] ) ) {
 					static::do_opt_in_into_settings( $block );
+					$new_theme_json['settings']['blocks'][$idx] = $block;
 				}
 			}
 		}
@@ -1007,11 +1008,11 @@ class WP_Theme_JSON {
 		$root_settings_key = array_search( static::ROOT_BLOCK_SELECTOR, array_column( $setting_nodes, 'selector' ), true );
 
 		if ( ! empty( $options['scope'] ) ) {
-			foreach ( $setting_nodes as &$node ) {
-				$node['selector'] = static::scope_selector( $options['scope'], $node['selector'] );
+			foreach ( $setting_nodes as $idx => $node ) {
+				$setting_nodes[$idx]['selector'] = static::scope_selector( $options['scope'], $node['selector'] );
 			}
-			foreach ( $style_nodes as &$node ) {
-				$node['selector'] = static::scope_selector( $options['scope'], $node['selector'] );
+			foreach ( $style_nodes as $idx => $node ) {
+				$style_nodes[$idx]['selector'] = static::scope_selector( $options['scope'], $node['selector'] );
 			}
 		}
 
@@ -1488,7 +1489,7 @@ class WP_Theme_JSON {
 
 		$declaration_block = array_reduce(
 			$declarations,
-			static function ( $carry, $element ) {
+			function ( $carry, $element ) {
 				return $carry .= $element['name'] . ': ' . $element['value'] . ';'; },
 			''
 		);
@@ -2322,7 +2323,7 @@ class WP_Theme_JSON {
 						// Prepend the variation selector to the feature selector.
 						$split_feature_selectors    = explode( ',', $feature_selector );
 						$feature_selectors          = array_map(
-							static function( $split_feature_selector ) use ( $clean_style_variation_selector ) {
+							function( $split_feature_selector ) use ( $clean_style_variation_selector ) {
 								return $clean_style_variation_selector . trim( $split_feature_selector );
 							},
 							$split_feature_selectors

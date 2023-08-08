@@ -115,7 +115,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 
 		$min = min( $new_priorities );
 
-		foreach ( $this->iterations as $index => &$iteration ) {
+		foreach ( $this->iterations as $index => $iteration ) {
 			$current = current( $iteration );
 
 			// If we're already at the end of this iteration, just leave the array pointer where it is.
@@ -127,6 +127,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 
 			if ( $current < $min ) {
 				array_unshift( $iteration, $current );
+				$this->iterations[$index] = $iteration;
 				continue;
 			}
 
@@ -159,6 +160,8 @@ final class WP_Hook implements Iterator, ArrayAccess {
 					next( $iteration );
 				}
 			}
+
+			$this->iterations[$index] = $iteration;
 		}
 
 		unset( $iteration );

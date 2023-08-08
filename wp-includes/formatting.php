@@ -238,7 +238,7 @@ function wptexturize( $text, $reset = false ) {
 
 	$textarr = preg_split( $regex, $text, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
 
-	foreach ( $textarr as &$curl ) {
+	foreach ( $textarr as $idx => $curl ) {
 		// Only call _wptexturize_pushpop_element if $curl is a delimiter.
 		$first = $curl[0];
 		if ( '<' === $first ) {
@@ -296,6 +296,7 @@ function wptexturize( $text, $reset = false ) {
 			// Replace each & with &#038; unless it already looks like an entity.
 			$curl = preg_replace( '/&(?!#(?:\d+|x[a-f0-9]+);|[a-z1-4]{1,8};)/i', '&#038;', $curl );
 		}
+		$textarr[$idx] = $curl;
 	}
 
 	return implode( '', $textarr );
@@ -325,7 +326,7 @@ function wptexturize_primes( $haystack, $needle, $prime, $open_quote, $close_quo
 
 	$sentences = explode( $open_quote, $haystack );
 
-	foreach ( $sentences as $key => &$sentence ) {
+	foreach ( $sentences as $key => $sentence ) {
 		if ( false === strpos( $sentence, $needle ) ) {
 			continue;
 		} elseif ( 0 !== $key && 0 === substr_count( $sentence, $close_quote ) ) {
@@ -365,6 +366,7 @@ function wptexturize_primes( $haystack, $needle, $prime, $open_quote, $close_quo
 		if ( '"' === $needle && false !== strpos( $sentence, '"' ) ) {
 			$sentence = str_replace( '"', $close_quote, $sentence );
 		}
+		$sentences[$key] = $sentence;
 	}
 
 	return implode( $open_quote, $sentences );
@@ -3218,7 +3220,7 @@ function wp_rel_nofollow( $text ) {
 	$text = stripslashes( $text );
 	$text = preg_replace_callback(
 		'|<a (.+?)>|i',
-		static function( $matches ) {
+		function( $matches ) {
 			return wp_rel_callback( $matches, 'nofollow' );
 		},
 		$text
@@ -3252,7 +3254,7 @@ function wp_rel_ugc( $text ) {
 	$text = stripslashes( $text );
 	$text = preg_replace_callback(
 		'|<a (.+?)>|i',
-		static function( $matches ) {
+		function( $matches ) {
 			return wp_rel_callback( $matches, 'nofollow ugc' );
 		},
 		$text
@@ -3281,8 +3283,8 @@ function wp_targeted_link_rel( $text ) {
 	$extra_parts = $matches[0];
 	$html_parts  = preg_split( $script_and_style_regex, $text );
 
-	foreach ( $html_parts as &$part ) {
-		$part = preg_replace_callback( '|<a\s([^>]*target\s*=[^>]*)>|i', 'wp_targeted_link_rel_callback', $part );
+	foreach ( $html_parts as $idx => $part ) {
+		$html_parts[$idx] = preg_replace_callback( '|<a\s([^>]*target\s*=[^>]*)>|i', 'wp_targeted_link_rel_callback', $part );
 	}
 
 	$text = '';
@@ -4685,7 +4687,7 @@ EOF;
 
 	$safe_text = (string) preg_replace_callback(
 		$regex,
-		static function( $matches ) {
+		function( $matches ) {
 			if ( ! isset( $matches[0] ) ) {
 				return '';
 			}

@@ -51,14 +51,14 @@ class Text_Diff_Engine_string {
         }
 
         if ($mode != 'autodetect' && $mode != 'context' && $mode != 'unified') {
-            return PEAR::raiseError('Type of diff is unsupported');
+            throw new InvalidArgumentException('Type of diff is unsupported');
         }
 
         if ($mode == 'autodetect') {
             $context = strpos($diff, '***');
             $unified = strpos($diff, '---');
             if ($context === $unified) {
-                return PEAR::raiseError('Type of diff could not be detected');
+                throw new InvalidArgumentException('Type of diff could not be detected');
             } elseif ($context === false || $unified === false) {
                 $mode = $context !== false ? 'context' : 'unified';
             } else {

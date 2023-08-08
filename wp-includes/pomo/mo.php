@@ -298,7 +298,7 @@ if ( ! class_exists( 'MO', false ) ) :
 				if ( '' === $original ) {
 					$this->set_headers( $this->make_headers( $translation ) );
 				} else {
-					$entry                          = &$this->make_entry( $original, $translation );
+					$entry                          = $this->make_entry( $original, $translation );
 					$this->entries[ $entry->key() ] = &$entry;
 				}
 			}
@@ -316,7 +316,7 @@ if ( ! class_exists( 'MO', false ) ) :
 		 *  0x00 as a plural translations separator
 		 * @return Translation_Entry Entry instance.
 		 */
-		public function &make_entry( $original, $translation ) {
+		public function make_entry( $original, $translation ) {
 			$entry = new Translation_Entry();
 			// Look for context, separated by \4.
 			$parts = explode( "\4", $original );

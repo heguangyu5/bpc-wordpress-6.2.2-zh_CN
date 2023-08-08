@@ -1456,7 +1456,7 @@ class WP_Rewrite {
 		 *
 		 * @param WP_Rewrite $wp_rewrite Current WP_Rewrite instance (passed by reference).
 		 */
-		do_action_ref_array( 'generate_rewrite_rules', array( &$this ) );
+		do_action_ref_array( 'generate_rewrite_rules', array( $this ) );
 
 		/**
 		 * Filters the full set of generated rewrite rules.

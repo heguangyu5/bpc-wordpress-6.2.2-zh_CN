@@ -396,7 +396,7 @@ class WP {
 		 *
 		 * @param WP $wp Current WordPress environment instance (passed by reference).
 		 */
-		do_action_ref_array( 'parse_request', array( &$this ) );
+		do_action_ref_array( 'parse_request', array( $this ) );
 
 		return true;
 	}
@@ -558,7 +558,7 @@ class WP {
 		 *
 		 * @param WP $wp Current WordPress environment instance (passed by reference).
 		 */
-		do_action_ref_array( 'send_headers', array( &$this ) );
+		do_action_ref_array( 'send_headers', array( $this ) );
 	}
 
 	/**
@@ -794,6 +794,6 @@ class WP {
 		 *
 		 * @param WP $wp Current WordPress environment instance (passed by reference).
 		 */
-		do_action_ref_array( 'wp', array( &$this ) );
+		do_action_ref_array( 'wp', array( $this ) );
 	}
 }

@@ -253,7 +253,7 @@ if ( ! function_exists( 'wp_mail' ) ) :
 			require_once ABSPATH . WPINC . '/PHPMailer/Exception.php';
 			$phpmailer = new PHPMailer\PHPMailer\PHPMailer( true );
 
-			$phpmailer::$validator = static function ( $email ) {
+			$phpmailer::$validator = function ( $email ) {
 				return (bool) is_email( $email );
 			};
 		}

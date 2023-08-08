@@ -845,7 +845,7 @@ function wp_extract_urls( $content ) {
 
 	$post_links = array_unique(
 		array_map(
-			static function( $link ) {
+			function( $link ) {
 				// Decode to replace valid entities, like &amp;.
 				$link = html_entity_decode( $link );
 				// Maintain backward compatibility by removing extraneous semi-colons (`;`).
@@ -4894,9 +4894,10 @@ function wp_array_slice_assoc( $input_array, $keys ) {
  * @param array $input_array The array to sort, passed by reference.
  */
 function wp_recursive_ksort( &$input_array ) {
-	foreach ( $input_array as &$value ) {
+	foreach ( $input_array as $idx => $value ) {
 		if ( is_array( $value ) ) {
 			wp_recursive_ksort( $value );
+			$input_array[$idx] = $value;
 		}
 	}
 

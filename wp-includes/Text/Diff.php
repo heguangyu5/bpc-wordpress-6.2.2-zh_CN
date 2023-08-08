@@ -355,7 +355,7 @@ class Text_Diff_Op {
     var $orig;
     var $final;
 
-    function &reverse()
+    function reverse()
     {
         trigger_error('Abstract method', E_USER_ERROR);
     }
@@ -399,7 +399,7 @@ class Text_Diff_Op_copy extends Text_Diff_Op {
 		self::__construct( $orig, $final );
 	}
 
-    function &reverse()
+    function reverse()
     {
         $reverse = new Text_Diff_Op_copy($this->final, $this->orig);
         return $reverse;
@@ -431,7 +431,7 @@ class Text_Diff_Op_delete extends Text_Diff_Op {
 		self::__construct( $lines );
 	}
 
-    function &reverse()
+    function reverse()
     {
         $reverse = new Text_Diff_Op_add($this->orig);
         return $reverse;
@@ -463,7 +463,7 @@ class Text_Diff_Op_add extends Text_Diff_Op {
 		self::__construct( $lines );
 	}
 
-    function &reverse()
+    function reverse()
     {
         $reverse = new Text_Diff_Op_delete($this->final);
         return $reverse;
@@ -495,7 +495,7 @@ class Text_Diff_Op_change extends Text_Diff_Op {
 		self::__construct( $orig, $final );
 	}
 
-    function &reverse()
+    function reverse()
     {
         $reverse = new Text_Diff_Op_change($this->final, $this->orig);
         return $reverse;

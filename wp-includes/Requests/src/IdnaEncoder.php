@@ -64,8 +64,8 @@ class IdnaEncoder {
 		}
 
 		$parts = explode('.', $hostname);
-		foreach ($parts as &$part) {
-			$part = self::to_ascii($part);
+		foreach ($parts as $idx => $part) {
+			$parts[$idx] = self::to_ascii($part);
 		}
 
 		return implode('.', $parts);

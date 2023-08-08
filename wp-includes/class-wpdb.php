@@ -3502,7 +3502,7 @@ class wpdb {
 	protected function strip_invalid_text( $data ) {
 		$db_check_string = false;
 
-		foreach ( $data as &$value ) {
+		foreach ( $data as $idx => $value ) {
 			$charset = $value['charset'];
 
 			if ( is_array( $value['length'] ) ) {
@@ -3541,6 +3541,7 @@ class wpdb {
 				mbstring_binary_safe_encoding();
 				if ( false !== $length && strlen( $value['value'] ) > $length ) {
 					$value['value'] = substr( $value['value'], 0, $length );
+					$data[$idx] = $value;
 				}
 				reset_mbstring_encoding();
 
@@ -3577,12 +3578,15 @@ class wpdb {
 				if ( false !== $length && mb_strlen( $value['value'], 'UTF-8' ) > $length ) {
 					$value['value'] = mb_substr( $value['value'], 0, $length, 'UTF-8' );
 				}
+				$data[$idx] = $value;
 				continue;
 			}
 
 			// We couldn't use any local conversions, send it to the DB.
 			$value['db']     = true;
 			$db_check_string = true;
+
+			$data[$idx] = $value;
 		}
 		unset( $value ); // Remove by reference.
 

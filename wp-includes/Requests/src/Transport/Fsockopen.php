@@ -153,7 +153,7 @@ final class Fsockopen implements Transport {
 		$remote_socket .= ':' . $url_parts['port'];
 
 		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_set_error_handler
-		set_error_handler([$this, 'connect_error_handler'], E_WARNING | E_NOTICE);
+		set_error_handler([$this, 'connect_error_handler']);
 
 		$options['hooks']->dispatch('fsockopen.remote_socket', [&$remote_socket]);
 

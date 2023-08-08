@@ -315,7 +315,7 @@ class WP_Tax_Query {
 			$indent .= '  ';
 		}
 
-		foreach ( $query as $key => &$clause ) {
+		foreach ( $query as $key => $clause ) {
 			if ( 'relation' === $key ) {
 				$relation = $query['relation'];
 			} elseif ( is_array( $clause ) ) {
@@ -341,6 +341,7 @@ class WP_Tax_Query {
 					$sql_chunks['where'][] = $clause_sql['where'];
 					$sql_chunks['join'][]  = $clause_sql['join'];
 				}
+				$query[$key] = $clause;
 			}
 		}
 

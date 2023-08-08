@@ -358,7 +358,7 @@ if ( ! function_exists( 'is_countable' ) ) {
 		return ( is_array( $value )
 			|| $value instanceof Countable
 			|| $value instanceof SimpleXMLElement
-			|| $value instanceof ResourceBundle
+			//|| $value instanceof ResourceBundle
 		);
 	}
 }

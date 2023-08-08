@@ -332,7 +332,7 @@ final class Curl implements Transport {
 	 * @param array $options Request options, see {@see \WpOrg\Requests\Requests::response()} for documentation
 	 * @return resource|\CurlHandle Subrequest's cURL handle
 	 */
-	public function &get_subrequest_handle($url, $headers, $data, $options) {
+	public function get_subrequest_handle($url, $headers, $data, $options) {
 		$this->setup_handle($url, $headers, $data, $options);
 
 		if ($options['filename'] !== false) {

@@ -362,7 +362,7 @@ class WP_Term_Query {
 		 *
 		 * @param WP_Term_Query $query Current instance of WP_Term_Query (passed by reference).
 		 */
-		do_action_ref_array( 'pre_get_terms', array( &$this ) );
+		do_action_ref_array( 'pre_get_terms', array( $this ) );
 
 		$taxonomies = (array) $args['taxonomy'];
 
@@ -547,9 +547,9 @@ class WP_Term_Query {
 		if ( ! empty( $args['name'] ) ) {
 			$names = $args['name'];
 
-			foreach ( $names as &$_name ) {
+			foreach ( $names as $idx => $_name ) {
 				// `sanitize_term_field()` returns slashed data.
-				$_name = stripslashes( sanitize_term_field( 'name', $_name, 0, reset( $taxonomies ), 'db' ) );
+				$names[$idx] = stripslashes( sanitize_term_field( 'name', $_name, 0, reset( $taxonomies ), 'db' ) );
 			}
 
 			$this->sql_clauses['where']['name'] = "t.name IN ('" . implode( "', '", array_map( 'esc_sql', $names ) ) . "')";
@@ -768,7 +768,7 @@ class WP_Term_Query {
 		 *                             or null to allow WP queries to run normally.
 		 * @param WP_Term_Query $query The WP_Term_Query instance, passed by reference.
 		 */
-		$this->terms = apply_filters_ref_array( 'terms_pre_query', array( $this->terms, &$this ) );
+		$this->terms = apply_filters_ref_array( 'terms_pre_query', array( $this->terms, $this ) );
 
 		if ( null !== $this->terms ) {
 			return $this->terms;
@@ -839,11 +839,16 @@ class WP_Term_Query {
 					$children = get_term_children( $term->term_id, $term->taxonomy );
 
 					if ( is_array( $children ) ) {
+					    $continue = false;
 						foreach ( $children as $child_id ) {
 							$child = get_term( $child_id, $term->taxonomy );
 							if ( $child->count ) {
-								continue 2;
+							    $continue = true;
+							    break;
 							}
+						}
+						if ($continue) {
+						    continue;
 						}
 					}
 

@@ -1416,14 +1416,19 @@ function wp_load_translations_early() {
 		$locations = array_unique( $locations );
 
 		foreach ( $locales as $locale ) {
+		    $break = false;
 			foreach ( $locations as $location ) {
 				if ( file_exists( $location . '/' . $locale . '.mo' ) ) {
 					load_textdomain( 'default', $location . '/' . $locale . '.mo', $locale );
 					if ( defined( 'WP_SETUP_CONFIG' ) && file_exists( $location . '/admin-' . $locale . '.mo' ) ) {
 						load_textdomain( 'default', $location . '/admin-' . $locale . '.mo', $locale );
 					}
-					break 2;
+					$break = true;
+					break;
 				}
+			}
+			if ($break) {
+			    break;
 			}
 		}
 

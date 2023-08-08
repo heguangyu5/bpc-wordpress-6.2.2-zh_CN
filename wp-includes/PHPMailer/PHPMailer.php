@@ -894,12 +894,6 @@ class PHPMailer
         if ($this->SMTPDebug <= 0) {
             return;
         }
-        //Is this a PSR-3 logger?
-        if ($this->Debugoutput instanceof \Psr\Log\LoggerInterface) {
-            $this->Debugoutput->debug($str);
-
-            return;
-        }
         //Avoid clash with built-in function names
         if (is_callable($this->Debugoutput) && !in_array($this->Debugoutput, ['error_log', 'html', 'echo'])) {
             call_user_func($this->Debugoutput, $str, $this->SMTPDebug);
@@ -3970,7 +3964,7 @@ class PHPMailer
     {
         $this->RecipientsQueue = array_filter(
             $this->RecipientsQueue,
-            static function ($params) use ($kind) {
+            function ($params) use ($kind) {
                 return $params[0] !== $kind;
             }
         );
@@ -4937,7 +4931,7 @@ class PHPMailer
                                 str_replace('|', '=7C', $this->DKIM_QP($header['value']));
                         }
                         //Skip straight to the next header
-                        continue 2;
+                        break;
                     }
                 }
             }
@@ -5121,7 +5115,7 @@ class PHPMailer
     /**
      * Set an OAuthTokenProvider instance.
      */
-    public function setOAuth(OAuthTokenProvider $oauth)
+    public function setOAuth($oauth)
     {
         $this->oauth = $oauth;
     }

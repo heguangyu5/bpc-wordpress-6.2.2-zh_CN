@@ -1036,11 +1036,11 @@ final class WP_Theme implements ArrayAccess {
 					}
 				}
 
-				foreach ( $value as &$tag ) {
+				foreach ( $value as $idx => $tag ) {
 					if ( isset( $tags_list[ $tag ] ) ) {
-						$tag = $tags_list[ $tag ];
+						$value[$idx] = $tags_list[ $tag ];
 					} elseif ( isset( self::$tag_map[ $tag ] ) ) {
-						$tag = $tags_list[ self::$tag_map[ $tag ] ];
+						$value[$idx] = $tags_list[ self::$tag_map[ $tag ] ];
 					}
 				}
 
@@ -1308,9 +1308,9 @@ final class WP_Theme implements ArrayAccess {
 		}
 
 		if ( $this->load_textdomain() ) {
-			foreach ( $post_templates as &$post_type ) {
-				foreach ( $post_type as &$post_template ) {
-					$post_template = $this->translate_header( 'Template Name', $post_template );
+			foreach ( $post_templates as $idx => $post_type ) {
+				foreach ( $post_type as $idx2 => $post_template ) {
+					$post_templates[$idx][$idx2] = $this->translate_header( 'Template Name', $post_template );
 				}
 			}
 		}
