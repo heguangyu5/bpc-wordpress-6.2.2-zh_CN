@@ -406,7 +406,7 @@ add_action( 'sanitize_comment_cookies', 'sanitize_comment_cookies' );
 add_action( 'init', 'smilies_init', 5 );
 add_action( 'plugins_loaded', 'wp_maybe_load_widgets', 0 );
 add_action( 'plugins_loaded', 'wp_maybe_load_embeds', 0 );
-add_action( 'shutdown', 'wp_ob_end_flush_all', 1 );
+add_action( 'shutdown', 'wp_ob_end_flush_all', 1, 0 );
 // Create a revision whenever a post is updated.
 add_action( 'post_updated', 'wp_save_post_revision', 10, 1 );
 add_action( 'publish_post', '_publish_post_hook', 5, 1 );
