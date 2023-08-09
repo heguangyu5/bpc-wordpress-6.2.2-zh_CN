@@ -30,6 +30,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', dirname( __DIR__ ) . '/' );
 }
 
+if ( ! defined( 'ABSPATH_REAL' ) ) {
+    if (defined('__BPC__')) {
+        define( 'ABSPATH_REAL', $_SERVER['DOCUMENT_ROOT'] . '/');
+    } else {
+        define( 'ABSPATH_REAL', ABSPATH);
+    }
+}
+
 require ABSPATH . 'wp-settings.php';
 
 /** Load WordPress Administration Upgrade API */

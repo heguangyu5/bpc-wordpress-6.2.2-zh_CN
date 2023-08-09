@@ -21,6 +21,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', __DIR__ . '/' );
 }
 
+if ( ! defined( 'ABSPATH_REAL' ) ) {
+    if (defined('__BPC__')) {
+        define( 'ABSPATH_REAL', $_SERVER['DOCUMENT_ROOT'] . '/');
+    } else {
+        define( 'ABSPATH_REAL', ABSPATH);
+    }
+}
+
 /*
  * The error_reporting() function can be disabled in php.ini. On systems where that is the case,
  * it's best to add a dummy function to the wp-config.php file, but as this call to the function

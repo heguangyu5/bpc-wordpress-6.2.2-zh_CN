@@ -92,5 +92,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', __DIR__ . '/' );
 }
 
+if ( ! defined( 'ABSPATH_REAL' ) ) {
+    if (defined('__BPC__')) {
+        define( 'ABSPATH_REAL', $_SERVER['DOCUMENT_ROOT'] . '/');
+    } else {
+        define( 'ABSPATH_REAL', ABSPATH);
+    }
+}
+
 /** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';

@@ -12,6 +12,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', dirname( __DIR__ ) . '/' );
 }
 
+if ( ! defined( 'ABSPATH_REAL' ) ) {
+    if (defined('__BPC__')) {
+        define( 'ABSPATH_REAL', $_SERVER['DOCUMENT_ROOT'] . '/');
+    } else {
+        define( 'ABSPATH_REAL', ABSPATH);
+    }
+}
+
 define( 'WPINC', 'wp-includes' );
 define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
 
