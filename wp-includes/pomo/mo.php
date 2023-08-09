@@ -299,7 +299,7 @@ if ( ! class_exists( 'MO', false ) ) :
 					$this->set_headers( $this->make_headers( $translation ) );
 				} else {
 					$entry                          = $this->make_entry( $original, $translation );
-					$this->entries[ $entry->key() ] = &$entry;
+					$this->entries[ $entry->key() ] = $entry;
 				}
 			}
 			return true;
