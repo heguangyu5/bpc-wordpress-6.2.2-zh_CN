@@ -6064,7 +6064,7 @@ function wp_guess_url() {
 	if ( defined( 'WP_SITEURL' ) && '' !== WP_SITEURL ) {
 		$url = WP_SITEURL;
 	} else {
-		$abspath_fix         = str_replace( '\\', '/', ABSPATH );
+		$abspath_fix         = str_replace( '\\', '/', ABSPATH_REAL );
 		$script_filename_dir = dirname( $_SERVER['SCRIPT_FILENAME'] );
 
 		// The request is for the admin.
@@ -6079,7 +6079,7 @@ function wp_guess_url() {
 		} else {
 			if ( false !== strpos( $_SERVER['SCRIPT_FILENAME'], $abspath_fix ) ) {
 				// Request is hitting a file inside ABSPATH.
-				$directory = str_replace( ABSPATH, '', $script_filename_dir );
+				$directory = str_replace( ABSPATH_REAL, '', $script_filename_dir );
 				// Strip off the subdirectory, and any file/query params.
 				$path = preg_replace( '#/' . preg_quote( $directory, '#' ) . '/[^/]*$#i', '', $_SERVER['REQUEST_URI'] );
 			} elseif ( false !== strpos( $abspath_fix, $script_filename_dir ) ) {
