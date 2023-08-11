@@ -338,7 +338,7 @@ $default         = get_option( 'avatar_default', 'mystery' );
 $avatar_list     = '';
 
 // Force avatars on to display these choices.
-add_filter( 'pre_option_show_avatars', '__return_true', 100 );
+add_filter( 'pre_option_show_avatars', '__return_true', 100, 0 );
 
 foreach ( $avatar_defaults as $default_key => $default_name ) {
 	$selected     = ( $default === $default_key ) ? 'checked="checked" ' : '';

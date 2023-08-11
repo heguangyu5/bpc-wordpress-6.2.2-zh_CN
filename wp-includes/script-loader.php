@@ -3682,9 +3682,9 @@ function _wp_theme_json_webfonts_handler() {
 		wp_add_inline_style( 'wp-block-library', $styles );
 	};
 
-	add_action( 'wp_loaded', $fn_register_webfonts );
-	add_action( 'wp_enqueue_scripts', $fn_generate_and_enqueue_styles );
-	add_action( 'admin_init', $fn_generate_and_enqueue_editor_styles );
+	add_action( 'wp_loaded', $fn_register_webfonts, 10, 0 );
+	add_action( 'wp_enqueue_scripts', $fn_generate_and_enqueue_styles, 10, 0 );
+	add_action( 'admin_init', $fn_generate_and_enqueue_editor_styles, 10, 0 );
 }
 
 /**

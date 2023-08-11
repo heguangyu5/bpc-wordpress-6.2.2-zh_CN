@@ -3027,7 +3027,7 @@ function wp_ajax_query_attachments() {
 
 	// Filter query clauses to include filenames.
 	if ( isset( $query['s'] ) ) {
-		add_filter( 'wp_allow_query_attachment_by_filename', '__return_true' );
+		add_filter( 'wp_allow_query_attachment_by_filename', '__return_true', 10, 0 );
 	}
 
 	/**

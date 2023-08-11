@@ -261,6 +261,12 @@ final class WP_Theme implements ArrayAccess {
 
 		$cache = $this->cache_get( 'theme' );
 
+        if (defined('__BPC__')) {
+            $fileExistsFunc = 'include_file_exists';
+        } else {
+            $fileExistsFunc = 'file_exists';
+        }
+
 		if ( is_array( $cache ) ) {
 			foreach ( array( 'block_theme', 'errors', 'headers', 'template' ) as $key ) {
 				if ( isset( $cache[ $key ] ) ) {
@@ -273,62 +279,79 @@ final class WP_Theme implements ArrayAccess {
 			if ( isset( $cache['theme_root_template'] ) ) {
 				$theme_root_template = $cache['theme_root_template'];
 			}
-		} elseif ( ! file_exists( $this->theme_root . '/' . $theme_file ) ) {
-			$this->headers['Name'] = $this->stylesheet;
-			if ( ! file_exists( $this->theme_root . '/' . $this->stylesheet ) ) {
-				$this->errors = new WP_Error(
-					'theme_not_found',
-					sprintf(
-						/* translators: %s: Theme directory name. */
-						__( 'The theme directory "%s" does not exist.' ),
-						esc_html( $this->stylesheet )
-					)
-				);
-			} else {
-				$this->errors = new WP_Error( 'theme_no_stylesheet', __( 'Stylesheet is missing.' ) );
-			}
-			$this->template    = $this->stylesheet;
-			$this->block_theme = false;
-			$this->cache_add(
-				'theme',
-				array(
-					'block_theme' => $this->block_theme,
-					'headers'     => $this->headers,
-					'errors'      => $this->errors,
-					'stylesheet'  => $this->stylesheet,
-					'template'    => $this->template,
-				)
-			);
-			if ( ! file_exists( $this->theme_root ) ) { // Don't cache this one.
-				$this->errors->add( 'theme_root_missing', __( '<strong>Error:</strong> The themes directory is either empty or does not exist. Please check your installation.' ) );
-			}
-			return;
-		} elseif ( ! is_readable( $this->theme_root . '/' . $theme_file ) ) {
-			$this->headers['Name'] = $this->stylesheet;
-			$this->errors          = new WP_Error( 'theme_stylesheet_not_readable', __( 'Stylesheet is not readable.' ) );
-			$this->template        = $this->stylesheet;
-			$this->block_theme     = false;
-			$this->cache_add(
-				'theme',
-				array(
-					'block_theme' => $this->block_theme,
-					'headers'     => $this->headers,
-					'errors'      => $this->errors,
-					'stylesheet'  => $this->stylesheet,
-					'template'    => $this->template,
-				)
-			);
-			return;
 		} else {
-			$this->headers = get_file_data( $this->theme_root . '/' . $theme_file, self::$file_headers, 'theme' );
-			// Default themes always trump their pretenders.
-			// Properly identify default themes that are inside a directory within wp-content/themes.
-			$default_theme_slug = array_search( $this->headers['Name'], self::$default_themes, true );
-			if ( $default_theme_slug ) {
-				if ( basename( $this->stylesheet ) != $default_theme_slug ) {
-					$this->headers['Name'] .= '/' . $this->stylesheet;
-				}
-			}
+		    if ( ! $fileExistsFunc( $this->theme_root . '/' . $theme_file ) ) {
+			    $this->headers['Name'] = $this->stylesheet;
+			    if ( ! $fileExistsFunc( $this->theme_root . '/' . $this->stylesheet ) ) {
+				    $this->errors = new WP_Error(
+					    'theme_not_found',
+					    sprintf(
+						    /* translators: %s: Theme directory name. */
+						    __( 'The theme directory "%s" does not exist.' ),
+						    esc_html( $this->stylesheet )
+					    )
+				    );
+			    } else {
+				    $this->errors = new WP_Error( 'theme_no_stylesheet', __( 'Stylesheet is missing.' ) );
+			    }
+			    $this->template    = $this->stylesheet;
+			    $this->block_theme = false;
+			    $this->cache_add(
+				    'theme',
+				    array(
+					    'block_theme' => $this->block_theme,
+					    'headers'     => $this->headers,
+					    'errors'      => $this->errors,
+					    'stylesheet'  => $this->stylesheet,
+					    'template'    => $this->template,
+				    )
+			    );
+			    if (defined('__BPC__')) {
+			    } else {
+			    if ( ! file_exists( $this->theme_root ) ) { // Don't cache this one.
+				    $this->errors->add( 'theme_root_missing', __( '<strong>Error:</strong> The themes directory is either empty or does not exist. Please check your installation.' ) );
+			    }
+			    }
+			    return;
+		    } else {
+		        if (defined('__BPC__')) {
+		            $readable = true;
+		        } else {
+		            $readable = is_readable( $this->theme_root . '/' . $theme_file );
+		        }
+		        if ( ! $readable ) {
+			        $this->headers['Name'] = $this->stylesheet;
+			        $this->errors          = new WP_Error( 'theme_stylesheet_not_readable', __( 'Stylesheet is not readable.' ) );
+			        $this->template        = $this->stylesheet;
+			        $this->block_theme     = false;
+			        $this->cache_add(
+				        'theme',
+				        array(
+					        'block_theme' => $this->block_theme,
+					        'headers'     => $this->headers,
+					        'errors'      => $this->errors,
+					        'stylesheet'  => $this->stylesheet,
+					        'template'    => $this->template,
+				        )
+			        );
+			        return;
+		        } else {
+		            if (defined('__BPC__')) {
+		                $bpcResource = true;
+		            } else {
+		                $bpcResource = false;
+		            }
+			        $this->headers = get_file_data( $this->theme_root . '/' . $theme_file, self::$file_headers, 'theme', $bpcResource );
+			        // Default themes always trump their pretenders.
+			        // Properly identify default themes that are inside a directory within wp-content/themes.
+			        $default_theme_slug = array_search( $this->headers['Name'], self::$default_themes, true );
+			        if ( $default_theme_slug ) {
+				        if ( basename( $this->stylesheet ) != $default_theme_slug ) {
+					        $this->headers['Name'] .= '/' . $this->stylesheet;
+				        }
+			        }
+		        }
+		    }
 		}
 
 		if ( ! $this->template && $this->stylesheet === $this->headers['Template'] ) {
@@ -363,9 +386,9 @@ final class WP_Theme implements ArrayAccess {
 			$theme_path     = $this->theme_root . '/' . $this->stylesheet;
 
 			if (
-				! file_exists( $theme_path . '/templates/index.html' )
-				&& ! file_exists( $theme_path . '/block-templates/index.html' ) // Deprecated path support since 5.9.0.
-				&& ! file_exists( $theme_path . '/index.php' )
+				! $fileExistsFunc( $theme_path . '/templates/index.html' )
+				&& ! $fileExistsFunc( $theme_path . '/block-templates/index.html' ) // Deprecated path support since 5.9.0.
+				&& ! $fileExistsFunc( $theme_path . '/index.php' )
 			) {
 				$error_message = sprintf(
 					/* translators: 1: templates/index.html, 2: index.php, 3: Documentation URL, 4: Template, 5: style.css */
@@ -392,7 +415,8 @@ final class WP_Theme implements ArrayAccess {
 		}
 
 		// If we got our data from cache, we can assume that 'template' is pointing to the right place.
-		if ( ! is_array( $cache ) && $this->template != $this->stylesheet && ! file_exists( $this->theme_root . '/' . $this->template . '/index.php' ) ) {
+		if ( ! is_array( $cache ) && $this->template != $this->stylesheet && ! $fileExistsFunc( $this->theme_root . '/' . $this->template . '/index.php' ) ) {
+		    throw new Exception('BPC TODO');
 			// If we're in a directory of themes inside /themes, look for the parent nearby.
 			// wp-content/themes/directory-of-themes/*
 			$parent_dir  = dirname( $this->stylesheet );
@@ -431,6 +455,7 @@ final class WP_Theme implements ArrayAccess {
 
 		// Set the parent, if we're a child theme.
 		if ( $this->template != $this->stylesheet ) {
+		    throw new Exception('BPC TODO');
 			// If we are a parent, then there is a problem. Only two generations allowed! Cancel things out.
 			if ( $_child instanceof WP_Theme && $_child->template == $this->stylesheet ) {
 				$_child->parent = null;
@@ -1526,7 +1551,12 @@ final class WP_Theme implements ArrayAccess {
 		$this->block_theme = false;
 
 		foreach ( $paths_to_index_block_template as $path_to_index_block_template ) {
-			if ( is_file( $path_to_index_block_template ) && is_readable( $path_to_index_block_template ) ) {
+		    if (defined('__BPC__')) {
+		        $fileOK = include_file_exists($path_to_index_block_template);
+		    } else {
+		        $fileOK = is_file( $path_to_index_block_template ) && is_readable( $path_to_index_block_template );
+		    }
+			if ( $fileOK ) {
 				$this->block_theme = true;
 				break;
 			}
@@ -1554,10 +1584,17 @@ final class WP_Theme implements ArrayAccess {
 
 		if ( empty( $file ) ) {
 			$path = $stylesheet_directory;
-		} elseif ( file_exists( $stylesheet_directory . '/' . $file ) ) {
-			$path = $stylesheet_directory . '/' . $file;
 		} else {
-			$path = $template_directory . '/' . $file;
+		    if (defined('__BPC__')) {
+		        $fileExists = include_file_exists( $stylesheet_directory . '/' . $file );
+		    } else {
+		        $fileExists = file_exists( $stylesheet_directory . '/' . $file );
+		    }
+		    if ( $fileExists ) {
+			    $path = $stylesheet_directory . '/' . $file;
+		    } else {
+			    $path = $template_directory . '/' . $file;
+		    }
 		}
 
 		/** This filter is documented in wp-includes/link-template.php */

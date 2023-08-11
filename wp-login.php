@@ -43,9 +43,9 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 
 	// Don't index any of these forms.
 	add_filter( 'wp_robots', 'wp_robots_sensitive_page' );
-	add_action( 'login_head', 'wp_strict_cross_origin_referrer' );
+	add_action( 'login_head', 'wp_strict_cross_origin_referrer', 10, 0 );
 
-	add_action( 'login_head', 'wp_login_viewport_meta' );
+	add_action( 'login_head', 'wp_login_viewport_meta', 10, 0 );
 
 	if ( ! is_wp_error( $wp_error ) ) {
 		$wp_error = new WP_Error();

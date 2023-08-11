@@ -5,6 +5,7 @@ wp-includes/css/buttons.min.css
 wp-admin/css/forms.min.css
 wp-admin/css/l10n.min.css
 wp-admin/css/install.min.css
+wp-admin/css/login.min.css
 # js
 wp-includes/js/jquery/jquery.min.js
 wp-includes/js/jquery/jquery-migrate.min.js

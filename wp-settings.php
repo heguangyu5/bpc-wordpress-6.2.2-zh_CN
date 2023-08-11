@@ -438,7 +438,11 @@ create_initial_post_types();
 wp_start_scraping_edited_file_errors();
 
 // Register the default theme directory root.
+if (defined('__BPC__')) {
+    $wp_theme_directories[] = WP_CONTENT_DIR . '/themes';
+} else {
 register_theme_directory( get_theme_root() );
+}
 
 if ( ! is_multisite() && wp_is_fatal_error_handler_enabled() ) {
 	// Handle users requesting a recovery mode link and initiating recovery mode.

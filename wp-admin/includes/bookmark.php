@@ -336,7 +336,7 @@ function wp_link_manager_disabled_message() {
 		return;
 	}
 
-	add_filter( 'pre_option_link_manager_enabled', '__return_true', 100 );
+	add_filter( 'pre_option_link_manager_enabled', '__return_true', 100, 0 );
 	$really_can_manage_links = current_user_can( 'manage_links' );
 	remove_filter( 'pre_option_link_manager_enabled', '__return_true', 100 );
 

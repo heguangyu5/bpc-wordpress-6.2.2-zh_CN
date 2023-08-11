@@ -1269,7 +1269,7 @@ final class WP_Screen {
 		}
 
 		// This needs a submit button.
-		add_filter( 'screen_options_show_submit', '__return_true' );
+		add_filter( 'screen_options_show_submit', '__return_true', 10, 0 );
 
 		?>
 		<fieldset class="screen-options">
@@ -1323,7 +1323,7 @@ final class WP_Screen {
 		}
 
 		// This needs a submit button.
-		add_filter( 'screen_options_show_submit', '__return_true' );
+		add_filter( 'screen_options_show_submit', '__return_true', 10, 0 );
 		?>
 		<fieldset class="metabox-prefs view-mode">
 			<legend><?php _e( 'View mode' ); ?></legend>

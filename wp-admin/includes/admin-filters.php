@@ -47,7 +47,7 @@ add_action( 'admin_init', 'wp_admin_headers' );
 add_action( 'login_init', 'wp_admin_headers' );
 add_action( 'admin_init', 'send_frame_options_header', 10, 0 );
 add_action( 'admin_head', 'wp_admin_canonical_url' );
-add_action( 'admin_head', 'wp_site_icon' );
+add_action( 'admin_head', 'wp_site_icon', 10, 0 );
 add_action( 'admin_head', 'wp_admin_viewport_meta' );
 add_action( 'customize_controls_head', 'wp_admin_viewport_meta' );
 add_filter( 'nav_menu_meta_box_object', '_wp_nav_menu_meta_box_object' );
@@ -59,7 +59,7 @@ if ( ! is_customize_preview() ) {
 
 add_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 add_action( 'admin_print_scripts', 'print_head_scripts', 20 );
-add_action( 'admin_print_footer_scripts', '_wp_footer_scripts' );
+add_action( 'admin_print_footer_scripts', '_wp_footer_scripts', 10, 0 );
 add_action( 'admin_print_styles', 'print_emoji_styles' );
 add_action( 'admin_print_styles', 'print_admin_styles', 20 );
 

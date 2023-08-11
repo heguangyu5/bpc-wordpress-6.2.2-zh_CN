@@ -6611,12 +6611,23 @@ function wp_scheduled_delete() {
  *                                Default empty string.
  * @return string[] Array of file header values keyed by header name.
  */
-function get_file_data( $file, $default_headers, $context = '' ) {
+function get_file_data( $file, $default_headers, $context = '', $bpcResource = false ) {
 	// Pull only the first 8 KB of the file in.
-	$file_data = file_get_contents( $file, false, null, 0, 8 * KB_IN_BYTES );
+	if ($bpcResource) {
+	    $file_data = resource_get_contents($file);
+	    if ($file_data) {
+	        if (strlen($file_data) > 8 * KB_IN_BYTES) {
+	            $file_data = substr($file_data, 0, 8 * KB_IN_BYTES);
+	        }
+	    } else {
+	        $file_data = '';
+	    }
+	} else {
+	    $file_data = file_get_contents( $file, false, null, 0, 8 * KB_IN_BYTES );
 
-	if ( false === $file_data ) {
-		$file_data = '';
+	    if ( false === $file_data ) {
+		    $file_data = '';
+	    }
 	}
 
 	// Make sure we catch CR-only line endings.

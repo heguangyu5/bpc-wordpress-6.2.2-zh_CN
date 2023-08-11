@@ -114,7 +114,7 @@ if ( ! defined( 'POST_BY_EMAIL' ) || ! POST_BY_EMAIL ) { // Back compat constant
 if ( ! defined( 'EDIT_ANY_USER' ) || ! EDIT_ANY_USER ) { // Back compat constant.
 	add_filter( 'enable_edit_any_user_configuration', '__return_false' );
 }
-add_filter( 'force_filtered_html_on_import', '__return_true' );
+add_filter( 'force_filtered_html_on_import', '__return_true', 10, 0 );
 
 // WP_HOME and WP_SITEURL should not have any effect in MS.
 remove_filter( 'option_siteurl', '_config_wp_siteurl' );
@@ -127,7 +127,7 @@ add_action( 'update_option_post_count', 'clean_site_details_cache', 10, 0 );
 add_action( 'update_option_home', 'clean_site_details_cache', 10, 0 );
 
 // If the network upgrade hasn't run yet, assume ms-files.php rewriting is used.
-add_filter( 'default_site_option_ms_files_rewriting', '__return_true' );
+add_filter( 'default_site_option_ms_files_rewriting', '__return_true', 10, 0 );
 
 // Allow multisite domains for HTTP requests.
 add_filter( 'http_request_host_is_external', 'ms_allowed_http_request_hosts', 20, 2 );
