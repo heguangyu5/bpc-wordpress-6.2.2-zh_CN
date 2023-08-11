@@ -8,7 +8,7 @@ libwordpress:
 	$(BPC_BIN) -v \
 		-c bpc.conf  \
 		-l wordpress \
-		--pseudo-class-list WP_HTTP_IXR_Client,IXR_Error,WP_Customize_Manager,getID3,WP_Filesystem_Base,SimplePie,WP_SimplePie_Sanitize_KSES,SimplePie_Cache,WP_Press_This_Plugin \
+		--pseudo-class-list WP_HTTP_IXR_Client,IXR_Error,WP_Customize_Manager,WP_Customize_Panel,getID3,WP_Filesystem_Base,SimplePie,WP_SimplePie_Sanitize_KSES,SimplePie_Cache,WP_Press_This_Plugin \
 		--input-file src.list
 
 install-libwordpress:
@@ -52,7 +52,6 @@ libwordpresstmp:
 		-c bpc.conf \
 		-l wordpresstmp \
 		-u wordpress    \
-		--pseudo-class-list WP_Customize_Panel \
 		--input-file src-tmp.list
 
 install-libwordpresstmp:
