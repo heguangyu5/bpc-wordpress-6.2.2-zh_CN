@@ -90,7 +90,7 @@ function register_block_core_calendar() {
 	);
 }
 
-add_action( 'init', 'register_block_core_calendar' );
+add_action( 'init', 'register_block_core_calendar', 10, 0 );
 
 /**
  * Returns whether or not there are any published posts.

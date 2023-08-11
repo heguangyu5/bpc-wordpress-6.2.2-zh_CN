@@ -1122,10 +1122,15 @@ function _wp_auto_add_pages_to_menu( $new_status, $old_status, $post ) {
 		if ( ! is_array( $items ) ) {
 			continue;
 		}
+		$continue = false;
 		foreach ( $items as $item ) {
 			if ( $post->ID == $item->object_id ) {
-				continue 2;
+				$continue = true;
+				break;
 			}
+		}
+		if ($continue) {
+		    continue;
 		}
 		wp_update_nav_menu_item( $menu_id, 0, $args );
 	}
@@ -1249,6 +1254,7 @@ function wp_map_nav_menu_locations( $new_nav_menu_locations, $old_nav_menu_locat
 				foreach ( $old_nav_menu_locations as $location => $menu_id ) {
 
 					// ...and any slug in the same group...
+					$break = false;
 					foreach ( $slug_group as $slug ) {
 
 						// ... have a match as well.
@@ -1268,9 +1274,13 @@ function wp_map_nav_menu_locations( $new_nav_menu_locations, $old_nav_menu_locat
 							unset( $old_nav_menu_locations[ $location ] );
 
 							// Go back and check the next new menu location.
-							continue 3;
+							$break = true;
+							break;
 						}
 					} // End foreach ( $slug_group as $slug ).
+					if ($break) {
+					    break;
+					}
 				} // End foreach ( $old_nav_menu_locations as $location => $menu_id ).
 			} // End foreach foreach ( $registered_nav_menus as $new_location => $name ).
 		} // End foreach ( $slug_group as $slug ).

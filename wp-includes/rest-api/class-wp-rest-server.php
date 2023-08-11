@@ -889,7 +889,7 @@ class WP_REST_Server {
 			'args'          => array(),
 		);
 
-		foreach ( $endpoints as $route => &$handlers ) {
+		foreach ( $endpoints as $route => $handlers ) {
 
 			if ( isset( $handlers['callback'] ) ) {
 				// Single endpoint, add one deeper.
@@ -900,7 +900,7 @@ class WP_REST_Server {
 				$this->route_options[ $route ] = array();
 			}
 
-			foreach ( $handlers as $key => &$handler ) {
+			foreach ( $handlers as $key => $handler ) {
 
 				if ( ! is_numeric( $key ) ) {
 					// Route option, move it to the options.
@@ -926,7 +926,11 @@ class WP_REST_Server {
 					$method                        = strtoupper( trim( $method ) );
 					$handler['methods'][ $method ] = true;
 				}
+
+				$headers[$key] = $handler;
 			}
+
+			$endpoints[$route] = $handlers;
 		}
 
 		return $endpoints;

@@ -128,4 +128,4 @@ function register_block_core_comment_template() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_comment_template' );
+add_action( 'init', 'register_block_core_comment_template', 10, 0 );

@@ -56,4 +56,4 @@ function register_block_core_read_more() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_read_more' );
+add_action( 'init', 'register_block_core_read_more', 10, 0 );

@@ -173,13 +173,14 @@ function wp_get_popular_importers() {
 			return $popular_importers['importers'];
 		}
 
-		foreach ( $popular_importers['importers'] as &$importer ) {
+		foreach ( $popular_importers['importers'] as $idx => $importer ) {
 			// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
 			$importer['description'] = translate( $importer['description'] );
 			if ( 'WordPress' !== $importer['name'] ) {
 				// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
 				$importer['name'] = translate( $importer['name'] );
 			}
+			$popular_importers['importers'][$idx] = $importer;
 		}
 		return $popular_importers['importers'];
 	}

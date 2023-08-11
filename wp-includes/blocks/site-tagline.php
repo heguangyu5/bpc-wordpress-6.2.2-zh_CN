@@ -38,4 +38,4 @@ function register_block_core_site_tagline() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_site_tagline' );
+add_action( 'init', 'register_block_core_site_tagline', 10, 0 );

@@ -209,4 +209,4 @@ function register_block_core_post_featured_image() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_post_featured_image' );
+add_action( 'init', 'register_block_core_post_featured_image', 10, 0 );

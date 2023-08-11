@@ -41,4 +41,4 @@ function render_block_core_pattern( $attributes ) {
 	return do_blocks( $pattern['content'] );
 }
 
-add_action( 'init', 'register_block_core_pattern' );
+add_action( 'init', 'register_block_core_pattern', 10, 0 );

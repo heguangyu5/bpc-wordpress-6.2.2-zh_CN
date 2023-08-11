@@ -210,7 +210,7 @@ function register_block_core_latest_posts() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_latest_posts' );
+add_action( 'init', 'register_block_core_latest_posts', 10, 0 );
 
 /**
  * Handles outdated versions of the `core/latest-posts` block by converting

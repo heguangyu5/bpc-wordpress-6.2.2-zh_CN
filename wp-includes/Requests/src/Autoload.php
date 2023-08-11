@@ -146,10 +146,16 @@ if (class_exists('WpOrg\Requests\Autoload') === false) {
 				$file = __DIR__ . '/' . strtr(substr($class_name, 15), '\\', '/') . '.php';
 			}
 
+            if (defined('__BPC__')) {
+                if (isset($file) && include_silent($file)) {
+                    return true;
+                }
+            } else {
 			if (isset($file) && file_exists($file)) {
 				include $file;
 				return true;
 			}
+            }
 
 			/*
 			 * Okay, so the class starts with "Requests", but we couldn't find the file.

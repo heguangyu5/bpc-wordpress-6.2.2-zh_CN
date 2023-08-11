@@ -11,7 +11,7 @@ if ( ! class_exists( 'WpOrg\Requests\Autoload' ) ) {
 	require ABSPATH . WPINC . '/Requests/src/Autoload.php';
 
 	WpOrg\Requests\Autoload::register();
-	WpOrg\Requests\Requests::set_certificate_path( ABSPATH . WPINC . '/certificates/ca-bundle.crt' );
+	WpOrg\Requests\Requests::set_certificate_path( ABSPATH_REAL . WPINC . '/certificates/ca-bundle.crt' );
 }
 
 /**
@@ -207,7 +207,7 @@ class WP_Http {
 			'compress'            => false,
 			'decompress'          => true,
 			'sslverify'           => true,
-			'sslcertificates'     => ABSPATH . WPINC . '/certificates/ca-bundle.crt',
+			'sslcertificates'     => ABSPATH_REAL . WPINC . '/certificates/ca-bundle.crt',
 			'stream'              => false,
 			'filename'            => null,
 			'limit_response_size' => null,

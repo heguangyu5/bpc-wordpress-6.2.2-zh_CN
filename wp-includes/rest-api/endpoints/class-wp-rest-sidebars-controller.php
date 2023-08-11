@@ -348,7 +348,7 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller {
 			$sidebars = wp_get_sidebars_widgets();
 			$widgets  = array_filter(
 				isset( $sidebars[ $sidebar['id'] ] ) ? $sidebars[ $sidebar['id'] ] : array(),
-				static function ( $widget_id ) use ( $wp_registered_widgets ) {
+				function ( $widget_id ) use ( $wp_registered_widgets ) {
 					return isset( $wp_registered_widgets[ $widget_id ] );
 				}
 			);

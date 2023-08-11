@@ -26,4 +26,4 @@ function register_core_block_types_from_metadata() {
 		);
 	}
 }
-add_action( 'init', 'register_core_block_types_from_metadata' );
+add_action( 'init', 'register_core_block_types_from_metadata', 10, 0 );

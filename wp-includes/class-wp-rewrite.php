@@ -1590,58 +1590,6 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieves IIS7 URL Rewrite formatted rewrite rules to write to web.config file.
-	 *
-	 * Does not actually write to the web.config file, but creates the rules for
-	 * the process that will.
-	 *
-	 * @since 2.8.0
-	 *
-	 * @param bool $add_parent_tags Optional. Whether to add parent tags to the rewrite rule sets.
-	 *                              Default false.
-	 * @return string IIS7 URL rewrite rule sets.
-	 */
-	public function iis7_url_rewrite_rules( $add_parent_tags = false ) {
-		if ( ! $this->using_permalinks() ) {
-			return '';
-		}
-		$rules = '';
-		if ( $add_parent_tags ) {
-			$rules .= '<configuration>
-	<system.webServer>
-		<rewrite>
-			<rules>';
-		}
-
-		$rules .= '
-			<rule name="WordPress: ' . esc_attr( home_url() ) . '" patternSyntax="Wildcard">
-				<match url="*" />
-					<conditions>
-						<add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
-						<add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
-					</conditions>
-				<action type="Rewrite" url="index.php" />
-			</rule>';
-
-		if ( $add_parent_tags ) {
-			$rules .= '
-			</rules>
-		</rewrite>
-	</system.webServer>
-</configuration>';
-		}
-
-		/**
-		 * Filters the list of rewrite rules formatted for output to a web.config.
-		 *
-		 * @since 2.8.0
-		 *
-		 * @param string $rules Rewrite rules formatted for IIS web.config.
-		 */
-		return apply_filters( 'iis7_url_rewrite_rules', $rules );
-	}
-
-	/**
 	 * Adds a rewrite rule that transforms a URL structure to a set of query vars.
 	 *
 	 * Any value in the $after parameter that isn't 'bottom' will result in the rule
@@ -1873,9 +1821,6 @@ class WP_Rewrite {
 		}
 		if ( function_exists( 'save_mod_rewrite_rules' ) ) {
 			save_mod_rewrite_rules();
-		}
-		if ( function_exists( 'iis7_save_url_rewrite_rules' ) ) {
-			iis7_save_url_rewrite_rules();
 		}
 	}
 

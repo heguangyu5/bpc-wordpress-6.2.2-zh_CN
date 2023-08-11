@@ -126,17 +126,17 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 		);
 	}
 
-	if ( class_exists( 'Imagick' ) ) {
-		// Add data for Imagick WebP and AVIF support.
-		$query['image_support']['imagick'] = array_keys(
-			array_filter(
-				array(
-					'webp' => ! empty( Imagick::queryFormats( 'WEBP' ) ),
-					'avif' => ! empty( Imagick::queryFormats( 'AVIF' ) ),
-				)
-			)
-		);
-	}
+//	if ( class_exists( 'Imagick' ) ) {
+//		// Add data for Imagick WebP and AVIF support.
+//		$query['image_support']['imagick'] = array_keys(
+//			array_filter(
+//				array(
+//					'webp' => ! empty( Imagick::queryFormats( 'WEBP' ) ),
+//					'avif' => ! empty( Imagick::queryFormats( 'AVIF' ) ),
+//				)
+//			)
+//		);
+//	}
 
 	/**
 	 * Filters the query arguments sent as part of the core version check.
@@ -224,7 +224,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 
 	$offers = $body['offers'];
 
-	foreach ( $offers as &$offer ) {
+	foreach ( $offers as $idx => $offer ) {
 		foreach ( $offer as $offer_key => $value ) {
 			if ( 'packages' === $offer_key ) {
 				$offer['packages'] = (object) array_intersect_key(
@@ -258,6 +258,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 				''
 			)
 		);
+		$offers[$idx] = $offer;
 	}
 
 	$updates                  = new stdClass();
@@ -551,7 +552,7 @@ function wp_update_plugins( $extra_stats = array() ) {
 		}
 	}
 
-	$sanitize_plugin_update_payload = static function( &$item ) {
+	$sanitize_plugin_update_payload = function( &$item ) {
 		$item = (object) $item;
 
 		unset( $item->translations, $item->compatibility );
@@ -1100,4 +1101,4 @@ add_action( 'update_option_WPLANG', 'wp_clean_update_cache', 10, 0 );
 
 add_action( 'wp_maybe_auto_update', 'wp_maybe_auto_update' );
 
-add_action( 'init', 'wp_schedule_update_checks' );
+add_action( 'init', 'wp_schedule_update_checks', 10, 0 );

@@ -70,4 +70,4 @@ function register_block_core_post_author() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_post_author' );
+add_action( 'init', 'register_block_core_post_author', 10, 0 );

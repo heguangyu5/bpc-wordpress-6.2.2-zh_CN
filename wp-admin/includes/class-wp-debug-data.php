@@ -506,13 +506,13 @@ class WP_Debug_Data {
 		);
 
 		// Get ImageMagic information, if available.
-		if ( class_exists( 'Imagick' ) ) {
+		//if ( class_exists( 'Imagick' ) ) {
 			// Save the Imagick instance for later use.
-			$imagick             = new Imagick();
-			$imagemagick_version = $imagick->getVersion();
-		} else {
+			//$imagick             = new Imagick();
+			//$imagemagick_version = $imagick->getVersion();
+		//} else {
 			$imagemagick_version = __( 'Not available' );
-		}
+		//}
 
 		$info['wp-media']['fields']['imagick_module_version'] = array(
 			'label' => __( 'ImageMagick version number' ),
@@ -524,7 +524,7 @@ class WP_Debug_Data {
 			'value' => ( is_array( $imagemagick_version ) ? $imagemagick_version['versionString'] : $imagemagick_version ),
 		);
 
-		$imagick_version = phpversion( 'imagick' );
+		$imagick_version = false;//phpversion( 'imagick' );
 
 		$info['wp-media']['fields']['imagick_version'] = array(
 			'label' => __( 'Imagick version' ),
@@ -573,7 +573,7 @@ class WP_Debug_Data {
 		}
 
 		// If Imagick is used as our editor, provide some more information about its limitations.
-		if ( 'WP_Image_Editor_Imagick' === _wp_image_editor_choose() && isset( $imagick ) && $imagick instanceof Imagick ) {
+		/*if ( 'WP_Image_Editor_Imagick' === _wp_image_editor_choose() && isset( $imagick ) && $imagick instanceof Imagick ) {
 			$limits = array(
 				'area'   => ( defined( 'imagick::RESOURCETYPE_AREA' ) ? size_format( $imagick->getResourceLimit( imagick::RESOURCETYPE_AREA ) ) : $not_available ),
 				'disk'   => ( defined( 'imagick::RESOURCETYPE_DISK' ) ? $imagick->getResourceLimit( imagick::RESOURCETYPE_DISK ) : $not_available ),
@@ -611,7 +611,7 @@ class WP_Debug_Data {
 				'value' => ( empty( $formats ) ) ? __( 'Unable to determine' ) : implode( ', ', $formats ),
 				'debug' => ( empty( $formats ) ) ? 'Unable to determine' : implode( ', ', $formats ),
 			);
-		}
+		}*/
 
 		// Get GD information, if available.
 		if ( function_exists( 'gd_info' ) ) {
@@ -798,7 +798,7 @@ class WP_Debug_Data {
 		);
 
 		// Imagick.
-		$imagick_loaded = extension_loaded( 'imagick' );
+		$imagick_loaded = false;//extension_loaded( 'imagick' );
 
 		$info['wp-server']['fields']['imagick_availability'] = array(
 			'label' => __( 'Is the Imagick library available?' ),

@@ -1237,40 +1237,6 @@ function do_block_editor_incompatible_meta_box( $data_object, $box ) {
  * @return array|null The plugin that the callback belongs to, or null if it doesn't belong to a plugin.
  */
 function _get_plugin_from_callback( $callback ) {
-	try {
-		if ( is_array( $callback ) ) {
-			$reflection = new ReflectionMethod( $callback[0], $callback[1] );
-		} elseif ( is_string( $callback ) && false !== strpos( $callback, '::' ) ) {
-			$reflection = new ReflectionMethod( $callback );
-		} else {
-			$reflection = new ReflectionFunction( $callback );
-		}
-	} catch ( ReflectionException $exception ) {
-		// We could not properly reflect on the callable, so we abort here.
-		return null;
-	}
-
-	// Don't show an error if it's an internal PHP function.
-	if ( ! $reflection->isInternal() ) {
-
-		// Only show errors if the meta box was registered by a plugin.
-		$filename   = wp_normalize_path( $reflection->getFileName() );
-		$plugin_dir = wp_normalize_path( WP_PLUGIN_DIR );
-
-		if ( strpos( $filename, $plugin_dir ) === 0 ) {
-			$filename = str_replace( $plugin_dir, '', $filename );
-			$filename = preg_replace( '|^/([^/]*/).*$|', '\\1', $filename );
-
-			$plugins = get_plugins();
-
-			foreach ( $plugins as $name => $plugin ) {
-				if ( strpos( $name, $filename ) === 0 ) {
-					return $plugin;
-				}
-			}
-		}
-	}
-
 	return null;
 }
 

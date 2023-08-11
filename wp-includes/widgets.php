@@ -1158,12 +1158,17 @@ function wp_convert_widget_settings( $base_name, $option_name, $settings ) {
 
 		foreach ( (array) $sidebars_widgets as $index => $sidebar ) {
 			if ( is_array( $sidebar ) ) {
+			    $break = false;
 				foreach ( $sidebar as $i => $name ) {
 					if ( $base_name === $name ) {
 						$sidebars_widgets[ $index ][ $i ] = "$name-2";
 						$changed                          = true;
-						break 2;
+						$break = true;
+						break;
 					}
+				}
+				if ($break) {
+				    break;
 				}
 			}
 		}
@@ -1439,6 +1444,7 @@ function wp_map_sidebars_widgets( $existing_sidebars_widgets ) {
 					foreach ( $existing_sidebars_widgets as $sidebar => $widgets ) {
 
 						// ...and any slug in the same group...
+						$break = false;
 						foreach ( $slug_group as $slug ) {
 
 							// ... have a match as well.
@@ -1456,9 +1462,13 @@ function wp_map_sidebars_widgets( $existing_sidebars_widgets ) {
 								unset( $existing_sidebars_widgets[ $sidebar ] );
 
 								// Go back and check the next new sidebar.
-								continue 3;
+								$break = true;
+								break;
 							}
 						} // End foreach ( $slug_group as $slug ).
+						if ($break) {
+						    break;
+						}
 					} // End foreach ( $existing_sidebars_widgets as $sidebar => $widgets ).
 				} // End foreach ( $wp_registered_sidebars as $new_sidebar => $args ).
 			} // End foreach ( $slug_group as $slug ).
@@ -1947,7 +1957,7 @@ function wp_assign_widget_to_sidebar( $widget_id, $sidebar_id ) {
 			if ( $widget_id === $maybe_widget_id && $sidebar_id !== $maybe_sidebar_id ) {
 				unset( $sidebars[ $maybe_sidebar_id ][ $i ] );
 				// We could technically break 2 here, but continue looping in case the ID is duplicated.
-				continue 2;
+				break;
 			}
 		}
 	}

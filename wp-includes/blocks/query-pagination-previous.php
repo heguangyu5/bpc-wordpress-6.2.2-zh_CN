@@ -58,4 +58,4 @@ function register_block_core_query_pagination_previous() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_query_pagination_previous' );
+add_action( 'init', 'register_block_core_query_pagination_previous', 10, 0 );

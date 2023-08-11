@@ -4165,7 +4165,7 @@ function create_initial_theme_features() {
 					),
 					'default' => array( 'standard' ),
 				),
-				'prepare_callback' => static function ( $formats ) {
+				'prepare_callback' => function ( $formats ) {
 					$formats = is_array( $formats ) ? array_values( $formats[0] ) : array();
 					$formats = array_merge( array( 'standard' ), $formats );
 
@@ -4269,7 +4269,7 @@ function _add_default_theme_supports() {
 	 */
 	add_filter(
 		'customize_panel_active',
-		static function ( $active, WP_Customize_Panel $panel ) {
+		function ( $active, WP_Customize_Panel $panel ) {
 			if (
 				'nav_menus' === $panel->id &&
 				! current_theme_supports( 'menus' ) &&

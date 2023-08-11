@@ -155,4 +155,4 @@ function register_block_core_latest_comments() {
 	);
 }
 
-add_action( 'init', 'register_block_core_latest_comments' );
+add_action( 'init', 'register_block_core_latest_comments', 10, 0 );

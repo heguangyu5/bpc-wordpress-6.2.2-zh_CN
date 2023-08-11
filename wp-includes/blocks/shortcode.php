@@ -28,4 +28,4 @@ function register_block_core_shortcode() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_shortcode' );
+add_action( 'init', 'register_block_core_shortcode', 10, 0 );

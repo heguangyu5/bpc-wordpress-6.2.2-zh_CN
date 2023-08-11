@@ -70,4 +70,4 @@ function register_block_core_query_pagination_next() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_query_pagination_next' );
+add_action( 'init', 'register_block_core_query_pagination_next', 10, 0 );

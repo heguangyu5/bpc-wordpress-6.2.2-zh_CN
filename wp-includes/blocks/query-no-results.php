@@ -60,4 +60,4 @@ function register_block_core_query_no_results() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_query_no_results' );
+add_action( 'init', 'register_block_core_query_no_results', 10, 0 );

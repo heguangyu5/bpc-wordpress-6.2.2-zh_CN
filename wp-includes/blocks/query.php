@@ -13,4 +13,4 @@ function register_block_core_query() {
 		__DIR__ . '/query'
 	);
 }
-add_action( 'init', 'register_block_core_query' );
+add_action( 'init', 'register_block_core_query', 10, 0 );

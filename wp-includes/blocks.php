@@ -952,13 +952,18 @@ function excerpt_remove_blocks( $content ) {
 				}
 
 				// Skip the block if it has disallowed or nested inner blocks.
+				$continue = false;
 				foreach ( $block['innerBlocks'] as $inner_block ) {
 					if (
 						! in_array( $inner_block['blockName'], $allowed_inner_blocks, true ) ||
 						! empty( $inner_block['innerBlocks'] )
 					) {
-						continue 2;
+					    $continue = true;
+						break;
 					}
+				}
+				if ($continue) {
+				    continue;
 				}
 			}
 

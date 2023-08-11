@@ -100,6 +100,13 @@ class Requests {
 	const BUFFER_SIZE = 1160;
 
 	/**
+	 * Current version of Requests
+	 *
+	 * @var string
+	 */
+	const VERSION = '2.0.5';
+
+	/**
 	 * Option defaults.
 	 *
 	 * @see \WpOrg\Requests\Requests::get_default_options()
@@ -142,13 +149,6 @@ class Requests {
 		Curl::class      => Curl::class,
 		Fsockopen::class => Fsockopen::class,
 	];
-
-	/**
-	 * Current version of Requests
-	 *
-	 * @var string
-	 */
-	const VERSION = '2.0.5';
 
 	/**
 	 * Selected transport name

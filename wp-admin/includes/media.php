@@ -869,7 +869,7 @@ function wp_media_upload_handler() {
 		check_admin_referer( 'media-form' );
 		// Upload File button was clicked.
 		$id = media_handle_upload( 'async-upload', $_REQUEST['post_id'] );
-		unset( $_FILES );
+		$_FILES = array();
 
 		if ( is_wp_error( $id ) ) {
 			$errors['upload_error'] = $id;

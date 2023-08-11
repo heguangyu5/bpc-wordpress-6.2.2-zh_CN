@@ -3485,9 +3485,10 @@ function wp_update_term_count_now( $terms, $taxonomy ) {
 		call_user_func( $taxonomy->update_count_callback, $terms, $taxonomy );
 	} else {
 		$object_types = (array) $taxonomy->object_type;
-		foreach ( $object_types as &$object_type ) {
+		foreach ( $object_types as $idx => $object_type ) {
 			if ( 0 === strpos( $object_type, 'attachment:' ) ) {
 				list( $object_type ) = explode( ':', $object_type );
+				$object_types[$idx] = $object_type;
 			}
 		}
 
@@ -4047,8 +4048,9 @@ function _update_post_term_count( $terms, $taxonomy ) {
 
 	$object_types = (array) $taxonomy->object_type;
 
-	foreach ( $object_types as &$object_type ) {
+	foreach ( $object_types as $idx => $object_type ) {
 		list( $object_type ) = explode( ':', $object_type );
+		$object_types[$idx] = $object_type;
 	}
 
 	$object_types = array_unique( $object_types );

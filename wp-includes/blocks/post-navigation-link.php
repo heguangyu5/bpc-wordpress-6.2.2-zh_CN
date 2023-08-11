@@ -116,4 +116,4 @@ function register_block_core_post_navigation_link() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_post_navigation_link' );
+add_action( 'init', 'register_block_core_post_navigation_link', 10, 0 );

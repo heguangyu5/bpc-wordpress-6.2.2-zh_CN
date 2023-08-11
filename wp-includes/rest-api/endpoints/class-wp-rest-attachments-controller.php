@@ -769,7 +769,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 				$data['media_details'] = new stdClass();
 			} elseif ( ! empty( $data['media_details']['sizes'] ) ) {
 
-				foreach ( $data['media_details']['sizes'] as $size => &$size_data ) {
+				foreach ( $data['media_details']['sizes'] as $size => $size_data ) {
 
 					if ( isset( $size_data['mime-type'] ) ) {
 						$size_data['mime_type'] = $size_data['mime-type'];
@@ -783,6 +783,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 					}
 
 					$size_data['source_url'] = $image_src[0];
+
+					$data['media_details']['sizes'][$size] = $size_data;
 				}
 
 				$full_src = wp_get_attachment_image_src( $post->ID, 'full' );

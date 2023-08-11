@@ -49,4 +49,4 @@ function register_block_core_heading() {
 	);
 }
 
-add_action( 'init', 'register_block_core_heading' );
+add_action( 'init', 'register_block_core_heading', 10, 0 );

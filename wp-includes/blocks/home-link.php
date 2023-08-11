@@ -150,4 +150,4 @@ function register_block_core_home_link() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_home_link' );
+add_action( 'init', 'register_block_core_home_link', 10, 0 );

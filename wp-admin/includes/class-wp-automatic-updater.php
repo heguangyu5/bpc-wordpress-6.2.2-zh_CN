@@ -149,6 +149,7 @@ class WP_Automatic_Updater {
 
 		// Search all directories we've found for evidence of version control.
 		foreach ( $vcs_dirs as $vcs_dir ) {
+		    $break = false;
 			foreach ( $check_dirs as $check_dir ) {
 				if ( ! $this->is_allowed_dir( $check_dir ) ) {
 					continue;
@@ -156,8 +157,12 @@ class WP_Automatic_Updater {
 
 				$checkout = is_dir( rtrim( $check_dir, '\\/' ) . "/$vcs_dir" );
 				if ( $checkout ) {
-					break 2;
+				    $break = true;
+					break;
 				}
+			}
+			if ($break) {
+			    break;
 			}
 		}
 

@@ -48,4 +48,4 @@ function register_block_core_loginout() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_loginout' );
+add_action( 'init', 'register_block_core_loginout', 10, 0 );

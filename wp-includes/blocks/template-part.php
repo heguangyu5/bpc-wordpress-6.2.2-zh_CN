@@ -269,4 +269,4 @@ function register_block_core_template_part() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_template_part' );
+add_action( 'init', 'register_block_core_template_part', 10, 0 );

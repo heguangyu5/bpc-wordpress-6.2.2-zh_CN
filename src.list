@@ -1,5 +1,4 @@
 #wp-settings.php::wp_not_installed()
-index.php
 wp-blog-header.php
 wp-load.php
 wp-config.php

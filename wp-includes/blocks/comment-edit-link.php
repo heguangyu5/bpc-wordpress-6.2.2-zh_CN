@@ -58,4 +58,4 @@ function register_block_core_comment_edit_link() {
 	);
 }
 
-add_action( 'init', 'register_block_core_comment_edit_link' );
+add_action( 'init', 'register_block_core_comment_edit_link', 10, 0 );

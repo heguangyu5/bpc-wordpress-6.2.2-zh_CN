@@ -397,7 +397,7 @@ function do_shortcodes_in_html_tags( $content, $ignore_html, $tagnames ) {
 	$pattern = get_shortcode_regex( $tagnames );
 	$textarr = wp_html_split( $content );
 
-	foreach ( $textarr as &$element ) {
+	foreach ( $textarr as $idx => $element ) {
 		if ( '' === $element || '<' !== $element[0] ) {
 			continue;
 		}
@@ -409,6 +409,7 @@ function do_shortcodes_in_html_tags( $content, $ignore_html, $tagnames ) {
 			if ( $noopen xor $noclose ) {
 				// Need to encode stray '[' or ']' chars.
 				$element = strtr( $element, $trans );
+				$textarr[$idx] = $element;
 			}
 			continue;
 		}
@@ -416,6 +417,7 @@ function do_shortcodes_in_html_tags( $content, $ignore_html, $tagnames ) {
 		if ( $ignore_html || '<!--' === substr( $element, 0, 4 ) || '<![CDATA[' === substr( $element, 0, 9 ) ) {
 			// Encode all '[' and ']' chars.
 			$element = strtr( $element, $trans );
+			$textarr[$idx] = $element;
 			continue;
 		}
 
@@ -428,6 +430,7 @@ function do_shortcodes_in_html_tags( $content, $ignore_html, $tagnames ) {
 
 			// Looks like we found some crazy unfiltered HTML. Skipping it for sanity.
 			$element = strtr( $element, $trans );
+			$textarr[$idx] = $element;
 			continue;
 		}
 
@@ -439,7 +442,7 @@ function do_shortcodes_in_html_tags( $content, $ignore_html, $tagnames ) {
 		$elname = $matches[0];
 
 		// Look for shortcodes in each attribute separately.
-		foreach ( $attributes as &$attr ) {
+		foreach ( $attributes as $idx2 => $attr ) {
 			$open  = strpos( $attr, '[' );
 			$close = strpos( $attr, ']' );
 			if ( false === $open || false === $close ) {
@@ -469,11 +472,13 @@ function do_shortcodes_in_html_tags( $content, $ignore_html, $tagnames ) {
 					}
 				}
 			}
+			$attributes[$idx2] = $attr;
 		}
 		$element = $front . implode( '', $attributes ) . $back;
 
 		// Now encode any remaining '[' or ']' chars.
 		$element = strtr( $element, $trans );
+		$textarr[$idx] = $element;
 	}
 
 	$content = implode( '', $textarr );
@@ -549,10 +554,10 @@ function shortcode_parse_atts( $text ) {
 		}
 
 		// Reject any unclosed HTML elements.
-		foreach ( $atts as &$value ) {
+		foreach ( $atts as $idx => $value ) {
 			if ( false !== strpos( $value, '<' ) ) {
 				if ( 1 !== preg_match( '/^[^<]*+(?:<[^>]*+>[^<]*+)*+$/', $value ) ) {
-					$value = '';
+					$atts[$idx] = '';
 				}
 			}
 		}

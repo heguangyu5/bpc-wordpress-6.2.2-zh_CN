@@ -955,7 +955,7 @@ function wp_cron() {
 		return _wp_cron();
 	}
 
-	add_action( 'wp_loaded', '_wp_cron', 20 );
+	add_action( 'wp_loaded', '_wp_cron', 20, 0 );
 }
 
 /**
@@ -995,12 +995,17 @@ function _wp_cron() {
 		if ( $timestamp > $gmt_time ) {
 			break;
 		}
+		$break = false;
 		foreach ( (array) $cronhooks as $hook => $args ) {
 			if ( isset( $schedules[ $hook ]['callback'] ) && ! call_user_func( $schedules[ $hook ]['callback'] ) ) {
 				continue;
 			}
 			$results[] = spawn_cron( $gmt_time );
-			break 2;
+			$break = true;
+			break;
+		}
+		if ($break) {
+		    break;
 		}
 	}
 

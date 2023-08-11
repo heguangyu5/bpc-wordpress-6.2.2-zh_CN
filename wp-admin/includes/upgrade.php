@@ -2883,7 +2883,7 @@ function dbDelta( $queries = '', $execute = true ) { // phpcs:ignore WordPress.N
 					$index_columns_without_subparts = $index_columns;
 
 					// Normalize columns.
-					foreach ( $index_columns as $id => &$index_column ) {
+					foreach ( $index_columns as $id => $index_column ) {
 						// Extract column name and number of indexed characters (sub_part).
 						// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
 						preg_match(
@@ -2919,6 +2919,8 @@ function dbDelta( $queries = '', $execute = true ) { // phpcs:ignore WordPress.N
 						if ( isset( $index_column_matches['sub_part'] ) ) {
 							$index_column .= '(' . $index_column_matches['sub_part'] . ')';
 						}
+
+						$index_columns[$id] = $index_column;
 					}
 
 					// Build the normalized index definition and add it to the list of indices.

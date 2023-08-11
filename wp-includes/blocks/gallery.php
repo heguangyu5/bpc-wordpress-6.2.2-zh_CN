@@ -129,4 +129,4 @@ function register_block_core_gallery() {
 	);
 }
 
-add_action( 'init', 'register_block_core_gallery' );
+add_action( 'init', 'register_block_core_gallery', 10, 0 );

@@ -63,7 +63,7 @@ function register_block_core_post_comments_form() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_post_comments_form' );
+add_action( 'init', 'register_block_core_post_comments_form', 10, 0 );
 
 /**
  * Use the button block classes for the form-submit button.

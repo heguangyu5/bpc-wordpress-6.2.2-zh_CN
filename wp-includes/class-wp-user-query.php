@@ -274,7 +274,7 @@ class WP_User_Query {
 		 *
 		 * @param WP_User_Query $query Current instance of WP_User_Query (passed by reference).
 		 */
-		do_action_ref_array( 'pre_get_users', array( &$this ) );
+		do_action_ref_array( 'pre_get_users', array( $this ) );
 
 		// Ensure that query vars are filled after 'pre_get_users'.
 		$qv =& $this->query_vars;
@@ -344,8 +344,8 @@ class WP_User_Query {
 				$post_types = (array) $qv['has_published_posts'];
 			}
 
-			foreach ( $post_types as &$post_type ) {
-				$post_type = $wpdb->prepare( '%s', $post_type );
+			foreach ( $post_types as $idx => $post_type ) {
+				$post_types[$idx] = $wpdb->prepare( '%s', $post_type );
 			}
 
 			$posts_table        = $wpdb->get_blog_prefix( $blog_id ) . 'posts';
@@ -763,7 +763,7 @@ class WP_User_Query {
 		 *
 		 * @param WP_User_Query $query Current instance of WP_User_Query (passed by reference).
 		 */
-		do_action_ref_array( 'pre_user_query', array( &$this ) );
+		do_action_ref_array( 'pre_user_query', array( $this ) );
 	}
 
 	/**
@@ -806,7 +806,7 @@ class WP_User_Query {
 		 *                               or null to allow WP to run its normal queries.
 		 * @param WP_User_Query $query   The WP_User_Query instance (passed by reference).
 		 */
-		$this->results = apply_filters_ref_array( 'users_pre_query', array( null, &$this ) );
+		$this->results = apply_filters_ref_array( 'users_pre_query', array( null, $this ) );
 
 		if ( null === $this->results ) {
 			$this->request = "

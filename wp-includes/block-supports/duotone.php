@@ -555,7 +555,7 @@ function wp_render_duotone_support( $block_content, $block ) {
 		$filter_svg = wp_get_duotone_filter_svg( $filter_preset );
 		add_action(
 			'wp_footer',
-			static function () use ( $filter_svg, $selector ) {
+			function () use ( $filter_svg, $selector ) {
 				echo $filter_svg;
 
 				/*

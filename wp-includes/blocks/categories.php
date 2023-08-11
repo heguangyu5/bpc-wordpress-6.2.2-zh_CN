@@ -98,4 +98,4 @@ function register_block_core_categories() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_categories' );
+add_action( 'init', 'register_block_core_categories', 10, 0 );

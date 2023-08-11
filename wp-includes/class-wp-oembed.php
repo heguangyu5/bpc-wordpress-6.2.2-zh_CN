@@ -638,37 +638,7 @@ class WP_oEmbed {
 	 * @return stdClass|false
 	 */
 	private function _parse_xml_body( $response_body ) {
-		if ( ! function_exists( 'simplexml_import_dom' ) || ! class_exists( 'DOMDocument', false ) ) {
-			return false;
-		}
-
-		$dom     = new DOMDocument();
-		$success = $dom->loadXML( $response_body );
-		if ( ! $success ) {
-			return false;
-		}
-
-		if ( isset( $dom->doctype ) ) {
-			return false;
-		}
-
-		foreach ( $dom->childNodes as $child ) {
-			if ( XML_DOCUMENT_TYPE_NODE === $child->nodeType ) {
-				return false;
-			}
-		}
-
-		$xml = simplexml_import_dom( $dom );
-		if ( ! $xml ) {
-			return false;
-		}
-
-		$return = new stdClass();
-		foreach ( $xml as $key => $value ) {
-			$return->$key = (string) $value;
-		}
-
-		return $return;
+		return false;
 	}
 
 	/**

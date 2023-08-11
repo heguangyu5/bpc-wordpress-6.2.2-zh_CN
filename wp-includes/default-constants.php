@@ -75,6 +75,11 @@ function wp_initial_constants() {
 
 	if ( ! defined( 'WP_CONTENT_DIR' ) ) {
 		define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' ); // No trailing slash, full paths only - WP_CONTENT_URL is defined further down.
+        if (defined('__BPC__')) {
+            define('WP_CONTENT_DIR_REAL', ABSPATH_REAL . 'wp-content');
+        } else {
+            define('WP_CONTENT_DIR_REAL', WP_CONTENT_DIR);
+        }
 	}
 
 	// Add define( 'WP_DEBUG', true ); to wp-config.php to enable display of notices during development.

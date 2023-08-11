@@ -841,7 +841,7 @@ function register_block_core_navigation() {
 	);
 }
 
-add_action( 'init', 'register_block_core_navigation' );
+add_action( 'init', 'register_block_core_navigation', 10, 0 );
 
 /**
  * Filter that changes the parsed attribute values of navigation blocks contain typographic presets to contain the values directly.

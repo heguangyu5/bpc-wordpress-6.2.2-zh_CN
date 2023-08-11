@@ -143,4 +143,4 @@ function register_block_core_avatar() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_avatar' );
+add_action( 'init', 'register_block_core_avatar', 10, 0 );

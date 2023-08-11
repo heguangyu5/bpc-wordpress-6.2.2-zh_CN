@@ -254,7 +254,7 @@ class WP_Sitemaps_Renderer {
 		if ( ! class_exists( 'SimpleXMLElement' ) ) {
 			add_filter(
 				'wp_die_handler',
-				static function () {
+				function () {
 					return '_xml_wp_die_handler';
 				}
 			);

@@ -1562,10 +1562,11 @@ endif;
 		$timestamp_key = '_wp_attachment_custom_header_last_used_' . get_stylesheet();
 		$alt_text_key  = '_wp_attachment_image_alt';
 
-		foreach ( $header_images as &$header_image ) {
+		foreach ( $header_images as $idx => $header_image ) {
 			$header_meta               = get_post_meta( $header_image['attachment_id'] );
 			$header_image['timestamp'] = isset( $header_meta[ $timestamp_key ] ) ? $header_meta[ $timestamp_key ] : '';
 			$header_image['alt_text']  = isset( $header_meta[ $alt_text_key ] ) ? $header_meta[ $alt_text_key ] : '';
+			$header_images[$idx] = $header_image;
 		}
 
 		return $header_images;

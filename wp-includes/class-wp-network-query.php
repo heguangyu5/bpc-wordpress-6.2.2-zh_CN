@@ -161,7 +161,7 @@ class WP_Network_Query {
 		 *
 		 * @param WP_Network_Query $query The WP_Network_Query instance (passed by reference).
 		 */
-		do_action_ref_array( 'parse_network_query', array( &$this ) );
+		do_action_ref_array( 'parse_network_query', array( $this ) );
 	}
 
 	/**
@@ -196,7 +196,7 @@ class WP_Network_Query {
 		 *
 		 * @param WP_Network_Query $query Current instance of WP_Network_Query (passed by reference).
 		 */
-		do_action_ref_array( 'pre_get_networks', array( &$this ) );
+		do_action_ref_array( 'pre_get_networks', array( $this ) );
 
 		$network_data = null;
 
@@ -230,7 +230,7 @@ class WP_Network_Query {
 		 *                                       or null to allow WP to run its normal queries.
 		 * @param WP_Network_Query $query        The WP_Network_Query instance, passed by reference.
 		 */
-		$network_data = apply_filters_ref_array( 'networks_pre_query', array( $network_data, &$this ) );
+		$network_data = apply_filters_ref_array( 'networks_pre_query', array( $network_data, $this ) );
 
 		if ( null !== $network_data ) {
 			if ( is_array( $network_data ) && ! $this->query_vars['count'] ) {
@@ -306,7 +306,7 @@ class WP_Network_Query {
 		 * @param WP_Network[]     $_networks An array of WP_Network objects.
 		 * @param WP_Network_Query $query     Current instance of WP_Network_Query (passed by reference).
 		 */
-		$_networks = apply_filters_ref_array( 'the_networks', array( $_networks, &$this ) );
+		$_networks = apply_filters_ref_array( 'the_networks', array( $_networks, $this ) );
 
 		// Convert to WP_Network instances.
 		$this->networks = array_map( 'get_network', $_networks );
@@ -449,7 +449,7 @@ class WP_Network_Query {
 		 * @param string[]         $clauses An associative array of network query clauses.
 		 * @param WP_Network_Query $query   Current instance of WP_Network_Query (passed by reference).
 		 */
-		$clauses = apply_filters_ref_array( 'networks_clauses', array( compact( $pieces ), &$this ) );
+		$clauses = apply_filters_ref_array( 'networks_clauses', array( compact( $pieces ), $this ) );
 
 		$fields  = isset( $clauses['fields'] ) ? $clauses['fields'] : '';
 		$join    = isset( $clauses['join'] ) ? $clauses['join'] : '';

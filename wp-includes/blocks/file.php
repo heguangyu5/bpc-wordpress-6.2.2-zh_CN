@@ -55,4 +55,4 @@ function register_block_core_file() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_file' );
+add_action( 'init', 'register_block_core_file', 10, 0 );

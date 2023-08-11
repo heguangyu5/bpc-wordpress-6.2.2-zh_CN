@@ -69,4 +69,4 @@ function register_block_core_post_excerpt() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_post_excerpt' );
+add_action( 'init', 'register_block_core_post_excerpt', 10, 0 );

@@ -52,7 +52,7 @@ function register_block_core_widget_group() {
 	);
 }
 
-add_action( 'init', 'register_block_core_widget_group' );
+add_action( 'init', 'register_block_core_widget_group', 10, 0 );
 
 /**
  * Make a note of the sidebar being rendered before WordPress starts rendering

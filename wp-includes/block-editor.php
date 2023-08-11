@@ -615,14 +615,14 @@ function block_editor_rest_api_preload( array $preload_paths, $block_editor_cont
 	$backup_wp_scripts  = ! empty( $wp_scripts ) ? clone $wp_scripts : $wp_scripts;
 	$backup_wp_styles   = ! empty( $wp_styles ) ? clone $wp_styles : $wp_styles;
 
-	foreach ( $preload_paths as &$path ) {
+	foreach ( $preload_paths as $idx => $path ) {
 		if ( is_string( $path ) && ! str_starts_with( $path, '/' ) ) {
-			$path = '/' . $path;
+			$preload_paths[$idx] = '/' . $path;
 			continue;
 		}
 
 		if ( is_array( $path ) && is_string( $path[0] ) && ! str_starts_with( $path[0], '/' ) ) {
-			$path[0] = '/' . $path[0];
+			$preload_paths[$idx][0] = '/' . $path[0];
 		}
 	}
 

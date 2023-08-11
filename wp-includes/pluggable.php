@@ -1367,16 +1367,12 @@ if ( ! function_exists( 'wp_redirect' ) ) :
 	 * @since 5.1.0 The `$x_redirect_by` parameter was added.
 	 * @since 5.4.0 On invalid status codes, wp_die() is called.
 	 *
-	 * @global bool $is_IIS
-	 *
 	 * @param string $location      The path or URL to redirect to.
 	 * @param int    $status        Optional. HTTP response status code to use. Default '302' (Moved Temporarily).
 	 * @param string $x_redirect_by Optional. The application doing the redirect. Default 'WordPress'.
 	 * @return bool False if the redirect was canceled, true otherwise.
 	 */
 	function wp_redirect( $location, $status = 302, $x_redirect_by = 'WordPress' ) {
-		global $is_IIS;
-
 		/**
 		 * Filters the redirect location.
 		 *
@@ -1407,7 +1403,7 @@ if ( ! function_exists( 'wp_redirect' ) ) :
 
 		$location = wp_sanitize_redirect( $location );
 
-		if ( ! $is_IIS && 'cgi-fcgi' !== PHP_SAPI ) {
+		if ( 'cgi-fcgi' !== PHP_SAPI ) {
 			status_header( $status ); // This causes problems on IIS and some FastCGI setups.
 		}
 
@@ -2359,7 +2355,7 @@ if ( ! function_exists( 'wp_create_nonce' ) ) :
 			$uid = apply_filters( 'nonce_user_logged_out', $uid, $action );
 		}
 
-		$token = wp_get_session_token( $action );
+		$token = wp_get_session_token();
 		$i     = wp_nonce_tick( $action );
 
 		return substr( wp_hash( $i . '|' . $action . '|' . $uid . '|' . $token, 'nonce' ), -12, 10 );

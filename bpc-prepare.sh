@@ -1,5 +1,10 @@
 #!/bin/bash
 
+[[ "$1" == "" ]] && {
+    echo "Usage: ./bpc-prepare.sh src.list"
+    exit
+}
+
 rm -rf ./wordpress
 rsync -a                        \
       --exclude=".*"            \
@@ -7,7 +12,7 @@ rsync -a                        \
       -f"- *"                   \
       .                         \
       ./wordpress
-for i in `cat src.list`
+for i in `cat $1`
 do
     if [[ "$i" == \#* ]]
     then
@@ -24,4 +29,4 @@ do
         fi
     fi
 done
-cp bpc.conf src.list Makefile ./wordpress/
+cp bpc.conf $1 Makefile ./wordpress/

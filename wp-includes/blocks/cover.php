@@ -78,4 +78,4 @@ function register_block_core_cover() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_cover' );
+add_action( 'init', 'register_block_core_cover', 10, 0 );

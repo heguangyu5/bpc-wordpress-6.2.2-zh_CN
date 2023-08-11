@@ -101,7 +101,7 @@ function register_block_core_site_logo() {
 	);
 }
 
-add_action( 'init', 'register_block_core_site_logo' );
+add_action( 'init', 'register_block_core_site_logo', 10, 0 );
 
 /**
  * Overrides the custom logo with a site logo, if the option is set.
@@ -180,7 +180,7 @@ function _delete_site_logo_on_remove_custom_logo_on_setup_theme() {
 	add_action( "update_option_theme_mods_$theme", '_delete_site_logo_on_remove_custom_logo', 10, 2 );
 	add_action( "delete_option_theme_mods_$theme", '_delete_site_logo_on_remove_theme_mods' );
 }
-add_action( 'setup_theme', '_delete_site_logo_on_remove_custom_logo_on_setup_theme', 11 );
+add_action( 'setup_theme', '_delete_site_logo_on_remove_custom_logo_on_setup_theme', 11, 0 );
 
 /**
  * Removes the custom_logo theme-mod when the site_logo option gets deleted.

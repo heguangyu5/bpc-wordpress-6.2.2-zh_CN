@@ -1365,7 +1365,7 @@ function verify_file_signature( $filename, $signatures, $filename_for_errors = f
 	}
 
 	// Check we can process signatures.
-	if ( ! function_exists( 'sodium_crypto_sign_verify_detached' ) || ! in_array( 'sha384', array_map( 'strtolower', hash_algos() ), true ) ) {
+	//if ( ! function_exists( 'sodium_crypto_sign_verify_detached' ) || ! in_array( 'sha384', array_map( 'strtolower', hash_algos() ), true ) ) {
 		return new WP_Error(
 			'signature_verification_unsupported',
 			sprintf(
@@ -1375,136 +1375,136 @@ function verify_file_signature( $filename, $signatures, $filename_for_errors = f
 			),
 			( ! function_exists( 'sodium_crypto_sign_verify_detached' ) ? 'sodium_crypto_sign_verify_detached' : 'sha384' )
 		);
-	}
+	//}
 
 	// Check for a edge-case affecting PHP Maths abilities.
-	if (
-		! extension_loaded( 'sodium' ) &&
-		in_array( PHP_VERSION_ID, array( 70200, 70201, 70202 ), true ) &&
-		extension_loaded( 'opcache' )
-	) {
-		// Sodium_Compat isn't compatible with PHP 7.2.0~7.2.2 due to a bug in the PHP Opcache extension, bail early as it'll fail.
-		// https://bugs.php.net/bug.php?id=75938
-		return new WP_Error(
-			'signature_verification_unsupported',
-			sprintf(
-				/* translators: %s: The filename of the package. */
-				__( 'The authenticity of %s could not be verified as signature verification is unavailable on this system.' ),
-				'<span class="code">' . esc_html( $filename_for_errors ) . '</span>'
-			),
-			array(
-				'php'    => PHP_VERSION,
-				'sodium' => defined( 'SODIUM_LIBRARY_VERSION' ) ? SODIUM_LIBRARY_VERSION : ( defined( 'ParagonIE_Sodium_Compat::VERSION_STRING' ) ? ParagonIE_Sodium_Compat::VERSION_STRING : false ),
-			)
-		);
-	}
+//	if (
+//		! extension_loaded( 'sodium' ) &&
+//		in_array( PHP_VERSION_ID, array( 70200, 70201, 70202 ), true ) &&
+//		extension_loaded( 'opcache' )
+//	) {
+//		// Sodium_Compat isn't compatible with PHP 7.2.0~7.2.2 due to a bug in the PHP Opcache extension, bail early as it'll fail.
+//		// https://bugs.php.net/bug.php?id=75938
+//		return new WP_Error(
+//			'signature_verification_unsupported',
+//			sprintf(
+//				/* translators: %s: The filename of the package. */
+//				__( 'The authenticity of %s could not be verified as signature verification is unavailable on this system.' ),
+//				'<span class="code">' . esc_html( $filename_for_errors ) . '</span>'
+//			),
+//			array(
+//				'php'    => PHP_VERSION,
+//				'sodium' => defined( 'SODIUM_LIBRARY_VERSION' ) ? SODIUM_LIBRARY_VERSION : ( defined( 'ParagonIE_Sodium_Compat::VERSION_STRING' ) ? ParagonIE_Sodium_Compat::VERSION_STRING : false ),
+//			)
+//		);
+//	}
 
-	// Verify runtime speed of Sodium_Compat is acceptable.
-	if ( ! extension_loaded( 'sodium' ) && ! ParagonIE_Sodium_Compat::polyfill_is_fast() ) {
-		$sodium_compat_is_fast = false;
+//	// Verify runtime speed of Sodium_Compat is acceptable.
+//	if ( ! extension_loaded( 'sodium' ) && ! ParagonIE_Sodium_Compat::polyfill_is_fast() ) {
+//		$sodium_compat_is_fast = false;
 
-		// Allow for an old version of Sodium_Compat being loaded before the bundled WordPress one.
-		if ( method_exists( 'ParagonIE_Sodium_Compat', 'runtime_speed_test' ) ) {
-			/*
-			 * Run `ParagonIE_Sodium_Compat::runtime_speed_test()` in optimized integer mode,
-			 * as that's what WordPress utilizes during signing verifications.
-			 */
-			// phpcs:disable WordPress.NamingConventions.ValidVariableName
-			$old_fastMult                      = ParagonIE_Sodium_Compat::$fastMult;
-			ParagonIE_Sodium_Compat::$fastMult = true;
-			$sodium_compat_is_fast             = ParagonIE_Sodium_Compat::runtime_speed_test( 100, 10 );
-			ParagonIE_Sodium_Compat::$fastMult = $old_fastMult;
-			// phpcs:enable
-		}
+//		// Allow for an old version of Sodium_Compat being loaded before the bundled WordPress one.
+//		if ( method_exists( 'ParagonIE_Sodium_Compat', 'runtime_speed_test' ) ) {
+//			/*
+//			 * Run `ParagonIE_Sodium_Compat::runtime_speed_test()` in optimized integer mode,
+//			 * as that's what WordPress utilizes during signing verifications.
+//			 */
+//			// phpcs:disable WordPress.NamingConventions.ValidVariableName
+//			$old_fastMult                      = ParagonIE_Sodium_Compat::$fastMult;
+//			ParagonIE_Sodium_Compat::$fastMult = true;
+//			$sodium_compat_is_fast             = ParagonIE_Sodium_Compat::runtime_speed_test( 100, 10 );
+//			ParagonIE_Sodium_Compat::$fastMult = $old_fastMult;
+//			// phpcs:enable
+//		}
 
-		// This cannot be performed in a reasonable amount of time.
-		// https://github.com/paragonie/sodium_compat#help-sodium_compat-is-slow-how-can-i-make-it-fast
-		if ( ! $sodium_compat_is_fast ) {
-			return new WP_Error(
-				'signature_verification_unsupported',
-				sprintf(
-					/* translators: %s: The filename of the package. */
-					__( 'The authenticity of %s could not be verified as signature verification is unavailable on this system.' ),
-					'<span class="code">' . esc_html( $filename_for_errors ) . '</span>'
-				),
-				array(
-					'php'                => PHP_VERSION,
-					'sodium'             => defined( 'SODIUM_LIBRARY_VERSION' ) ? SODIUM_LIBRARY_VERSION : ( defined( 'ParagonIE_Sodium_Compat::VERSION_STRING' ) ? ParagonIE_Sodium_Compat::VERSION_STRING : false ),
-					'polyfill_is_fast'   => false,
-					'max_execution_time' => ini_get( 'max_execution_time' ),
-				)
-			);
-		}
-	}
+//		// This cannot be performed in a reasonable amount of time.
+//		// https://github.com/paragonie/sodium_compat#help-sodium_compat-is-slow-how-can-i-make-it-fast
+//		if ( ! $sodium_compat_is_fast ) {
+//			return new WP_Error(
+//				'signature_verification_unsupported',
+//				sprintf(
+//					/* translators: %s: The filename of the package. */
+//					__( 'The authenticity of %s could not be verified as signature verification is unavailable on this system.' ),
+//					'<span class="code">' . esc_html( $filename_for_errors ) . '</span>'
+//				),
+//				array(
+//					'php'                => PHP_VERSION,
+//					'sodium'             => defined( 'SODIUM_LIBRARY_VERSION' ) ? SODIUM_LIBRARY_VERSION : ( defined( 'ParagonIE_Sodium_Compat::VERSION_STRING' ) ? ParagonIE_Sodium_Compat::VERSION_STRING : false ),
+//					'polyfill_is_fast'   => false,
+//					'max_execution_time' => ini_get( 'max_execution_time' ),
+//				)
+//			);
+//		}
+//	}
 
-	if ( ! $signatures ) {
-		return new WP_Error(
-			'signature_verification_no_signature',
-			sprintf(
-				/* translators: %s: The filename of the package. */
-				__( 'The authenticity of %s could not be verified as no signature was found.' ),
-				'<span class="code">' . esc_html( $filename_for_errors ) . '</span>'
-			),
-			array(
-				'filename' => $filename_for_errors,
-			)
-		);
-	}
+//	if ( ! $signatures ) {
+//		return new WP_Error(
+//			'signature_verification_no_signature',
+//			sprintf(
+//				/* translators: %s: The filename of the package. */
+//				__( 'The authenticity of %s could not be verified as no signature was found.' ),
+//				'<span class="code">' . esc_html( $filename_for_errors ) . '</span>'
+//			),
+//			array(
+//				'filename' => $filename_for_errors,
+//			)
+//		);
+//	}
 
-	$trusted_keys = wp_trusted_keys();
-	$file_hash    = hash_file( 'sha384', $filename, true );
+//	$trusted_keys = wp_trusted_keys();
+//	$file_hash    = hash_file( 'sha384', $filename, true );
 
-	mbstring_binary_safe_encoding();
+//	mbstring_binary_safe_encoding();
 
-	$skipped_key       = 0;
-	$skipped_signature = 0;
+//	$skipped_key       = 0;
+//	$skipped_signature = 0;
 
-	foreach ( (array) $signatures as $signature ) {
-		$signature_raw = base64_decode( $signature );
+//	foreach ( (array) $signatures as $signature ) {
+//		$signature_raw = base64_decode( $signature );
 
-		// Ensure only valid-length signatures are considered.
-		if ( SODIUM_CRYPTO_SIGN_BYTES !== strlen( $signature_raw ) ) {
-			$skipped_signature++;
-			continue;
-		}
+//		// Ensure only valid-length signatures are considered.
+//		if ( SODIUM_CRYPTO_SIGN_BYTES !== strlen( $signature_raw ) ) {
+//			$skipped_signature++;
+//			continue;
+//		}
 
-		foreach ( (array) $trusted_keys as $key ) {
-			$key_raw = base64_decode( $key );
+//		foreach ( (array) $trusted_keys as $key ) {
+//			$key_raw = base64_decode( $key );
 
-			// Only pass valid public keys through.
-			if ( SODIUM_CRYPTO_SIGN_PUBLICKEYBYTES !== strlen( $key_raw ) ) {
-				$skipped_key++;
-				continue;
-			}
+//			// Only pass valid public keys through.
+//			if ( SODIUM_CRYPTO_SIGN_PUBLICKEYBYTES !== strlen( $key_raw ) ) {
+//				$skipped_key++;
+//				continue;
+//			}
 
-			if ( sodium_crypto_sign_verify_detached( $signature_raw, $file_hash, $key_raw ) ) {
-				reset_mbstring_encoding();
-				return true;
-			}
-		}
-	}
+//			if ( sodium_crypto_sign_verify_detached( $signature_raw, $file_hash, $key_raw ) ) {
+//				reset_mbstring_encoding();
+//				return true;
+//			}
+//		}
+//	}
 
-	reset_mbstring_encoding();
+//	reset_mbstring_encoding();
 
-	return new WP_Error(
-		'signature_verification_failed',
-		sprintf(
-			/* translators: %s: The filename of the package. */
-			__( 'The authenticity of %s could not be verified.' ),
-			'<span class="code">' . esc_html( $filename_for_errors ) . '</span>'
-		),
-		// Error data helpful for debugging:
-		array(
-			'filename'    => $filename_for_errors,
-			'keys'        => $trusted_keys,
-			'signatures'  => $signatures,
-			'hash'        => bin2hex( $file_hash ),
-			'skipped_key' => $skipped_key,
-			'skipped_sig' => $skipped_signature,
-			'php'         => PHP_VERSION,
-			'sodium'      => defined( 'SODIUM_LIBRARY_VERSION' ) ? SODIUM_LIBRARY_VERSION : ( defined( 'ParagonIE_Sodium_Compat::VERSION_STRING' ) ? ParagonIE_Sodium_Compat::VERSION_STRING : false ),
-		)
-	);
+//	return new WP_Error(
+//		'signature_verification_failed',
+//		sprintf(
+//			/* translators: %s: The filename of the package. */
+//			__( 'The authenticity of %s could not be verified.' ),
+//			'<span class="code">' . esc_html( $filename_for_errors ) . '</span>'
+//		),
+//		// Error data helpful for debugging:
+//		array(
+//			'filename'    => $filename_for_errors,
+//			'keys'        => $trusted_keys,
+//			'signatures'  => $signatures,
+//			'hash'        => bin2hex( $file_hash ),
+//			'skipped_key' => $skipped_key,
+//			'skipped_sig' => $skipped_signature,
+//			'php'         => PHP_VERSION,
+//			'sodium'      => defined( 'SODIUM_LIBRARY_VERSION' ) ? SODIUM_LIBRARY_VERSION : ( defined( 'ParagonIE_Sodium_Compat::VERSION_STRING' ) ? ParagonIE_Sodium_Compat::VERSION_STRING : false ),
+//		)
+//	);
 }
 
 /**

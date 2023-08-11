@@ -29,7 +29,6 @@
  * @since 2.3.0
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
- * @global bool       $is_IIS
  * @global WP_Query   $wp_query   WordPress Query object.
  * @global wpdb       $wpdb       WordPress database abstraction object.
  * @global WP         $wp         Current WordPress environment instance.
@@ -40,7 +39,7 @@
  * @return string|void The string of the URL, if redirect needed.
  */
 function redirect_canonical( $requested_url = null, $do_redirect = true ) {
-	global $wp_rewrite, $is_IIS, $wp_query, $wpdb, $wp;
+	global $wp_rewrite, $wp_query, $wpdb, $wp;
 
 	if ( isset( $_SERVER['REQUEST_METHOD'] ) && ! in_array( strtoupper( $_SERVER['REQUEST_METHOD'] ), array( 'GET', 'HEAD' ), true ) ) {
 		return;
@@ -57,9 +56,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		}
 	}
 
-	if ( is_admin() || is_search() || is_preview() || is_trackback() || is_favicon()
-		|| ( $is_IIS && ! iis7_supports_permalinks() )
-	) {
+	if ( is_admin() || is_search() || is_preview() || is_trackback() || is_favicon() ) {
 		return;
 	}
 

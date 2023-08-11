@@ -742,14 +742,19 @@ class WP_HTML_Tag_Processor {
 			 * comparing; any character which could be impacted by such
 			 * normalization could not be part of a tag name.
 			 */
+			$continue = false;
 			for ( $i = 0; $i < $tag_length; $i++ ) {
 				$tag_char  = $tag_name[ $i ];
 				$html_char = $html[ $at + $i ];
 
 				if ( $html_char !== $tag_char && strtoupper( $html_char ) !== $tag_char ) {
 					$at += $i;
-					continue 2;
+					$continue = true;
+					break;
 				}
+			}
+			if ($continue) {
+			    continue;
 			}
 
 			$at                        += $tag_length;
@@ -1015,6 +1020,7 @@ class WP_HTML_Tag_Processor {
 					 * See https://html.spec.whatwg.org/#parse-error-incorrectly-closed-comment
 					 */
 					$closer_at--; // Pre-increment inside condition below reduces risk of accidental infinite looping.
+					$continue = false;
 					while ( ++$closer_at < strlen( $html ) ) {
 						$closer_at = strpos( $html, '--', $closer_at );
 						if ( false === $closer_at ) {
@@ -1023,13 +1029,18 @@ class WP_HTML_Tag_Processor {
 
 						if ( $closer_at + 2 < strlen( $html ) && '>' === $html[ $closer_at + 2 ] ) {
 							$at = $closer_at + 3;
-							continue 2;
+							$continue = true;
+							break;
 						}
 
 						if ( $closer_at + 3 < strlen( $html ) && '!' === $html[ $closer_at + 2 ] && '>' === $html[ $closer_at + 3 ] ) {
 							$at = $closer_at + 4;
-							continue 2;
+							$continue = true;
+							break;
 						}
+					}
+					if ($continue) {
+					    $continue;
 					}
 				}
 

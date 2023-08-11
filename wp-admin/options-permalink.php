@@ -70,7 +70,6 @@ get_current_screen()->set_help_sidebar( $help_sidebar_content );
 unset( $help_sidebar_content );
 
 $home_path           = get_home_path();
-$iis7_permalinks     = iis7_supports_permalinks();
 $permalink_structure = get_option( 'permalink_structure' );
 
 $index_php_prefix = '';
@@ -146,15 +145,7 @@ if ( isset( $_POST['permalink_structure'] ) || isset( $_POST['category_base'] ) 
 	}
 }
 
-if ( $iis7_permalinks ) {
-	if ( ( ! file_exists( $home_path . 'web.config' )
-		&& win_is_writable( $home_path ) ) || win_is_writable( $home_path . 'web.config' )
-	) {
-		$writable = true;
-	} else {
-		$writable = false;
-	}
-} elseif ( $is_nginx ) {
+if ( $is_nginx ) {
 	$writable = false;
 } else {
 	if ( ( ! file_exists( $home_path . '.htaccess' )
@@ -176,21 +167,7 @@ if ( $structure_updated ) {
 	$message = __( 'Permalink structure updated.' );
 
 	if ( ! is_multisite() && $permalink_structure && ! $using_index_permalinks ) {
-		if ( $iis7_permalinks ) {
-			if ( ! $writable ) {
-				$message = sprintf(
-					/* translators: %s: web.config */
-					__( 'You should update your %s file now.' ),
-					'<code>web.config</code>'
-				);
-			} else {
-				$message = sprintf(
-					/* translators: %s: web.config */
-					__( 'Permalink structure updated. Remove write access on %s file now!' ),
-					'<code>web.config</code>'
-				);
-			}
-		} elseif ( ! $is_nginx && $htaccess_update_required && ! $writable ) {
+		if ( ! $is_nginx && $htaccess_update_required && ! $writable ) {
 			$message = sprintf(
 				/* translators: %s: .htaccess */
 				__( 'You should update your %s file now.' ),
@@ -452,106 +429,6 @@ printf(
 
 <?php submit_button(); ?>
 </form>
-
-<?php if ( ! is_multisite() ) : ?>
-	<?php
-	if ( $iis7_permalinks ) :
-		if ( isset( $_POST['submit'] ) && $permalink_structure && ! $using_index_permalinks && ! $writable ) :
-			if ( file_exists( $home_path . 'web.config' ) ) :
-				?>
-				<p id="iis-description-a">
-				<?php
-				printf(
-					/* translators: 1: web.config, 2: Documentation URL, 3: Ctrl + A, 4: ⌘ + A, 5: Element code. */
-					__( '<strong>Error:</strong> Your %1$s file is not <a href="%2$s">writable</a>, so updating it automatically was not possible. This is the URL rewrite rule you should have in your %1$s file. Click in the field and press %3$s (or %4$s on Mac) to select all. Then insert this rule inside of the %5$s element in %1$s file.' ),
-					'<code>web.config</code>',
-					__( 'https://wordpress.org/support/article/changing-file-permissions/' ),
-					'<kbd>Ctrl + A</kbd>',
-					'<kbd>⌘ + A</kbd>',
-					'<code>/&lt;configuration&gt;/&lt;system.webServer&gt;/&lt;rewrite&gt;/&lt;rules&gt;</code>'
-				);
-				?>
-				</p>
-				<form action="options-permalink.php" method="post">
-					<?php wp_nonce_field( 'update-permalink' ); ?>
-					<p>
-						<label for="rules"><?php _e( 'Rewrite rules:' ); ?></label><br />
-						<textarea rows="9" class="large-text readonly"
-							name="rules" id="rules" readonly="readonly"
-							aria-describedby="iis-description-a"
-						><?php echo esc_textarea( $wp_rewrite->iis7_url_rewrite_rules() ); ?></textarea>
-					</p>
-				</form>
-				<p>
-				<?php
-				printf(
-					/* translators: %s: web.config */
-					__( 'If you temporarily make your %s file writable to generate rewrite rules automatically, do not forget to revert the permissions after the rule has been saved.' ),
-					'<code>web.config</code>'
-				);
-				?>
-				</p>
-			<?php else : ?>
-				<p id="iis-description-b">
-				<?php
-				printf(
-					/* translators: 1: Documentation URL, 2: web.config, 3: Ctrl + A, 4: ⌘ + A */
-					__( '<strong>Error:</strong> The root directory of your site is not <a href="%1$s">writable</a>, so creating a file automatically was not possible. This is the URL rewrite rule you should have in your %2$s file. Create a new file called %2$s in the root directory of your site. Click in the field and press %3$s (or %4$s on Mac) to select all. Then insert this code into the %2$s file.' ),
-					__( 'https://wordpress.org/support/article/changing-file-permissions/' ),
-					'<code>web.config</code>',
-					'<kbd>Ctrl + A</kbd>',
-					'<kbd>⌘ + A</kbd>'
-				);
-				?>
-				</p>
-				<form action="options-permalink.php" method="post">
-					<?php wp_nonce_field( 'update-permalink' ); ?>
-					<p>
-						<label for="rules"><?php _e( 'Rewrite rules:' ); ?></label><br />
-						<textarea rows="18" class="large-text readonly"
-							name="rules" id="rules" readonly="readonly"
-							aria-describedby="iis-description-b"
-						><?php echo esc_textarea( $wp_rewrite->iis7_url_rewrite_rules( true ) ); ?></textarea>
-					</p>
-				</form>
-				<p>
-				<?php
-				printf(
-					/* translators: %s: web.config */
-					__( 'If you temporarily make your site&#8217;s root directory writable to generate the %s file automatically, do not forget to revert the permissions after the file has been created.' ),
-					'<code>web.config</code>'
-				);
-				?>
-				</p>
-			<?php endif; // End if 'web.config' exists. ?>
-		<?php endif; // End if $_POST['submit'] && ! $writable. ?>
-	<?php else : ?>
-		<?php if ( $permalink_structure && ! $using_index_permalinks && ! $writable && $htaccess_update_required ) : ?>
-			<p id="htaccess-description">
-			<?php
-			printf(
-				/* translators: 1: .htaccess, 2: Documentation URL, 3: Ctrl + A, 4: ⌘ + A */
-				__( '<strong>Error:</strong> Your %1$s file is not <a href="%2$s">writable</a>, so updating it automatically was not possible. These are the mod_rewrite rules you should have in your %1$s file. Click in the field and press %3$s (or %4$s on Mac) to select all.' ),
-				'<code>.htaccess</code>',
-				__( 'https://wordpress.org/support/article/changing-file-permissions/' ),
-				'<kbd>Ctrl + A</kbd>',
-				'<kbd>⌘ + A</kbd>'
-			);
-			?>
-			</p>
-			<form action="options-permalink.php" method="post">
-				<?php wp_nonce_field( 'update-permalink' ); ?>
-				<p>
-					<label for="rules"><?php _e( 'Rewrite rules:' ); ?></label><br />
-					<textarea rows="8" class="large-text readonly"
-						name="rules" id="rules" readonly="readonly"
-						aria-describedby="htaccess-description"
-					><?php echo esc_textarea( $wp_rewrite->mod_rewrite_rules() ); ?></textarea>
-				</p>
-			</form>
-		<?php endif; // End if ! $writable && $htaccess_update_required. ?>
-	<?php endif; // End if $iis7_permalinks. ?>
-<?php endif; // End if ! is_multisite(). ?>
 
 </div><!-- .wrap -->
 

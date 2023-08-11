@@ -44,4 +44,4 @@ function register_block_core_query_pagination() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_query_pagination' );
+add_action( 'init', 'register_block_core_query_pagination', 10, 0 );

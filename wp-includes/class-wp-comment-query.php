@@ -345,7 +345,7 @@ class WP_Comment_Query {
 		 *
 		 * @param WP_Comment_Query $query The WP_Comment_Query instance (passed by reference).
 		 */
-		do_action_ref_array( 'parse_comment_query', array( &$this ) );
+		do_action_ref_array( 'parse_comment_query', array( $this ) );
 	}
 
 	/**
@@ -391,7 +391,7 @@ class WP_Comment_Query {
 		 *
 		 * @param WP_Comment_Query $query Current instance of WP_Comment_Query (passed by reference).
 		 */
-		do_action_ref_array( 'pre_get_comments', array( &$this ) );
+		do_action_ref_array( 'pre_get_comments', array( $this ) );
 
 		// Reparse query vars, in case they were modified in a 'pre_get_comments' callback.
 		$this->meta_query->parse_query_vars( $this->query_vars );
@@ -431,7 +431,7 @@ class WP_Comment_Query {
 		 *                                       or null to allow WP to run its normal queries.
 		 * @param WP_Comment_Query $query        The WP_Comment_Query instance, passed by reference.
 		 */
-		$comment_data = apply_filters_ref_array( 'comments_pre_query', array( $comment_data, &$this ) );
+		$comment_data = apply_filters_ref_array( 'comments_pre_query', array( $comment_data, $this ) );
 
 		if ( null !== $comment_data ) {
 			if ( is_array( $comment_data ) && ! $this->query_vars['count'] ) {
@@ -515,7 +515,7 @@ class WP_Comment_Query {
 		 * @param WP_Comment[]     $_comments An array of comments.
 		 * @param WP_Comment_Query $query     Current instance of WP_Comment_Query (passed by reference).
 		 */
-		$_comments = apply_filters_ref_array( 'the_comments', array( $_comments, &$this ) );
+		$_comments = apply_filters_ref_array( 'the_comments', array( $_comments, $this ) );
 
 		// Convert to WP_Comment instances.
 		$comments = array_map( 'get_comment', $_comments );
@@ -928,7 +928,7 @@ class WP_Comment_Query {
 		 * @param string[]         $clauses An associative array of comment query clauses.
 		 * @param WP_Comment_Query $query   Current instance of WP_Comment_Query (passed by reference).
 		 */
-		$clauses = apply_filters_ref_array( 'comments_clauses', array( compact( $pieces ), &$this ) );
+		$clauses = apply_filters_ref_array( 'comments_clauses', array( compact( $pieces ), $this ) );
 
 		$fields  = isset( $clauses['fields'] ) ? $clauses['fields'] : '';
 		$join    = isset( $clauses['join'] ) ? $clauses['join'] : '';

@@ -64,7 +64,7 @@ function register_block_core_legacy_widget() {
 	);
 }
 
-add_action( 'init', 'register_block_core_legacy_widget' );
+add_action( 'init', 'register_block_core_legacy_widget', 10, 0 );
 
 /**
  * Intercepts any request with legacy-widget-preview in the query param and, if

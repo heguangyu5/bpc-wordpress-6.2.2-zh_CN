@@ -257,7 +257,7 @@ final class WP_Privacy_Policy_Content {
 
 				if ( $found ) {
 					unset( $new[ $new_key ], $old[ $old_key ] );
-					continue 2;
+					break;
 				}
 			}
 		}

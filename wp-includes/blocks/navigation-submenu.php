@@ -305,4 +305,4 @@ function register_block_core_navigation_submenu() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_navigation_submenu' );
+add_action( 'init', 'register_block_core_navigation_submenu', 10, 0 );

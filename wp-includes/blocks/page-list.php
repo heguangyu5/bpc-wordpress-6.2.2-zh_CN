@@ -354,4 +354,4 @@ function register_block_core_page_list() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_page_list' );
+add_action( 'init', 'register_block_core_page_list', 10, 0 );

@@ -201,7 +201,7 @@ function get_default_block_template_types() {
  */
 function _filter_block_template_part_area( $type ) {
 	$allowed_areas = array_map(
-		static function ( $item ) {
+		function ( $item ) {
 			return $item['area'];
 		},
 		get_allowed_block_template_part_areas()
@@ -397,8 +397,8 @@ function _add_block_template_part_area_info( $template_info ) {
 function _flatten_blocks( &$blocks ) {
 	$all_blocks = array();
 	$queue      = array();
-	foreach ( $blocks as &$block ) {
-		$queue[] = &$block;
+	foreach ( $blocks as $idx => $block ) {
+		$queue[] = &$blocks[$idx];
 	}
 
 	while ( count( $queue ) > 0 ) {
@@ -407,8 +407,8 @@ function _flatten_blocks( &$blocks ) {
 		$all_blocks[] = &$block;
 
 		if ( ! empty( $block['innerBlocks'] ) ) {
-			foreach ( $block['innerBlocks'] as &$inner_block ) {
-				$queue[] = &$inner_block;
+			foreach ( $block['innerBlocks'] as $idx => $inner_block ) {
+				$queue[] = &$block['innerBlocks'][$idx];
 			}
 		}
 	}
@@ -432,18 +432,19 @@ function _inject_theme_attribute_in_block_template_content( $template_content ) 
 	$template_blocks     = parse_blocks( $template_content );
 
 	$blocks = _flatten_blocks( $template_blocks );
-	foreach ( $blocks as &$block ) {
+	foreach ( $blocks as $idx => $block ) {
 		if (
 			'core/template-part' === $block['blockName'] &&
 			! isset( $block['attrs']['theme'] )
 		) {
 			$block['attrs']['theme'] = get_stylesheet();
 			$has_updated_content     = true;
+			$blocks[$idx] = $block;
 		}
 	}
 
 	if ( $has_updated_content ) {
-		foreach ( $template_blocks as &$block ) {
+		foreach ( $template_blocks as $block ) {
 			$new_content .= serialize_block( $block );
 		}
 

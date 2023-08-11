@@ -140,7 +140,7 @@ foreach ( array( 'content_save_pre', 'excerpt_save_pre', 'comment_save_pre', 'pr
 }
 
 // Add proper rel values for links with target.
-add_action( 'init', 'wp_init_targeted_link_rel_filters' );
+add_action( 'init', 'wp_init_targeted_link_rel_filters', 10, 0 );
 
 // Format strings for display.
 foreach ( array( 'comment_author', 'term_name', 'link_name', 'link_description', 'link_notes', 'bloginfo', 'wp_title', 'document_title', 'widget_title' ) as $filter ) {
@@ -310,11 +310,11 @@ add_filter( 'http_request_host_is_external', 'allowed_http_request_hosts', 10, 2
 add_action( 'xmlrpc_rsd_apis', 'rest_output_rsd' );
 add_action( 'wp_head', 'rest_output_link_wp_head', 10, 0 );
 add_action( 'template_redirect', 'rest_output_link_header', 11, 0 );
-add_action( 'auth_cookie_malformed', 'rest_cookie_collect_status' );
-add_action( 'auth_cookie_expired', 'rest_cookie_collect_status' );
-add_action( 'auth_cookie_bad_username', 'rest_cookie_collect_status' );
-add_action( 'auth_cookie_bad_hash', 'rest_cookie_collect_status' );
-add_action( 'auth_cookie_valid', 'rest_cookie_collect_status' );
+add_action( 'auth_cookie_malformed', 'rest_cookie_collect_status', 10, 0 );
+add_action( 'auth_cookie_expired', 'rest_cookie_collect_status', 10, 0 );
+add_action( 'auth_cookie_bad_username', 'rest_cookie_collect_status', 10, 0 );
+add_action( 'auth_cookie_bad_hash', 'rest_cookie_collect_status', 10, 0 );
+add_action( 'auth_cookie_valid', 'rest_cookie_collect_status', 10, 0 );
 add_action( 'application_password_failed_authentication', 'rest_application_password_collect_status' );
 add_action( 'application_password_did_authenticate', 'rest_application_password_collect_status', 10, 2 );
 add_filter( 'rest_authentication_errors', 'rest_application_password_check_errors', 90 );
@@ -343,15 +343,15 @@ add_action( 'wp_head', 'wp_site_icon', 99 );
 add_action( 'wp_footer', 'wp_print_footer_scripts', 20 );
 add_action( 'template_redirect', 'wp_shortlink_header', 11, 0 );
 add_action( 'wp_print_footer_scripts', '_wp_footer_scripts' );
-add_action( 'init', '_register_core_block_patterns_and_categories' );
-add_action( 'init', 'check_theme_switched', 99 );
+add_action( 'init', '_register_core_block_patterns_and_categories', 10, 0 );
+add_action( 'init', 'check_theme_switched', 99, 0 );
 add_action( 'init', array( 'WP_Block_Supports', 'init' ), 22 );
 add_action( 'switch_theme', 'wp_clean_theme_json_cache' );
 add_action( 'start_previewing_theme', 'wp_clean_theme_json_cache' );
 add_action( 'after_switch_theme', '_wp_menus_changed' );
 add_action( 'after_switch_theme', '_wp_sidebars_changed' );
 add_action( 'wp_print_styles', 'print_emoji_styles' );
-add_action( 'plugins_loaded', '_wp_theme_json_webfonts_handler' );
+add_action( 'plugins_loaded', '_wp_theme_json_webfonts_handler', 10, 0 );
 
 if ( isset( $_GET['replytocom'] ) ) {
 	add_filter( 'wp_robots', 'wp_robots_no_robots' );
@@ -378,11 +378,11 @@ add_action( 'rss2_head', 'rss2_site_icon' );
 
 // WP Cron.
 if ( ! defined( 'DOING_CRON' ) ) {
-	add_action( 'init', 'wp_cron' );
+	add_action( 'init', 'wp_cron', 10, 0 );
 }
 
 // HTTPS detection.
-add_action( 'init', 'wp_schedule_https_detection' );
+add_action( 'init', 'wp_schedule_https_detection', 10, 0 );
 add_action( 'wp_https_detection', 'wp_update_https_detection_errors' );
 add_filter( 'cron_request', 'wp_cron_conditionally_prevent_sslverify', 9999 );
 
@@ -402,10 +402,10 @@ add_action( 'do_all_pings', 'generic_ping', 10, 0 );
 add_action( 'do_robots', 'do_robots' );
 add_action( 'do_favicon', 'do_favicon' );
 add_action( 'set_comment_cookies', 'wp_set_comment_cookies', 10, 3 );
-add_action( 'sanitize_comment_cookies', 'sanitize_comment_cookies' );
-add_action( 'init', 'smilies_init', 5 );
-add_action( 'plugins_loaded', 'wp_maybe_load_widgets', 0 );
-add_action( 'plugins_loaded', 'wp_maybe_load_embeds', 0 );
+add_action( 'sanitize_comment_cookies', 'sanitize_comment_cookies', 10, 0 );
+add_action( 'init', 'smilies_init', 5, 0 );
+add_action( 'plugins_loaded', 'wp_maybe_load_widgets', 0, 0 );
+add_action( 'plugins_loaded', 'wp_maybe_load_embeds', 0, 0 );
 add_action( 'shutdown', 'wp_ob_end_flush_all', 1, 0 );
 // Create a revision whenever a post is updated.
 add_action( 'post_updated', 'wp_save_post_revision', 10, 1 );
@@ -421,7 +421,7 @@ add_filter( 'wp_privacy_personal_data_exporters', 'wp_register_comment_personal_
 add_filter( 'wp_privacy_personal_data_exporters', 'wp_register_media_personal_data_exporter' );
 add_filter( 'wp_privacy_personal_data_exporters', 'wp_register_user_personal_data_exporter', 1 );
 add_filter( 'wp_privacy_personal_data_erasers', 'wp_register_comment_personal_data_eraser' );
-add_action( 'init', 'wp_schedule_delete_old_privacy_export_files' );
+add_action( 'init', 'wp_schedule_delete_old_privacy_export_files', 10, 0 );
 add_action( 'wp_privacy_delete_old_export_files', 'wp_privacy_delete_old_export_files' );
 
 // Cron tasks.
@@ -451,13 +451,13 @@ add_action( 'post_updated', 'wp_check_for_changed_dates', 12, 3 );
 add_action( 'attachment_updated', 'wp_check_for_changed_dates', 12, 3 );
 
 // Nonce check for post previews.
-add_action( 'init', '_show_post_preview' );
+add_action( 'init', '_show_post_preview', 10, 0 );
 
 // Output JS to reset window.name for previews.
 add_action( 'wp_head', 'wp_post_preview_js', 1 );
 
 // Timezone.
-add_filter( 'pre_option_gmt_offset', 'wp_timezone_override_offset' );
+add_filter( 'pre_option_gmt_offset', 'wp_timezone_override_offset', 10, 0 );
 
 // If the upgrade hasn't run yet, assume link manager is used.
 add_filter( 'default_option_link_manager_enabled', '__return_true' );
@@ -501,24 +501,24 @@ add_action( 'register_new_user', 'wp_send_new_user_notifications' );
 add_action( 'edit_user_created_user', 'wp_send_new_user_notifications', 10, 2 );
 
 // REST API actions.
-add_action( 'init', 'rest_api_init' );
+add_action( 'init', 'rest_api_init', 10, 0 );
 add_action( 'rest_api_init', 'rest_api_default_filters', 10, 1 );
 add_action( 'rest_api_init', 'register_initial_settings', 10 );
 add_action( 'rest_api_init', 'create_initial_rest_routes', 99 );
 add_action( 'parse_request', 'rest_api_loaded' );
 
 // Sitemaps actions.
-add_action( 'init', 'wp_sitemaps_get_server' );
+add_action( 'init', 'wp_sitemaps_get_server', 10, 0 );
 
 /**
  * Filters formerly mixed into wp-includes.
  */
 // Theme.
-add_action( 'setup_theme', 'create_initial_theme_features', 0 );
-add_action( 'setup_theme', '_add_default_theme_supports', 1 );
-add_action( 'wp_loaded', '_custom_header_background_just_in_time' );
+add_action( 'setup_theme', 'create_initial_theme_features', 0, 0 );
+add_action( 'setup_theme', '_add_default_theme_supports', 1, 0 );
+add_action( 'wp_loaded', '_custom_header_background_just_in_time', 10, 0 );
 add_action( 'wp_head', '_custom_logo_header_styles' );
-add_action( 'plugins_loaded', '_wp_customize_include' );
+add_action( 'plugins_loaded', '_wp_customize_include', 10, 0 );
 add_action( 'transition_post_status', '_wp_customize_publish_changeset', 10, 3 );
 add_action( 'admin_enqueue_scripts', '_wp_customize_loader_settings' );
 add_action( 'delete_attachment', '_delete_attachment_theme_mod' );
@@ -534,11 +534,11 @@ add_action( 'update_option_gmt_offset', 'delete_get_calendar_cache' );
 add_action( 'transition_post_status', '__clear_multi_author_cache' );
 
 // Post.
-add_action( 'init', 'create_initial_post_types', 0 ); // Highest priority.
+add_action( 'init', 'create_initial_post_types', 0, 0 ); // Highest priority.
 add_action( 'admin_menu', '_add_post_type_submenus' );
 add_action( 'before_delete_post', '_reset_front_page_settings_for_post' );
 add_action( 'wp_trash_post', '_reset_front_page_settings_for_post' );
-add_action( 'change_locale', 'create_initial_post_types' );
+add_action( 'change_locale', 'create_initial_post_types', 10, 0 );
 
 // Post Formats.
 add_filter( 'request', '_post_format_request' );
@@ -548,8 +548,8 @@ add_filter( 'get_terms', '_post_format_get_terms', 10, 3 );
 add_filter( 'wp_get_object_terms', '_post_format_wp_get_object_terms' );
 
 // KSES.
-add_action( 'init', 'kses_init' );
-add_action( 'set_current_user', 'kses_init' );
+add_action( 'init', 'kses_init', 10, 0 );
+add_action( 'set_current_user', 'kses_init', 10, 0 );
 
 // Script Loader.
 add_action( 'wp_default_scripts', 'wp_default_scripts' );
@@ -567,7 +567,7 @@ add_action( 'enqueue_block_editor_assets', 'enqueue_editor_block_styles_assets' 
 add_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_block_directory_assets' );
 add_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_format_library_assets' );
 add_action( 'enqueue_block_editor_assets', 'wp_enqueue_global_styles_css_custom_properties' );
-add_filter( 'wp_print_scripts', 'wp_just_in_time_script_localization' );
+add_filter( 'wp_print_scripts', 'wp_just_in_time_script_localization', 10, 0 );
 add_filter( 'print_scripts_array', 'wp_prototype_before_jquery' );
 add_filter( 'customize_controls_print_styles', 'wp_resource_hints', 1 );
 add_action( 'admin_head', 'wp_check_widget_editor_deps' );
@@ -602,8 +602,8 @@ add_action( 'wp_footer', 'wp_maybe_inline_styles', 1 ); // Run for late-loaded s
 add_filter( 'theme_wp_navigation_templates', '__return_empty_array' );
 
 // Taxonomy.
-add_action( 'init', 'create_initial_taxonomies', 0 ); // Highest priority.
-add_action( 'change_locale', 'create_initial_taxonomies' );
+add_action( 'init', 'create_initial_taxonomies', 0, 0 ); // Highest priority.
+add_action( 'change_locale', 'create_initial_taxonomies', 10, 0 );
 
 // Canonical.
 add_action( 'template_redirect', 'redirect_canonical' );
@@ -615,7 +615,7 @@ add_filter( 'the_content', 'do_shortcode', 11 ); // AFTER wpautop().
 // Media.
 add_action( 'wp_playlist_scripts', 'wp_playlist_scripts' );
 add_action( 'customize_controls_enqueue_scripts', 'wp_plupload_default_settings' );
-add_action( 'plugins_loaded', '_wp_add_additional_image_sizes', 0 );
+add_action( 'plugins_loaded', '_wp_add_additional_image_sizes', 0, 0 );
 add_filter( 'plupload_default_settings', 'wp_show_heic_upload_error' );
 
 // Nav menu.
@@ -623,8 +623,8 @@ add_filter( 'nav_menu_item_id', '_nav_menu_item_id_use_once', 10, 2 );
 add_filter( 'nav_menu_css_class', 'wp_nav_menu_remove_menu_item_has_children_class', 10, 4 );
 
 // Widgets.
-add_action( 'after_setup_theme', 'wp_setup_widgets_block_editor', 1 );
-add_action( 'init', 'wp_widgets_init', 1 );
+add_action( 'after_setup_theme', 'wp_setup_widgets_block_editor', 1, 0 );
+add_action( 'init', 'wp_widgets_init', 1, 0 );
 add_action( 'change_locale', array( 'WP_Widget_Media', 'reset_default_labels' ) );
 add_action( 'widgets_init', '_wp_block_theme_register_classic_sidebars', 1 );
 
@@ -689,13 +689,13 @@ add_filter( 'render_block_context', '_block_template_render_without_post_block_c
 add_filter( 'pre_wp_unique_post_slug', 'wp_filter_wp_template_unique_post_slug', 10, 5 );
 add_action( 'save_post_wp_template_part', 'wp_set_unique_slug_on_create_template_part' );
 add_action( 'wp_footer', 'the_block_template_skip_link' );
-add_action( 'setup_theme', 'wp_enable_block_templates' );
-add_action( 'wp_loaded', '_add_template_loader_filters' );
+add_action( 'setup_theme', 'wp_enable_block_templates', 10, 0 );
+add_action( 'wp_loaded', '_add_template_loader_filters', 10, 0 );
 
 // Fluid typography.
 add_filter( 'render_block', 'wp_render_typography_support', 10, 2 );
 
 // User preferences.
-add_action( 'init', 'wp_register_persisted_preferences_meta' );
+add_action( 'init', 'wp_register_persisted_preferences_meta', 10, 0 );
 
 unset( $filter, $action );

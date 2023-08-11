@@ -161,7 +161,7 @@ function register_block_core_search() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_search' );
+add_action( 'init', 'register_block_core_search', 10, 0 );
 
 /**
  * Builds the correct top level classnames for the 'core/search' block.

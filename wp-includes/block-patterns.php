@@ -483,4 +483,4 @@ function _register_theme_block_patterns() {
 		}
 	}
 }
-add_action( 'init', '_register_theme_block_patterns' );
+add_action( 'init', '_register_theme_block_patterns', 10, 0 );

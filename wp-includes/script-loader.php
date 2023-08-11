@@ -2888,7 +2888,7 @@ function wp_maybe_inline_styles() {
 		// Reorder styles array based on size.
 		usort(
 			$styles,
-			static function( $a, $b ) {
+			function( $a, $b ) {
 				return ( $a['size'] <= $b['size'] ) ? -1 : 1;
 			}
 		);
@@ -2943,7 +2943,7 @@ function wp_maybe_inline_styles() {
 function _wp_normalize_relative_css_links( $css, $stylesheet_url ) {
 	return preg_replace_callback(
 		'#(url\s*\(\s*[\'"]?\s*)([^\'"\)]+)#',
-		static function ( $matches ) use ( $stylesheet_url ) {
+		function ( $matches ) use ( $stylesheet_url ) {
 			list( , $prefix, $url ) = $matches;
 
 			// Short-circuit if the URL does not require normalization.
@@ -3002,7 +3002,7 @@ function wp_enqueue_block_support_styles( $style, $priority = 10 ) {
 	}
 	add_action(
 		$action_hook_name,
-		static function () use ( $style ) {
+		function () use ( $style ) {
 			echo "<style>$style</style>\n";
 		},
 		$priority
@@ -3110,7 +3110,7 @@ function wp_enqueue_block_style( $block_name, $args ) {
 	 *                        is to ensure the content exists.
 	 * @return string Block content.
 	 */
-	$callback = static function( $content ) use ( $args ) {
+	$callback = function( $content ) use ( $args ) {
 		// Register the stylesheet.
 		if ( ! empty( $args['src'] ) ) {
 			wp_register_style( $args['handle'], $args['src'], $args['deps'], $args['ver'], $args['media'] );
@@ -3148,7 +3148,7 @@ function wp_enqueue_block_style( $block_name, $args ) {
 		 * @param array  $block   The full block, including name and attributes.
 		 * @return string Block content.
 		 */
-		$callback_separate = static function( $content, $block ) use ( $block_name, $callback ) {
+		$callback_separate = function( $content, $block ) use ( $block_name, $callback ) {
 			if ( ! empty( $block['blockName'] ) && $block_name === $block['blockName'] ) {
 				return $callback( $content );
 			}
@@ -3227,7 +3227,7 @@ function _wp_theme_json_webfonts_handler() {
 	 *
 	 * @return array Array of defined webfonts.
 	 */
-	$fn_get_webfonts_from_theme_json = static function() {
+	$fn_get_webfonts_from_theme_json = function() {
 		// Get settings from theme.json.
 		$settings = WP_Theme_JSON_Resolver::get_merged_data()->get_settings();
 
@@ -3298,7 +3298,7 @@ function _wp_theme_json_webfonts_handler() {
 	 * @param array $src Webfont file(s) `src`.
 	 * @return array Webfont's `src` in URI.
 	 */
-	$fn_transform_src_into_uri = static function( array $src ) {
+	$fn_transform_src_into_uri = function( array $src ) {
 		foreach ( $src as $key => $url ) {
 			// Tweak the URL to be relative to the theme root.
 			if ( ! str_starts_with( $url, 'file:./' ) ) {
@@ -3319,7 +3319,7 @@ function _wp_theme_json_webfonts_handler() {
 	 * @param array $font_face Font face to convert.
 	 * @return array Font faces with each property in kebab-case format.
 	 */
-	$fn_convert_keys_to_kebab_case = static function( array $font_face ) {
+	$fn_convert_keys_to_kebab_case = function( array $font_face ) {
 		foreach ( $font_face as $property => $value ) {
 			$kebab_case               = _wp_to_kebab_case( $property );
 			$font_face[ $kebab_case ] = $value;
@@ -3339,7 +3339,7 @@ function _wp_theme_json_webfonts_handler() {
 	 * @param array $webfont The webfont arguments.
 	 * @return array|false The validated webfont arguments, or false if the webfont is invalid.
 	 */
-	$fn_validate_webfont = static function( $webfont ) {
+	$fn_validate_webfont = function( $webfont ) {
 		$webfont = wp_parse_args(
 			$webfont,
 			array(
@@ -3422,7 +3422,7 @@ function _wp_theme_json_webfonts_handler() {
 	 * @uses $fn_convert_keys_to_kebab_case To run the function that converts keys into kebab-case.
 	 * @uses $fn_validate_webfont To run the function that validates each font-face (webfont) from theme.json.
 	 */
-	$fn_register_webfonts = static function() use ( &$registered_webfonts, $fn_get_webfonts_from_theme_json, $fn_convert_keys_to_kebab_case, $fn_validate_webfont, $fn_transform_src_into_uri ) {
+	$fn_register_webfonts = function() use ( &$registered_webfonts, $fn_get_webfonts_from_theme_json, $fn_convert_keys_to_kebab_case, $fn_validate_webfont, $fn_transform_src_into_uri ) {
 		$registered_webfonts = array();
 
 		foreach ( $fn_get_webfonts_from_theme_json() as $webfont ) {
@@ -3453,7 +3453,7 @@ function _wp_theme_json_webfonts_handler() {
 	 * @param array $webfont Webfont to process.
 	 * @return array Ordered `src` items.
 	 */
-	$fn_order_src = static function( array $webfont ) {
+	$fn_order_src = function( array $webfont ) {
 		$src         = array();
 		$src_ordered = array();
 
@@ -3524,7 +3524,7 @@ function _wp_theme_json_webfonts_handler() {
 	 * @param array  $value       Value to process.
 	 * @return string The CSS.
 	 */
-	$fn_compile_src = static function( $font_family, array $value ) {
+	$fn_compile_src = function( $font_family, array $value ) {
 		$src = '';
 
 		foreach ( $value as $item ) {
@@ -3554,7 +3554,7 @@ function _wp_theme_json_webfonts_handler() {
 	 * @param array $font_variation_settings Array of font variation settings.
 	 * @return string The CSS.
 	 */
-	$fn_compile_variations = static function( array $font_variation_settings ) {
+	$fn_compile_variations = function( array $font_variation_settings ) {
 		$variations = '';
 
 		foreach ( $font_variation_settings as $key => $value ) {
@@ -3575,7 +3575,7 @@ function _wp_theme_json_webfonts_handler() {
 	 * @param array $webfont Webfont to process.
 	 * @return string This font-family's CSS.
 	 */
-	$fn_build_font_face_css = static function( array $webfont ) use ( $fn_compile_src, $fn_compile_variations ) {
+	$fn_build_font_face_css = function( array $webfont ) use ( $fn_compile_src, $fn_compile_variations ) {
 		$css = '';
 
 		// Wrap font-family in quotes if it contains spaces.
@@ -3625,7 +3625,7 @@ function _wp_theme_json_webfonts_handler() {
 	 *
 	 * @return string The `@font-face` CSS.
 	 */
-	$fn_get_css = static function() use ( &$registered_webfonts, $fn_order_src, $fn_build_font_face_css ) {
+	$fn_get_css = function() use ( &$registered_webfonts, $fn_order_src, $fn_build_font_face_css ) {
 		$css = '';
 
 		foreach ( $registered_webfonts as $webfont ) {
@@ -3646,7 +3646,7 @@ function _wp_theme_json_webfonts_handler() {
 	 *
 	 * @uses $fn_get_css To run the function that gets the CSS.
 	 */
-	$fn_generate_and_enqueue_styles = static function() use ( $fn_get_css ) {
+	$fn_generate_and_enqueue_styles = function() use ( $fn_get_css ) {
 		// Generate the styles.
 		$styles = $fn_get_css();
 
@@ -3670,7 +3670,7 @@ function _wp_theme_json_webfonts_handler() {
 	 *
 	 * @uses $fn_get_css To run the function that gets the CSS.
 	 */
-	$fn_generate_and_enqueue_editor_styles = static function() use ( $fn_get_css ) {
+	$fn_generate_and_enqueue_editor_styles = function() use ( $fn_get_css ) {
 		// Generate the styles.
 		$styles = $fn_get_css();
 

@@ -98,7 +98,7 @@ function register_block_core_comments() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_comments' );
+add_action( 'init', 'register_block_core_comments', 10, 0 );
 
 /**
  * Use the button block classes for the form-submit button.
@@ -216,4 +216,4 @@ function register_legacy_post_comments_block() {
 
 	register_block_type( 'core/post-comments', $metadata );
 }
-add_action( 'init', 'register_legacy_post_comments_block', 21 );
+add_action( 'init', 'register_legacy_post_comments_block', 21, 0 );

@@ -62,4 +62,4 @@ function register_block_core_block() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_block' );
+add_action( 'init', 'register_block_core_block', 10, 0 );

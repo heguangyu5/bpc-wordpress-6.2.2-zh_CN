@@ -6897,6 +6897,7 @@ function wp_mime_type_icon( $mime = 0 ) {
 		$matches['default'] = array( 'default' );
 
 		foreach ( $matches as $match => $wilds ) {
+		    $break = false;
 			foreach ( $wilds as $wild ) {
 				if ( ! isset( $types[ $wild ] ) ) {
 					continue;
@@ -6906,7 +6907,11 @@ function wp_mime_type_icon( $mime = 0 ) {
 				if ( ! is_numeric( $mime ) ) {
 					wp_cache_add( "mime_type_icon_$mime", $icon );
 				}
-				break 2;
+				$break = true;
+				break;
+			}
+			if ($break) {
+			    break;
 			}
 		}
 	}

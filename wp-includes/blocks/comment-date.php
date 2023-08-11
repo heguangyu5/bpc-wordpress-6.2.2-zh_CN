@@ -55,4 +55,4 @@ function register_block_core_comment_date() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_comment_date' );
+add_action( 'init', 'register_block_core_comment_date', 10, 0 );

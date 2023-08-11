@@ -848,7 +848,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 			'format'      => 'uri',
 			'context'     => array( 'view', 'edit', 'embed' ),
 			'arg_options' => array(
-				'validate_callback' => static function ( $url ) {
+				'validate_callback' => function ( $url ) {
 					if ( '' === $url ) {
 						return true;
 					}

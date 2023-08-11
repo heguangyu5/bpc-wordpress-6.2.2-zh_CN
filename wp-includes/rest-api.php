@@ -81,7 +81,7 @@ function register_rest_route( $route_namespace, $route, $args = array(), $overri
 		'args'     => array(),
 	);
 
-	foreach ( $args as $key => &$arg_group ) {
+	foreach ( $args as $key => $arg_group ) {
 		if ( ! is_numeric( $key ) ) {
 			// Route option, skip here.
 			continue;
@@ -89,6 +89,7 @@ function register_rest_route( $route_namespace, $route, $args = array(), $overri
 
 		$arg_group         = array_merge( $defaults, $arg_group );
 		$arg_group['args'] = array_merge( $common_args, $arg_group['args'] );
+		$args[$key]        = $arg_group;
 
 		if ( ! isset( $arg_group['permission_callback'] ) ) {
 			_doing_it_wrong(
@@ -888,14 +889,19 @@ function rest_filter_response_fields( $response, $server, $request ) {
 	foreach ( $fields as $field ) {
 		$parts = explode( '.', $field );
 		$ref   = &$fields_as_keyed;
+		$break = false;
 		while ( count( $parts ) > 1 ) {
 			$next = array_shift( $parts );
 			if ( isset( $ref[ $next ] ) && true === $ref[ $next ] ) {
 				// Skip any sub-properties if their parent prop is already marked for inclusion.
-				break 2;
+				$break = true;
+				break;
 			}
 			$ref[ $next ] = isset( $ref[ $next ] ) ? $ref[ $next ] : array();
 			$ref          = &$ref[ $next ];
+		}
+		if ($break) {
+		    break;
 		}
 		$last         = array_shift( $parts );
 		$ref[ $last ] = true;
@@ -3324,7 +3330,7 @@ function rest_get_endpoint_args_for_schema( $schema, $method = WP_REST_Server::C
 function rest_convert_error_to_response( $error ) {
 	$status = array_reduce(
 		$error->get_all_error_data(),
-		static function ( $status, $error_data ) {
+		function ( $status, $error_data ) {
 			return is_array( $error_data ) && isset( $error_data['status'] ) ? $error_data['status'] : $status;
 		},
 		500

@@ -81,7 +81,7 @@ function register_block_core_social_link() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_social_link' );
+add_action( 'init', 'register_block_core_social_link', 10, 0 );
 
 
 /**

@@ -164,7 +164,7 @@ class WP_Scripts extends WP_Dependencies {
 		 *
 		 * @param WP_Scripts $wp_scripts WP_Scripts instance (passed by reference).
 		 */
-		do_action_ref_array( 'wp_default_scripts', array( &$this ) );
+		do_action_ref_array( 'wp_default_scripts', array( $this ) );
 	}
 
 	/**
@@ -620,7 +620,7 @@ class WP_Scripts extends WP_Dependencies {
 		$output = <<<JS
 ( function( domain, translations ) {
 	var localeData = translations.locale_data[ domain ] || translations.locale_data.messages;
-	localeData[""].domain = domain;
+	localeData[''].domain = domain;
 	wp.i18n.setLocaleData( localeData, domain );
 } )( "{$domain}", {$json_translations} );
 JS;

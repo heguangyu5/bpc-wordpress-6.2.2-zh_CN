@@ -524,7 +524,7 @@ function wp_debug_mode() {
  */
 function wp_set_lang_dir() {
 	if ( ! defined( 'WP_LANG_DIR' ) ) {
-		if ( file_exists( WP_CONTENT_DIR . '/languages' ) && @is_dir( WP_CONTENT_DIR . '/languages' ) || ! @is_dir( ABSPATH . WPINC . '/languages' ) ) {
+		if ( file_exists( WP_CONTENT_DIR_REAL . '/languages' ) && @is_dir( WP_CONTENT_DIR_REAL . '/languages' ) || ! @is_dir( ABSPATH_REAL . WPINC . '/languages' ) ) {
 			/**
 			 * Server path of the language directory.
 			 *
@@ -532,7 +532,7 @@ function wp_set_lang_dir() {
 			 *
 			 * @since 2.1.0
 			 */
-			define( 'WP_LANG_DIR', WP_CONTENT_DIR . '/languages' );
+			define( 'WP_LANG_DIR', WP_CONTENT_DIR_REAL . '/languages' );
 			if ( ! defined( 'LANGDIR' ) ) {
 				// Old static relative path maintained for limited backward compatibility - won't work in some cases.
 				define( 'LANGDIR', 'wp-content/languages' );
@@ -545,7 +545,7 @@ function wp_set_lang_dir() {
 			 *
 			 * @since 2.1.0
 			 */
-			define( 'WP_LANG_DIR', ABSPATH . WPINC . '/languages' );
+			define( 'WP_LANG_DIR', ABSPATH_REAL . WPINC . '/languages' );
 			if ( ! defined( 'LANGDIR' ) ) {
 				// Old relative path maintained for backward compatibility.
 				define( 'LANGDIR', WPINC . '/languages' );

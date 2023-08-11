@@ -556,7 +556,7 @@ class WP_User_Search {
 			$this->query_where .= " AND $wpdb->users.ID = $wpdb->usermeta.user_id AND meta_key = '{$level_key}'";
 		}
 
-		do_action_ref_array( 'pre_user_search', array( &$this ) );
+		do_action_ref_array( 'pre_user_search', array( $this ) );
 	}
 
 	/**
@@ -1344,10 +1344,11 @@ function wp_dashboard_plugins_output( $rss, $args = array() ) {
 		$items = $feed->get_items(0, 5);
 
 		// Pick a random, non-installed plugin.
+		$continueForeach = false;
 		while ( true ) {
 			// Abort this foreach loop iteration if there's no plugins left of this type.
 			if ( 0 === count($items) )
-				continue 2;
+				break;
 
 			$item_key = array_rand($items);
 			$item = $items[$item_key];
@@ -1364,15 +1365,23 @@ function wp_dashboard_plugins_output( $rss, $args = array() ) {
 
 			// Is this random plugin's slug already installed? If so, try again.
 			reset( $plugin_slugs );
+			$continueWhile = false;
 			foreach ( $plugin_slugs as $plugin_slug ) {
 				if ( $slug == substr( $plugin_slug, 0, strlen( $slug ) ) ) {
 					unset( $items[$item_key] );
-					continue 2;
+					$continueWhile = true;
+					break;
 				}
+			}
+			if ($continueWhile) {
+			    continue;
 			}
 
 			// If we get to this point, then the random plugin isn't installed and we can stop the while().
 			break;
+		}
+		if ($continueForeach) {
+		    continue;
 		}
 
 		// Eliminate some common badly formed plugin descriptions.

@@ -57,4 +57,4 @@ function register_block_core_comments_pagination_next() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_comments_pagination_next' );
+add_action( 'init', 'register_block_core_comments_pagination_next', 10, 0 );

@@ -3758,10 +3758,15 @@ function get_taxonomies_for_attachments( $output = 'names' ) {
  *              false otherwise.
  */
 function is_gd_image( $image ) {
-	if ( is_resource( $image ) && 'gd' === get_resource_type( $image )
-		|| is_object( $image ) && $image instanceof GdImage
-	) {
+	if ( is_resource( $image ) && 'gd' === get_resource_type( $image ) ) {
 		return true;
+	}
+
+	if (defined('__BPC__')) {
+	} else {
+	if ( is_object( $image ) && $image instanceof GdImage ) {
+	    return true;
+	}
 	}
 
 	return false;

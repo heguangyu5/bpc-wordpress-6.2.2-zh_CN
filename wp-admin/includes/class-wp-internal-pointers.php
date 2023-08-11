@@ -82,10 +82,15 @@ final class WP_Internal_Pointers {
 		$got_pointers = false;
 		foreach ( array_diff( $pointers, $dismissed ) as $pointer ) {
 			if ( isset( $caps_required[ $pointer ] ) ) {
+			    $continue = false;
 				foreach ( $caps_required[ $pointer ] as $cap ) {
 					if ( ! current_user_can( $cap ) ) {
-						continue 2;
+						$continue = true;
+						break;
 					}
+				}
+				if ($continue) {
+				    continue;
 				}
 			}
 

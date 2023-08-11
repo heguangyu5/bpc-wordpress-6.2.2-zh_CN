@@ -238,7 +238,7 @@ class WP_Application_Passwords {
 	public static function update_application_password( $user_id, $uuid, $update = array() ) {
 		$passwords = static::get_user_application_passwords( $user_id );
 
-		foreach ( $passwords as &$item ) {
+		foreach ( $passwords as $idx => $item ) {
 			if ( $item['uuid'] !== $uuid ) {
 				continue;
 			}
@@ -252,6 +252,7 @@ class WP_Application_Passwords {
 			if ( ! empty( $update['name'] ) && $item['name'] !== $update['name'] ) {
 				$item['name'] = $update['name'];
 				$save         = true;
+				$passwords[$idx] = $item;
 			}
 
 			if ( $save ) {
@@ -291,7 +292,7 @@ class WP_Application_Passwords {
 	public static function record_application_password_usage( $user_id, $uuid ) {
 		$passwords = static::get_user_application_passwords( $user_id );
 
-		foreach ( $passwords as &$password ) {
+		foreach ( $passwords as $idx => $password ) {
 			if ( $password['uuid'] !== $uuid ) {
 				continue;
 			}
@@ -303,6 +304,7 @@ class WP_Application_Passwords {
 
 			$password['last_used'] = time();
 			$password['last_ip']   = $_SERVER['REMOTE_ADDR'];
+			$passwords[$idx] = $password;
 
 			$saved = static::set_user_application_passwords( $user_id, $passwords );
 

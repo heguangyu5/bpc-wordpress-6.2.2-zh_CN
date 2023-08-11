@@ -22,6 +22,11 @@ if ( ! defined( 'ABSPATH_REAL' ) ) {
 
 define( 'WPINC', 'wp-includes' );
 define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
+if (defined('__BPC__')) {
+    define('WP_CONTENT_DIR_REAL', ABSPATH_REAL . 'wp-content');
+} else {
+    define('WP_CONTENT_DIR_REAL', WP_CONTENT_DIR);
+}
 
 require ABSPATH . 'wp-admin/includes/noop.php';
 require ABSPATH . WPINC . '/theme.php';

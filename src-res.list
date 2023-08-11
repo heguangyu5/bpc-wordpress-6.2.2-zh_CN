@@ -1,0 +1,23 @@
+placeholder-res.txt
+# css
+wp-includes/css/dashicons.min.css
+wp-includes/css/buttons.min.css
+wp-admin/css/forms.min.css
+wp-admin/css/l10n.min.css
+wp-admin/css/install.min.css
+# js
+wp-includes/js/jquery/jquery.min.js
+wp-includes/js/jquery/jquery-migrate.min.js
+wp-includes/js/zxcvbn-async.min.js
+wp-includes/js/dist/vendor/wp-polyfill-inert.min.js
+wp-includes/js/dist/vendor/regenerator-runtime.min.js
+wp-includes/js/dist/vendor/wp-polyfill.min.js
+wp-includes/js/dist/hooks.min.js
+wp-includes/js/dist/i18n.min.js
+wp-includes/js/zxcvbn.min.js
+wp-admin/js/password-strength-meter.min.js
+wp-includes/js/underscore.min.js
+wp-includes/js/wp-util.min.js
+wp-admin/js/user-profile.min.js
+# image
+wp-admin/images/wordpress-logo.svg

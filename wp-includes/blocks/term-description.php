@@ -46,4 +46,4 @@ function register_block_core_term_description() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_term_description' );
+add_action( 'init', 'register_block_core_term_description', 10, 0 );

@@ -62,4 +62,4 @@ function register_block_core_comment_author_name() {
 		)
 	);
 }
-add_action( 'init', 'register_block_core_comment_author_name' );
+add_action( 'init', 'register_block_core_comment_author_name', 10, 0 );
