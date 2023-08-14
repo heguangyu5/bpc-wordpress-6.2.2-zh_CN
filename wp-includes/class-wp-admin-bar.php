@@ -57,9 +57,9 @@ class WP_Admin_Bar {
 			}
 		}
 
-		add_action( 'wp_head', 'wp_admin_bar_header' );
+		add_action( 'wp_head', 'wp_admin_bar_header', 10, 0 );
 
-		add_action( 'admin_head', 'wp_admin_bar_header' );
+		add_action( 'admin_head', 'wp_admin_bar_header', 10, 0 );
 
 		if ( current_theme_supports( 'admin-bar' ) ) {
 			/**
@@ -239,8 +239,8 @@ class WP_Admin_Bar {
 			return;
 		}
 
-		foreach ( $nodes as &$node ) {
-			$node = clone $node;
+		foreach ( $nodes as $idx => $node ) {
+			$nodes[$idx] = clone $node;
 		}
 		return $nodes;
 	}

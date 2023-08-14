@@ -100,9 +100,9 @@ $registered             = $wp_scripts->registered;
 $wp_scripts             = new WP_Scripts();
 $wp_scripts->registered = $registered;
 
-add_action( 'customize_controls_print_scripts', 'print_head_scripts', 20 );
+add_action( 'customize_controls_print_scripts', 'print_head_scripts', 20, 0 );
 add_action( 'customize_controls_print_footer_scripts', '_wp_footer_scripts', 10, 0 );
-add_action( 'customize_controls_print_styles', 'print_admin_styles', 20 );
+add_action( 'customize_controls_print_styles', 'print_admin_styles', 20, 0 );
 
 /**
  * Fires when Customizer controls are initialized, before scripts are enqueued.

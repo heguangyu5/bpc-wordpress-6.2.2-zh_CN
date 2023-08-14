@@ -11,8 +11,8 @@
 add_filter( 'wp_handle_upload_prefilter', 'check_upload_size' );
 
 // User hooks.
-add_action( 'user_admin_notices', 'new_user_email_admin_notice' );
-add_action( 'network_admin_notices', 'new_user_email_admin_notice' );
+add_action( 'user_admin_notices', 'new_user_email_admin_notice', 10, 0 );
+add_action( 'network_admin_notices', 'new_user_email_admin_notice', 10, 0 );
 
 add_action( 'admin_page_access_denied', '_access_denied_splash', 99 );
 
@@ -33,8 +33,8 @@ add_action( 'admin_notices', 'site_admin_notice' );
 add_action( 'network_admin_notices', 'site_admin_notice' );
 
 // Update hooks.
-add_action( 'network_admin_notices', 'update_nag', 3 );
-add_action( 'network_admin_notices', 'maintenance_nag', 10 );
+add_action( 'network_admin_notices', 'update_nag', 3, 0 );
+add_action( 'network_admin_notices', 'maintenance_nag', 10, 0 );
 
 // Network Admin hooks.
 add_action( 'add_site_option_new_admin_email', 'update_network_option_new_admin_email', 10, 2 );

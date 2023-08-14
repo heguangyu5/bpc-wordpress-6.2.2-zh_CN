@@ -5269,7 +5269,7 @@ function wp_maybe_load_widgets() {
 
 	require_once ABSPATH . WPINC . '/default-widgets.php';
 
-	add_action( '_admin_menu', 'wp_widgets_add_menu' );
+	add_action( '_admin_menu', 'wp_widgets_add_menu', 10, 0 );
 }
 
 /**
@@ -7102,8 +7102,8 @@ function wp_auth_check_load() {
 		wp_enqueue_style( 'wp-auth-check' );
 		wp_enqueue_script( 'wp-auth-check' );
 
-		add_action( 'admin_print_footer_scripts', 'wp_auth_check_html', 5 );
-		add_action( 'wp_print_footer_scripts', 'wp_auth_check_html', 5 );
+		add_action( 'admin_print_footer_scripts', 'wp_auth_check_html', 5, 0 );
+		add_action( 'wp_print_footer_scripts', 'wp_auth_check_html', 5, 0 );
 	}
 }
 

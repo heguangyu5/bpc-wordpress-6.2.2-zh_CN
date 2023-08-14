@@ -245,7 +245,7 @@ unset( $appearance_cap );
 // Add 'Theme File Editor' to the bottom of the Appearance (non-block themes) or Tools (block themes) menu.
 if ( ! is_multisite() ) {
 	// Must use API on the admin_menu hook, direct modification is only possible on/before the _admin_menu hook.
-	add_action( 'admin_menu', '_add_themes_utility_last', 101 );
+	add_action( 'admin_menu', '_add_themes_utility_last', 101, 0 );
 }
 /**
  * Adds the 'Theme File Editor' menu item to the bottom of the Appearance (non-block themes)
@@ -308,7 +308,7 @@ if ( ! is_multisite() ) {
 	$submenu['plugins.php'][10] = array( _x( 'Add New', 'plugin' ), 'install_plugins', 'plugin-install.php' );
 	if ( wp_is_block_theme() ) {
 		// Place the menu item below the Theme File Editor menu item.
-		add_action( 'admin_menu', '_add_plugin_file_editor_to_tools', 101 );
+		add_action( 'admin_menu', '_add_plugin_file_editor_to_tools', 101, 0 );
 	} else {
 		$submenu['plugins.php'][15] = array( __( 'Plugin File Editor' ), 'edit_plugins', 'plugin-editor.php' );
 	}

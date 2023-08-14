@@ -406,11 +406,11 @@ function wp_ajax_dashboard_widgets() {
 		set_current_screen( $pagenow );
 	}
 
-	switch ( $_GET['widget'] ) {
+	/*switch ( $_GET['widget'] ) {
 		case 'dashboard_primary':
 			wp_dashboard_primary();
 			break;
-	}
+	}*/
 	wp_die();
 }
 
@@ -3628,7 +3628,7 @@ function wp_ajax_query_themes() {
 		}
 	}
 
-	foreach ( $api->themes as &$theme ) {
+	foreach ( $api->themes as $theme ) {
 		$theme->install_url = add_query_arg(
 			array(
 				'theme'    => $theme->slug,

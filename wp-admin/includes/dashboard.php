@@ -298,7 +298,7 @@ function wp_dashboard() {
  *
  * @since 2.7.0
  */
-function wp_dashboard_right_now() {
+function wp_dashboard_right_now($data_object, $box) {
 	?>
 	<div class="main">
 	<ul>
@@ -540,7 +540,7 @@ function wp_network_dashboard_right_now() {
  *
  * @param string|false $error_msg Optional. Error message. Default false.
  */
-function wp_dashboard_quick_press( $error_msg = false ) {
+function wp_dashboard_quick_press( $error_msg = false, $box = null ) {
 	global $post_ID;
 
 	if ( ! current_user_can( 'edit_posts' ) ) {
@@ -924,7 +924,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
  *
  * @since 3.8.0
  */
-function wp_dashboard_site_activity() {
+function wp_dashboard_site_activity($data_object, $box) {
 
 	echo '<div id="activity-widget">';
 
@@ -1079,6 +1079,7 @@ function wp_dashboard_recent_comments( $total_items = 5 ) {
 			break;
 		}
 
+        $break = false;
 		foreach ( $possible as $comment ) {
 			if ( ! current_user_can( 'read_post', $comment->comment_post_ID ) ) {
 				continue;
@@ -1087,9 +1088,13 @@ function wp_dashboard_recent_comments( $total_items = 5 ) {
 			$comments[] = $comment;
 
 			if ( count( $comments ) === $total_items ) {
-				break 2;
+			    $break = true;
+				break;
 			}
 		}
+        if ($break) {
+            break;
+        }
 
 		$comments_query['offset'] += $comments_query['number'];
 		$comments_query['number']  = $total_items * 10;
@@ -1285,7 +1290,7 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
  *
  * @since 4.8.0
  */
-function wp_dashboard_events_news() {
+function wp_dashboard_events_news($data_object, $box) {
 	wp_print_community_events_markup();
 
 	?>
@@ -1838,7 +1843,7 @@ function wp_check_browser_version() {
  *
  * @since 5.1.0
  */
-function wp_dashboard_php_nag() {
+function wp_dashboard_php_nag($data_object, $box) {
 	$response = wp_check_php_version();
 
 	if ( ! $response ) {
@@ -1937,7 +1942,7 @@ function dashboard_php_nag_class( $classes ) {
  *
  * @since 5.4.0
  */
-function wp_dashboard_site_health() {
+function wp_dashboard_site_health($data_object, $box) {
 	$get_issues = get_transient( 'health-check-site-status-result' );
 
 	$issue_counts = array();
@@ -2043,7 +2048,13 @@ function wp_welcome_panel() {
 	<div class="welcome-panel-content">
 	<div class="welcome-panel-header">
 		<div class="welcome-panel-header-image">
-			<?php echo file_get_contents( dirname( __DIR__ ) . '/images/dashboard-background.svg' ); ?>
+			<?php
+			    if (defined('__BPC__')) {
+			        echo resource_get_contents(dirname( __DIR__ ) . '/images/dashboard-background.svg');
+			    } else {
+			        echo file_get_contents( dirname( __DIR__ ) . '/images/dashboard-background.svg' );
+			    }
+			?>
 		</div>
 		<h2><?php _e( 'Welcome to WordPress!' ); ?></h2>
 		<p>

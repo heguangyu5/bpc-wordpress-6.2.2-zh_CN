@@ -104,7 +104,7 @@ add_filter( 'post_mime_type', 'sanitize_mime_type' );
 add_filter( 'register_meta_args', '_wp_register_meta_args_allowed_list', 10, 2 );
 
 // Counts.
-add_action( 'admin_init', 'wp_schedule_update_user_counts' );
+add_action( 'admin_init', 'wp_schedule_update_user_counts', 10, 0 );
 add_action( 'wp_update_user_counts', 'wp_schedule_update_user_counts', 10, 0 );
 foreach ( array( 'user_register', 'deleted_user' ) as $action ) {
 	add_action( $action, 'wp_maybe_update_user_counts', 10, 0 );
@@ -332,7 +332,7 @@ add_action( 'wp_head', 'wlwmanifest_link' );
 add_action( 'wp_head', 'locale_stylesheet' );
 add_action( 'publish_future_post', 'check_and_publish_future_post', 10, 1 );
 add_action( 'wp_head', 'wp_robots', 1, 0 );
-add_action( 'wp_head', 'print_emoji_detection_script', 7 );
+add_action( 'wp_head', 'print_emoji_detection_script', 7, 0);
 add_action( 'wp_head', 'wp_print_styles', 8 );
 add_action( 'wp_head', 'wp_print_head_scripts', 9, 0 );
 add_action( 'wp_head', 'wp_generator' );
@@ -350,7 +350,7 @@ add_action( 'switch_theme', 'wp_clean_theme_json_cache' );
 add_action( 'start_previewing_theme', 'wp_clean_theme_json_cache' );
 add_action( 'after_switch_theme', '_wp_menus_changed' );
 add_action( 'after_switch_theme', '_wp_sidebars_changed' );
-add_action( 'wp_print_styles', 'print_emoji_styles' );
+add_action( 'wp_print_styles', 'print_emoji_styles', 10, 0 );
 add_action( 'plugins_loaded', '_wp_theme_json_webfonts_handler', 10, 0 );
 
 if ( isset( $_GET['replytocom'] ) ) {
@@ -469,7 +469,7 @@ add_filter( 'pre_option_embed_autourls', '__return_true', 10, 0 );
 add_filter( 'heartbeat_settings', 'wp_heartbeat_settings' );
 
 // Check if the user is logged out.
-add_action( 'admin_enqueue_scripts', 'wp_auth_check_load' );
+add_action( 'admin_enqueue_scripts', 'wp_auth_check_load', 10, 0 );
 add_filter( 'heartbeat_send', 'wp_auth_check' );
 add_filter( 'heartbeat_nopriv_send', 'wp_auth_check' );
 
@@ -483,14 +483,14 @@ add_filter( 'determine_current_user', 'wp_validate_logged_in_cookie', 20 );
 add_filter( 'determine_current_user', 'wp_validate_application_password', 20 );
 
 // Split term updates.
-add_action( 'admin_init', '_wp_check_for_scheduled_split_terms' );
+add_action( 'admin_init', '_wp_check_for_scheduled_split_terms', 10, 0 );
 add_action( 'split_shared_term', '_wp_check_split_default_terms', 10, 4 );
 add_action( 'split_shared_term', '_wp_check_split_terms_in_menus', 10, 4 );
 add_action( 'split_shared_term', '_wp_check_split_nav_menu_terms', 10, 4 );
 add_action( 'wp_split_shared_term_batch', '_wp_batch_split_terms' );
 
 // Comment type updates.
-add_action( 'admin_init', '_wp_check_for_scheduled_update_comment_type' );
+add_action( 'admin_init', '_wp_check_for_scheduled_update_comment_type', 10, 0 );
 add_action( 'wp_update_comment_type_batch', '_wp_batch_update_comment_type' );
 
 // Email notifications.
@@ -520,7 +520,7 @@ add_action( 'wp_loaded', '_custom_header_background_just_in_time', 10, 0 );
 add_action( 'wp_head', '_custom_logo_header_styles' );
 add_action( 'plugins_loaded', '_wp_customize_include', 10, 0 );
 add_action( 'transition_post_status', '_wp_customize_publish_changeset', 10, 3 );
-add_action( 'admin_enqueue_scripts', '_wp_customize_loader_settings' );
+add_action( 'admin_enqueue_scripts', '_wp_customize_loader_settings', 10, 0 );
 add_action( 'delete_attachment', '_delete_attachment_theme_mod' );
 add_action( 'transition_post_status', '_wp_keep_alive_customize_changeset_dependent_auto_drafts', 20, 3 );
 
@@ -535,7 +535,7 @@ add_action( 'transition_post_status', '__clear_multi_author_cache' );
 
 // Post.
 add_action( 'init', 'create_initial_post_types', 0, 0 ); // Highest priority.
-add_action( 'admin_menu', '_add_post_type_submenus' );
+add_action( 'admin_menu', '_add_post_type_submenus', 10, 0 );
 add_action( 'before_delete_post', '_reset_front_page_settings_for_post' );
 add_action( 'wp_trash_post', '_reset_front_page_settings_for_post' );
 add_action( 'change_locale', 'create_initial_post_types', 10, 0 );
@@ -555,11 +555,11 @@ add_action( 'set_current_user', 'kses_init', 10, 0 );
 add_action( 'wp_default_scripts', 'wp_default_scripts' );
 add_action( 'wp_default_scripts', 'wp_default_packages' );
 
-add_action( 'wp_enqueue_scripts', 'wp_localize_jquery_ui_datepicker', 1000 );
-add_action( 'wp_enqueue_scripts', 'wp_common_block_scripts_and_styles' );
+add_action( 'wp_enqueue_scripts', 'wp_localize_jquery_ui_datepicker', 1000, 0 );
+add_action( 'wp_enqueue_scripts', 'wp_common_block_scripts_and_styles', 10, 0 );
 add_action( 'wp_enqueue_scripts', 'wp_enqueue_classic_theme_styles' );
-add_action( 'admin_enqueue_scripts', 'wp_localize_jquery_ui_datepicker', 1000 );
-add_action( 'admin_enqueue_scripts', 'wp_common_block_scripts_and_styles' );
+add_action( 'admin_enqueue_scripts', 'wp_localize_jquery_ui_datepicker', 1000, 0 );
+add_action( 'admin_enqueue_scripts', 'wp_common_block_scripts_and_styles', 10, 0 );
 add_action( 'enqueue_block_assets', 'wp_enqueue_registered_block_scripts_and_styles' );
 add_action( 'enqueue_block_assets', 'enqueue_block_styles_assets', 30 );
 add_action( 'enqueue_block_editor_assets', 'wp_enqueue_registered_block_scripts_and_styles' );
@@ -570,7 +570,7 @@ add_action( 'enqueue_block_editor_assets', 'wp_enqueue_global_styles_css_custom_
 add_filter( 'wp_print_scripts', 'wp_just_in_time_script_localization', 10, 0 );
 add_filter( 'print_scripts_array', 'wp_prototype_before_jquery' );
 add_filter( 'customize_controls_print_styles', 'wp_resource_hints', 1, 0 );
-add_action( 'admin_head', 'wp_check_widget_editor_deps' );
+add_action( 'admin_head', 'wp_check_widget_editor_deps', 10, 0 );
 add_filter( 'block_editor_settings_all', 'wp_add_editor_classic_theme_styles' );
 
 // Global styles can be enqueued in both the header and the footer. See https://core.trac.wordpress.org/ticket/53494.
@@ -585,8 +585,8 @@ add_action( 'wp_enqueue_scripts', 'wp_enqueue_stored_styles' );
 add_action( 'wp_footer', 'wp_enqueue_stored_styles', 1 );
 
 // SVG filters like duotone have to be loaded at the beginning of the body in both admin and the front-end.
-add_action( 'wp_body_open', 'wp_global_styles_render_svg_filters' );
-add_action( 'in_admin_header', 'wp_global_styles_render_svg_filters' );
+add_action( 'wp_body_open', 'wp_global_styles_render_svg_filters', 10, 0 );
+add_action( 'in_admin_header', 'wp_global_styles_render_svg_filters', 10, 0 );
 
 add_action( 'wp_default_styles', 'wp_default_styles' );
 add_filter( 'style_loader_src', 'wp_style_loader_src', 10, 2 );
@@ -630,13 +630,13 @@ add_action( 'widgets_init', '_wp_block_theme_register_classic_sidebars', 1, 0 );
 
 // Admin Bar.
 // Don't remove. Wrong way to disable.
-add_action( 'template_redirect', '_wp_admin_bar_init', 0 );
-add_action( 'admin_init', '_wp_admin_bar_init' );
-add_action( 'before_signup_header', '_wp_admin_bar_init' );
-add_action( 'activate_header', '_wp_admin_bar_init' );
-add_action( 'wp_body_open', 'wp_admin_bar_render', 0 );
-add_action( 'wp_footer', 'wp_admin_bar_render', 1000 ); // Back-compat for themes not using `wp_body_open`.
-add_action( 'in_admin_header', 'wp_admin_bar_render', 0 );
+add_action( 'template_redirect', '_wp_admin_bar_init', 0, 0 );
+add_action( 'admin_init', '_wp_admin_bar_init', 10, 0 );
+add_action( 'before_signup_header', '_wp_admin_bar_init', 10, 0 );
+add_action( 'activate_header', '_wp_admin_bar_init', 10, 0 );
+add_action( 'wp_body_open', 'wp_admin_bar_render', 0, 0 );
+add_action( 'wp_footer', 'wp_admin_bar_render', 1000, 0 ); // Back-compat for themes not using `wp_body_open`.
+add_action( 'in_admin_header', 'wp_admin_bar_render', 0, 0 );
 
 // Former admin filters that can also be hooked on the front end.
 add_action( 'media_buttons', 'media_buttons' );
@@ -652,7 +652,7 @@ add_action( 'wp_head', 'wp_oembed_add_host_js' ); // Back-compat for sites disab
 add_filter( 'embed_oembed_html', 'wp_maybe_enqueue_oembed_host_js' );
 
 add_action( 'embed_head', 'enqueue_embed_scripts', 1 );
-add_action( 'embed_head', 'print_emoji_detection_script' );
+add_action( 'embed_head', 'print_emoji_detection_script', 10, 0 );
 add_action( 'embed_head', 'print_embed_styles' );
 add_action( 'embed_head', 'wp_print_head_scripts', 20, 0 );
 add_action( 'embed_head', 'wp_print_styles', 20 );
