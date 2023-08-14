@@ -927,7 +927,7 @@ class WP_REST_Server {
 					$handler['methods'][ $method ] = true;
 				}
 
-				$headers[$key] = $handler;
+				$handlers[$key] = $handler;
 			}
 
 			$endpoints[$route] = $handlers;
