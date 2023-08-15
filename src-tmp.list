@@ -6,3 +6,5 @@ wp-includes/class-wp-image-editor.php
 wp-includes/class-wp-image-editor-gd.php
 wp-includes/media-template.php
 wp-admin/includes/meta-boxes.php
+#wp-admin/post.php
+wp-admin/post.php
