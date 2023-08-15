@@ -188,7 +188,11 @@ function register_block_style_handle( $metadata, $field_name, $index = 0 ) {
 
 	static $wpinc_path_norm = '';
 	if ( ! $wpinc_path_norm ) {
-		$wpinc_path_norm = wp_normalize_path( realpath( ABSPATH . WPINC ) );
+	    if (defined('__BPC__')) {
+	        $wpinc_path_norm = ABSPATH . WPINC;
+	    } else {
+		    $wpinc_path_norm = wp_normalize_path( realpath( ABSPATH . WPINC ) );
+		}
 	}
 
 	$is_core_block = isset( $metadata['file'] ) && 0 === strpos( $metadata['file'], $wpinc_path_norm );
@@ -325,8 +329,14 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
 		trailingslashit( $file_or_folder ) . 'block.json' :
 		$file_or_folder;
 
+    if (defined('__BPC__')) {
+        if (!include_file_exists($metadata_file)) {
+            return false;
+        }
+    } else {
 	if ( ! file_exists( $metadata_file ) ) {
 		return false;
+	}
 	}
 
 	// Try to get metadata from the static cache for core blocks.
@@ -346,7 +356,11 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
 	if ( ! is_array( $metadata ) || empty( $metadata['name'] ) ) {
 		return false;
 	}
-	$metadata['file'] = wp_normalize_path( realpath( $metadata_file ) );
+	if (defined('__BPC__')) {
+	    $metadata['file'] = $metadata_file;
+	} else {
+	    $metadata['file'] = wp_normalize_path( realpath( $metadata_file ) );
+	}
 
 	/**
 	 * Filters the metadata provided for registering a block type.

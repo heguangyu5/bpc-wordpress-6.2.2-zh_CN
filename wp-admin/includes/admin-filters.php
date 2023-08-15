@@ -64,8 +64,8 @@ add_action( 'admin_print_styles', 'print_emoji_styles', 10, 0 );
 add_action( 'admin_print_styles', 'print_admin_styles', 20, 0 );
 
 add_action( 'admin_print_scripts-index.php', 'wp_localize_community_events', 10, 0 );
-add_action( 'admin_print_scripts-post.php', 'wp_page_reload_on_back_button_js' );
-add_action( 'admin_print_scripts-post-new.php', 'wp_page_reload_on_back_button_js' );
+add_action( 'admin_print_scripts-post.php', 'wp_page_reload_on_back_button_js', 10, 0 );
+add_action( 'admin_print_scripts-post-new.php', 'wp_page_reload_on_back_button_js', 10, 0 );
 
 add_action( 'update_option_home', 'update_home_siteurl', 10, 2 );
 add_action( 'update_option_siteurl', 'update_home_siteurl', 10, 2 );

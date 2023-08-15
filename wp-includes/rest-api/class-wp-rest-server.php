@@ -1149,7 +1149,11 @@ class WP_REST_Server {
 
 		// Check permission specified on the route.
 		if ( ! is_wp_error( $response ) && ! empty( $handler['permission_callback'] ) ) {
-			$permission = call_user_func( $handler['permission_callback'], $request );
+		    if ($handler['permission_callback'] === '__return_true') {
+		        $permission = true;
+		    } else {
+			    $permission = call_user_func( $handler['permission_callback'], $request );
+			}
 
 			if ( is_wp_error( $permission ) ) {
 				$response = $permission;

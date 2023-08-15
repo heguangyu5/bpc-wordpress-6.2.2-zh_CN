@@ -2166,7 +2166,7 @@ function sanitize_user( $username, $strict = false ) {
  * @param string $key String key.
  * @return string Sanitized key.
  */
-function sanitize_key( $key ) {
+function sanitize_key( $key, $arg2 = null, $arg3 = null ) {
 	$sanitized_key = '';
 
 	if ( is_scalar( $key ) ) {

@@ -3923,7 +3923,7 @@ function wp_image_editor_supports( $args = array() ) {
 function _wp_image_editor_choose( $args = array() ) {
 	require_once ABSPATH . WPINC . '/class-wp-image-editor.php';
 	require_once ABSPATH . WPINC . '/class-wp-image-editor-gd.php';
-	require_once ABSPATH . WPINC . '/class-wp-image-editor-imagick.php';
+	//require_once ABSPATH . WPINC . '/class-wp-image-editor-imagick.php';
 	/**
 	 * Filters the list of image editing library classes.
 	 *
@@ -3932,7 +3932,7 @@ function _wp_image_editor_choose( $args = array() ) {
 	 * @param string[] $image_editors Array of available image editor class names. Defaults are
 	 *                                'WP_Image_Editor_Imagick', 'WP_Image_Editor_GD'.
 	 */
-	$implementations = apply_filters( 'wp_image_editors', array( 'WP_Image_Editor_Imagick', 'WP_Image_Editor_GD' ) );
+	$implementations = apply_filters( 'wp_image_editors', array( /*'WP_Image_Editor_Imagick',*/ 'WP_Image_Editor_GD' ) );
 	$supports_input  = false;
 
 	foreach ( $implementations as $implementation ) {
@@ -4753,9 +4753,9 @@ function wp_enqueue_media( $args = array() ) {
 	wp_plupload_default_settings();
 
 	require_once ABSPATH . WPINC . '/media-template.php';
-	add_action( 'admin_footer', 'wp_print_media_templates' );
-	add_action( 'wp_footer', 'wp_print_media_templates' );
-	add_action( 'customize_controls_print_footer_scripts', 'wp_print_media_templates' );
+	add_action( 'admin_footer', 'wp_print_media_templates', 10, 0 );
+	add_action( 'wp_footer', 'wp_print_media_templates', 10, 0 );
+	add_action( 'customize_controls_print_footer_scripts', 'wp_print_media_templates', 10, 0 );
 
 	/**
 	 * Fires at the conclusion of wp_enqueue_media().

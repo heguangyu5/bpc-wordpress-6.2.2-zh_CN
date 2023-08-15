@@ -817,7 +817,7 @@ function rest_send_allow_header( $response, $server, $request ) {
 	foreach ( $routes[ $matched_route ] as $_handler ) {
 		foreach ( $_handler['methods'] as $handler_method => $value ) {
 
-			if ( ! empty( $_handler['permission_callback'] ) ) {
+			if ( ! empty( $_handler['permission_callback'] ) && $_handler['permission_callback'] !== '__return_true' ) {
 
 				$permission = call_user_func( $_handler['permission_callback'], $request );
 

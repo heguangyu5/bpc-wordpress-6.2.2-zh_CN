@@ -4533,9 +4533,14 @@ function wp_check_jsonp_callback( $callback ) {
  */
 function wp_json_file_decode( $filename, $options = array() ) {
 	$result   = null;
-	$filename = wp_normalize_path( realpath( $filename ) );
+	if (defined('__BPC__')) {
+	    $fileExists = include_file_exists($filename);
+	} else {
+	    $filename = wp_normalize_path( realpath( $filename ) );
+	    $fileExists = $filename;
+	}
 
-	if ( ! $filename ) {
+	if ( ! $fileExists ) {
 		trigger_error(
 			sprintf(
 				/* translators: %s: Path to the JSON file. */
@@ -4547,7 +4552,11 @@ function wp_json_file_decode( $filename, $options = array() ) {
 	}
 
 	$options      = wp_parse_args( $options, array( 'associative' => false ) );
-	$decoded_file = json_decode( file_get_contents( $filename ), $options['associative'] );
+	if (defined('__BPC__')) {
+	    $decoded_file = json_decode( resource_get_contents( $filename ), $options['associative'] );
+	} else {
+	    $decoded_file = json_decode( file_get_contents( $filename ), $options['associative'] );
+	}
 
 	if ( JSON_ERROR_NONE !== json_last_error() ) {
 		trigger_error(
@@ -5357,7 +5366,7 @@ function dead_db() {
  * @param mixed $maybeint Data you wish to have converted to a non-negative integer.
  * @return int A non-negative integer.
  */
-function absint( $maybeint ) {
+function absint( $maybeint, $arg2 = null, $arg3 = null ) {
 	return abs( (int) $maybeint );
 }
 
@@ -6688,7 +6697,7 @@ function __return_true() { // phpcs:ignore WordPress.NamingConventions.ValidFunc
  *
  * @return false False.
  */
-function __return_false() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
+function __return_false($arg = null) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
 	return false;
 }
 

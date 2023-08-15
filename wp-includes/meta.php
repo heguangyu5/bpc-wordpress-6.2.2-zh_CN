@@ -1464,6 +1464,9 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 		} else {
 			$args['auth_callback'] = '__return_true';
 		}
+		$authCallbackArgs = 0;
+	} else {
+	    $authCallbackArgs = 6;
 	}
 
 	// Back-compat: old sanitize and auth callbacks are applied to all of an object type.
@@ -1477,9 +1480,9 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 
 	if ( is_callable( $args['auth_callback'] ) ) {
 		if ( ! empty( $object_subtype ) ) {
-			add_filter( "auth_{$object_type}_meta_{$meta_key}_for_{$object_subtype}", $args['auth_callback'], 10, 6 );
+			add_filter( "auth_{$object_type}_meta_{$meta_key}_for_{$object_subtype}", $args['auth_callback'], 10, $authCallbackArgs );
 		} else {
-			add_filter( "auth_{$object_type}_meta_{$meta_key}", $args['auth_callback'], 10, 6 );
+			add_filter( "auth_{$object_type}_meta_{$meta_key}", $args['auth_callback'], 10, $authCallbackArgs );
 		}
 	}
 

@@ -111,9 +111,9 @@ foreach ( array( 'user_register', 'deleted_user' ) as $action ) {
 }
 
 // Post meta.
-add_action( 'added_post_meta', 'wp_cache_set_posts_last_changed' );
-add_action( 'updated_post_meta', 'wp_cache_set_posts_last_changed' );
-add_action( 'deleted_post_meta', 'wp_cache_set_posts_last_changed' );
+add_action( 'added_post_meta', 'wp_cache_set_posts_last_changed', 10, 0 );
+add_action( 'updated_post_meta', 'wp_cache_set_posts_last_changed', 10, 0 );
+add_action( 'deleted_post_meta', 'wp_cache_set_posts_last_changed', 10, 0 );
 
 // Term meta.
 add_action( 'added_term_meta', 'wp_cache_set_terms_last_changed' );
@@ -273,7 +273,7 @@ foreach (
 		'rest_save_sidebar',
 	) as $action
 ) {
-	add_action( $action, '_delete_option_fresh_site', 0 );
+	add_action( $action, '_delete_option_fresh_site', 0, 0 );
 }
 
 // Misc filters.
@@ -502,10 +502,10 @@ add_action( 'edit_user_created_user', 'wp_send_new_user_notifications', 10, 2 );
 
 // REST API actions.
 add_action( 'init', 'rest_api_init', 10, 0 );
-add_action( 'rest_api_init', 'rest_api_default_filters', 10, 1 );
-add_action( 'rest_api_init', 'register_initial_settings', 10 );
-add_action( 'rest_api_init', 'create_initial_rest_routes', 99 );
-add_action( 'parse_request', 'rest_api_loaded' );
+add_action( 'rest_api_init', 'rest_api_default_filters', 10, 0 );
+add_action( 'rest_api_init', 'register_initial_settings', 10, 0 );
+add_action( 'rest_api_init', 'create_initial_rest_routes', 99, 0 );
+add_action( 'parse_request', 'rest_api_loaded', 10, 0 );
 
 // Sitemaps actions.
 add_action( 'init', 'wp_sitemaps_get_server', 10, 0 );
@@ -525,13 +525,13 @@ add_action( 'delete_attachment', '_delete_attachment_theme_mod' );
 add_action( 'transition_post_status', '_wp_keep_alive_customize_changeset_dependent_auto_drafts', 20, 3 );
 
 // Calendar widget cache.
-add_action( 'save_post', 'delete_get_calendar_cache' );
-add_action( 'delete_post', 'delete_get_calendar_cache' );
-add_action( 'update_option_start_of_week', 'delete_get_calendar_cache' );
-add_action( 'update_option_gmt_offset', 'delete_get_calendar_cache' );
+add_action( 'save_post', 'delete_get_calendar_cache', 10, 0 );
+add_action( 'delete_post', 'delete_get_calendar_cache', 10, 0 );
+add_action( 'update_option_start_of_week', 'delete_get_calendar_cache', 10, 0 );
+add_action( 'update_option_gmt_offset', 'delete_get_calendar_cache', 10, 0 );
 
 // Author.
-add_action( 'transition_post_status', '__clear_multi_author_cache' );
+add_action( 'transition_post_status', '__clear_multi_author_cache', 10, 0 );
 
 // Post.
 add_action( 'init', 'create_initial_post_types', 0, 0 ); // Highest priority.
@@ -560,13 +560,13 @@ add_action( 'wp_enqueue_scripts', 'wp_common_block_scripts_and_styles', 10, 0 );
 add_action( 'wp_enqueue_scripts', 'wp_enqueue_classic_theme_styles' );
 add_action( 'admin_enqueue_scripts', 'wp_localize_jquery_ui_datepicker', 1000, 0 );
 add_action( 'admin_enqueue_scripts', 'wp_common_block_scripts_and_styles', 10, 0 );
-add_action( 'enqueue_block_assets', 'wp_enqueue_registered_block_scripts_and_styles' );
-add_action( 'enqueue_block_assets', 'enqueue_block_styles_assets', 30 );
-add_action( 'enqueue_block_editor_assets', 'wp_enqueue_registered_block_scripts_and_styles' );
-add_action( 'enqueue_block_editor_assets', 'enqueue_editor_block_styles_assets' );
-add_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_block_directory_assets' );
-add_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_format_library_assets' );
-add_action( 'enqueue_block_editor_assets', 'wp_enqueue_global_styles_css_custom_properties' );
+add_action( 'enqueue_block_assets', 'wp_enqueue_registered_block_scripts_and_styles', 10, 0 );
+add_action( 'enqueue_block_assets', 'enqueue_block_styles_assets', 30, 0 );
+add_action( 'enqueue_block_editor_assets', 'wp_enqueue_registered_block_scripts_and_styles', 10, 0 );
+add_action( 'enqueue_block_editor_assets', 'enqueue_editor_block_styles_assets', 10, 0 );
+add_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_block_directory_assets', 10, 0 );
+add_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_format_library_assets', 10, 0 );
+add_action( 'enqueue_block_editor_assets', 'wp_enqueue_global_styles_css_custom_properties', 10, 0 );
 add_filter( 'wp_print_scripts', 'wp_just_in_time_script_localization', 10, 0 );
 add_filter( 'print_scripts_array', 'wp_prototype_before_jquery' );
 add_filter( 'customize_controls_print_styles', 'wp_resource_hints', 1, 0 );
@@ -644,7 +644,7 @@ add_filter( 'image_send_to_editor', 'image_add_caption', 20, 8 );
 add_filter( 'media_send_to_editor', 'image_media_send_to_editor', 10, 3 );
 
 // Embeds.
-add_action( 'rest_api_init', 'wp_oembed_register_route' );
+add_action( 'rest_api_init', 'wp_oembed_register_route', 10, 0 );
 add_filter( 'rest_pre_serve_request', '_oembed_rest_pre_serve_request', 10, 4 );
 
 add_action( 'wp_head', 'wp_oembed_add_discovery_links' );

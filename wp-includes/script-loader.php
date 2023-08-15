@@ -2364,6 +2364,32 @@ function wp_common_block_scripts_and_styles() {
 	if ( current_theme_supports( 'wp-block-styles' ) ) {
 		if ( wp_should_load_separate_core_block_assets() ) {
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? 'css' : 'min.css';
+			if (defined('__BPC__')) {
+                $files = array(
+                    "search/theme.$suffix"        => true,
+                    "code/theme.$suffix"          => true,
+                    "group/theme.$suffix"         => true,
+                    "template-part/theme.$suffix" => true,
+                    "image/theme.$suffix"         => true,
+                    "video/theme.$suffix"         => true,
+                    "table/theme.$suffix"         => true,
+                    "pullquote/theme.$suffix"     => true,
+                    "separator/theme.$suffix"     => true,
+                    "quote/theme.$suffix"         => true,
+                    "audio/theme.$suffix"         => true,
+                    "gallery/theme.$suffix"       => true,
+                    "embed/theme.$suffix"         => true,
+                );
+                foreach ($files as $path => $nouse) {
+                    $block_name = dirname( $path );
+                    if ( is_rtl() && include_file_exists( __DIR__ . "/blocks/$block_name/theme-rtl.$suffix" ) ) {
+                        $path = __DIR__ . "/blocks/$block_name/theme-rtl.$suffix";
+                    } else {
+                        $path = __DIR__ . '/blocks/' . $path;
+                    }
+                    wp_add_inline_style( "wp-block-{$block_name}", resource_get_contents( $path ) );
+                }
+			} else {
 			$files  = glob( __DIR__ . "/blocks/**/theme.$suffix" );
 			foreach ( $files as $path ) {
 				$block_name = basename( dirname( $path ) );
@@ -2371,6 +2397,7 @@ function wp_common_block_scripts_and_styles() {
 					$path = __DIR__ . "/blocks/$block_name/theme-rtl.$suffix";
 				}
 				wp_add_inline_style( "wp-block-{$block_name}", file_get_contents( $path ) );
+			}
 			}
 		} else {
 			wp_enqueue_style( 'wp-block-library-theme' );
@@ -2873,6 +2900,18 @@ function wp_maybe_inline_styles() {
 	$styles = array();
 
 	// Build an array of styles that have a path defined.
+	if (defined('__BPC__')) {
+	    foreach ( $wp_styles->queue as $handle ) {
+		    if ( wp_styles()->get_data( $handle, 'path' ) && include_file_exists( $wp_styles->registered[ $handle ]->extra['path'] ) ) {
+			    $styles[] = array(
+				    'handle' => $handle,
+				    'src'    => $wp_styles->registered[ $handle ]->src,
+				    'path'   => $wp_styles->registered[ $handle ]->extra['path'],
+				    'size'   => strlen(resource_get_contents( $wp_styles->registered[ $handle ]->extra['path'] )),
+			    );
+		    }
+	    }
+	} else {
 	foreach ( $wp_styles->queue as $handle ) {
 		if ( wp_styles()->get_data( $handle, 'path' ) && file_exists( $wp_styles->registered[ $handle ]->extra['path'] ) ) {
 			$styles[] = array(
@@ -2882,6 +2921,7 @@ function wp_maybe_inline_styles() {
 				'size'   => filesize( $wp_styles->registered[ $handle ]->extra['path'] ),
 			);
 		}
+	}
 	}
 
 	if ( ! empty( $styles ) ) {
@@ -2910,7 +2950,11 @@ function wp_maybe_inline_styles() {
 			}
 
 			// Get the styles if we don't already have them.
+			if (defined('__BPC__')) {
+			    $style['css'] = resource_get_contents( $style['path'] );
+			} else {
 			$style['css'] = file_get_contents( $style['path'] );
+			}
 
 			// Check if the style contains relative URLs that need to be modified.
 			// URLs relative to the stylesheet's path should be converted to relative to the site's root.
@@ -3724,10 +3768,14 @@ function wp_add_editor_classic_theme_styles( $editor_settings ) {
 	// but we can't use get_block_editor_theme_styles directly as it
 	// only handles external files or theme files.
 	$classic_theme_styles_settings = array(
-		'css'            => file_get_contents( $classic_theme_styles ),
 		'__unstableType' => 'core',
 		'isGlobalStyles' => false,
 	);
+	if (defined('__BPC__')) {
+	    $classic_theme_styles_settings['css'] = resource_get_contents($classic_theme_styles);
+	} else {
+	    $classic_theme_styles_settings['css'] = file_get_contents($classic_theme_styles);
+	}
 
 	// Add these settings to the start of the array so that themes can override them.
 	array_unshift( $editor_settings['styles'], $classic_theme_styles_settings );

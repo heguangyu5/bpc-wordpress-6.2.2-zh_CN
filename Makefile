@@ -41,7 +41,7 @@ run:
 	cp wordpress-althttpd /tmp/wordpress
 	cp -r wp-includes/certificates /tmp/wordpress/wp-includes/
 	cp -r wp-content/languages /tmp/wordpress/wp-content/
-	DB_NAME=wordpress_bpc DB_USER=rootpw DB_PASSWORD=123456 /tmp/wordpress/wordpress-althttpd -project-name wordpress -port 7878 -root /tmp/wordpress
+	DB_NAME=wordpress_bpc DB_USER=rootpw DB_PASSWORD=123456 /tmp/wordpress/wordpress-althttpd -project-name wordpress -port 7878 -root /tmp/wordpress -http-header X-WP-Nonce
 
 libwordpresstmp.so:
 	./bpc-prepare.sh src-tmp.list
