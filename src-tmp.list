@@ -8,3 +8,6 @@ wp-includes/media-template.php
 wp-admin/includes/meta-boxes.php
 #wp-admin/post.php
 wp-admin/post.php
+#wp-admin/edit.php
+wp-admin/edit.php
+wp-admin/includes/class-wp-posts-list-table.php

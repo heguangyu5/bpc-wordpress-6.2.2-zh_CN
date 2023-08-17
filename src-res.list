@@ -208,6 +208,8 @@ wp-includes/js/tinymce/tinymce.min.js
 wp-includes/js/tinymce/plugins/compat3x/plugin.min.js
 wp-includes/js/plupload/moxie.min.js
 wp-includes/js/plupload/plupload.min.js
+wp-admin/js/tags-suggest.min.js
+wp-admin/js/inline-edit-post.min.js
 # image
 wp-admin/images/wordpress-logo.svg
 wp-admin/images/dashboard-background.svg
