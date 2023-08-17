@@ -11,3 +11,7 @@ wp-admin/post.php
 #wp-admin/edit.php
 wp-admin/edit.php
 wp-admin/includes/class-wp-posts-list-table.php
+#wp-admin/edit-tags.php
+wp-admin/edit-tags.php
+wp-admin/includes/class-wp-terms-list-table.php
+wp-admin/includes/edit-tag-messages.php
