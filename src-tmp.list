@@ -10,3 +10,9 @@ wp-admin/includes/class-wp-media-list-table.php
 wp-admin/edit-comments.php
 wp-admin/comment.php
 wp-admin/edit-form-comment.php
+#wp-admin/users.php
+wp-admin/users.php
+wp-admin/includes/class-wp-users-list-table.php
+wp-admin/user-new.php
+wp-admin/profile.php
+wp-admin/user-edit.php
