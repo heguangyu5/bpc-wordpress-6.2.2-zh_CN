@@ -129,9 +129,9 @@ add_filter( 'delete_term_metadata_by_mid', 'wp_check_term_meta_support_prefilter
 add_filter( 'update_term_metadata_cache', 'wp_check_term_meta_support_prefilter' );
 
 // Comment meta.
-add_action( 'added_comment_meta', 'wp_cache_set_comments_last_changed' );
-add_action( 'updated_comment_meta', 'wp_cache_set_comments_last_changed' );
-add_action( 'deleted_comment_meta', 'wp_cache_set_comments_last_changed' );
+add_action( 'added_comment_meta', 'wp_cache_set_comments_last_changed', 10, 0 );
+add_action( 'updated_comment_meta', 'wp_cache_set_comments_last_changed', 10, 0 );
+add_action( 'deleted_comment_meta', 'wp_cache_set_comments_last_changed', 10, 0 );
 
 // Places to balance tags on input.
 foreach ( array( 'content_save_pre', 'excerpt_save_pre', 'comment_save_pre', 'pre_comment_content' ) as $filter ) {
@@ -287,7 +287,7 @@ add_filter( 'teeny_mce_before_init', '_mce_set_direction' );
 add_filter( 'pre_kses', 'wp_pre_kses_less_than' );
 add_filter( 'pre_kses', 'wp_pre_kses_block_attributes', 10, 3 );
 add_filter( 'sanitize_title', 'sanitize_title_with_dashes', 10, 3 );
-add_action( 'check_comment_flood', 'check_comment_flood_db', 10, 4 );
+add_action( 'check_comment_flood', 'check_comment_flood_db', 10, 0 );
 add_filter( 'comment_flood_filter', 'wp_throttle_comment_flood', 10, 3 );
 add_filter( 'pre_comment_content', 'wp_rel_ugc', 15 );
 add_filter( 'comment_email', 'antispambot' );

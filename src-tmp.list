@@ -6,3 +6,7 @@ wp-admin/edit-form-advanced.php
 wp-admin/upload.php
 wp-admin/includes/image-edit.php
 wp-admin/includes/class-wp-media-list-table.php
+#wp-admin/edit-comments.php
+wp-admin/edit-comments.php
+wp-admin/comment.php
+wp-admin/edit-form-comment.php

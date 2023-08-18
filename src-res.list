@@ -215,6 +215,7 @@ wp-admin/js/inline-edit-tax.min.js
 wp-includes/js/plupload/handlers.min.js
 wp-includes/js/media-grid.min.js
 wp-admin/js/media.min.js
+wp-admin/js/comment.min.js
 # image
 wp-admin/images/wordpress-logo.svg
 wp-admin/images/dashboard-background.svg
