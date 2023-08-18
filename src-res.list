@@ -212,11 +212,17 @@ wp-admin/js/tags-suggest.min.js
 wp-admin/js/inline-edit-post.min.js
 wp-admin/js/tags.min.js
 wp-admin/js/inline-edit-tax.min.js
+wp-includes/js/plupload/handlers.min.js
+wp-includes/js/media-grid.min.js
+wp-admin/js/media.min.js
 # image
 wp-admin/images/wordpress-logo.svg
 wp-admin/images/dashboard-background.svg
 wp-admin/images/spinner.gif
 wp-includes/js/thickbox/loadingAnimation.gif
+wp-includes/images/spinner.gif
+wp-includes/js/imgareaselect/border-anim-v.gif
+wp-includes/js/imgareaselect/border-anim-h.gif
 # json
 wp-includes/block-i18n.json
 wp-includes/blocks/post-excerpt/block.json

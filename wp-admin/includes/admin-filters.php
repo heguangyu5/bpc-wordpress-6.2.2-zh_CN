@@ -15,7 +15,7 @@ add_action( 'activity_box_end', 'wp_dashboard_quota', 10, 0 );
 add_action( 'welcome_panel', 'wp_welcome_panel', 10, 0 );
 
 // Media hooks.
-add_action( 'attachment_submitbox_misc_actions', 'attachment_submitbox_metadata' );
+add_action( 'attachment_submitbox_misc_actions', 'attachment_submitbox_metadata', 10, 0 );
 add_filter( 'plupload_init', 'wp_show_heic_upload_error' );
 
 add_action( 'media_upload_image', 'wp_media_upload_handler' );
@@ -23,9 +23,9 @@ add_action( 'media_upload_audio', 'wp_media_upload_handler' );
 add_action( 'media_upload_video', 'wp_media_upload_handler' );
 add_action( 'media_upload_file', 'wp_media_upload_handler' );
 
-add_action( 'post-plupload-upload-ui', 'media_upload_flash_bypass' );
+add_action( 'post-plupload-upload-ui', 'media_upload_flash_bypass', 10, 0 );
 
-add_action( 'post-html-upload-ui', 'media_upload_html_bypass' );
+add_action( 'post-html-upload-ui', 'media_upload_html_bypass', 10, 0 );
 
 add_filter( 'async_upload_image', 'get_media_item', 10, 2 );
 add_filter( 'async_upload_audio', 'get_media_item', 10, 2 );

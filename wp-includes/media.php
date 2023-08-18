@@ -960,7 +960,7 @@ function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon
 
 			if ( $src ) {
 				/** This filter is documented in wp-includes/post.php */
-				$icon_dir = apply_filters( 'icon_dir', ABSPATH . WPINC . '/images/media' );
+				$icon_dir = apply_filters( 'icon_dir', ABSPATH_REAL . WPINC . '/images/media' );
 
 				$src_file               = $icon_dir . '/' . wp_basename( $src );
 				list( $width, $height ) = wp_getimagesize( $src_file );

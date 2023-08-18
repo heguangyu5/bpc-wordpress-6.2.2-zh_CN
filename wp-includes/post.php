@@ -6834,7 +6834,7 @@ function wp_mime_type_icon( $mime = 0 ) {
 			 *
 			 * @param string $path Icon directory absolute path.
 			 */
-			$icon_dir = apply_filters( 'icon_dir', ABSPATH . WPINC . '/images/media' );
+			$icon_dir = apply_filters( 'icon_dir', ABSPATH_REAL . WPINC . '/images/media' );
 
 			/**
 			 * Filters the icon directory URI.

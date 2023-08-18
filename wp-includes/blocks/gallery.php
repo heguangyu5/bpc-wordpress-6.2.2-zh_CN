@@ -43,7 +43,7 @@ add_filter( 'render_block_data', 'block_core_gallery_data_id_backcompatibility' 
  * @param string $content Content of the block being rendered.
  * @return string The content of the block being rendered.
  */
-function block_core_gallery_render( $attributes, $content ) {
+function block_core_gallery_render( $attributes, $content, $arg3 = null ) {
 	$gap = _wp_array_get( $attributes, array( 'style', 'spacing', 'blockGap' ) );
 	// Skip if gap value contains unsupported characters.
 	// Regex for CSS value borrowed from `safecss_filter_attr`, and used here

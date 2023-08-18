@@ -13,7 +13,7 @@
  * @param  string $content    The block content.
  * @return string Returns the block content with the data-id attribute added.
  */
-function render_block_core_image( $attributes, $content ) {
+function render_block_core_image( $attributes, $content, $arg3 = null ) {
 	if ( isset( $attributes['data-id'] ) ) {
 		// Add the data-id="$id" attribute to the img element
 		// to provide backwards compatibility for the Gallery Block,

@@ -418,7 +418,7 @@ function post_submit_meta_box( $post, $args = array() ) {
  *
  * @param WP_Post $post Current post object.
  */
-function attachment_submit_meta_box( $post ) {
+function attachment_submit_meta_box( $post, $arg2 = null ) {
 	?>
 <div class="submitbox" id="submitpost">
 
