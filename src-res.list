@@ -216,6 +216,7 @@ wp-includes/js/plupload/handlers.min.js
 wp-includes/js/media-grid.min.js
 wp-admin/js/media.min.js
 wp-admin/js/comment.min.js
+wp-admin/js/privacy-tools.min.js
 # image
 wp-admin/images/wordpress-logo.svg
 wp-admin/images/dashboard-background.svg
