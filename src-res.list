@@ -167,6 +167,30 @@ wp-includes/js/media-grid.min.js
 wp-admin/js/media.min.js
 wp-admin/js/comment.min.js
 wp-admin/js/privacy-tools.min.js
+wp-includes/js/comment-reply.min.js
+wp-includes/js/tinymce/themes/modern/theme.min.js
+wp-includes/js/tinymce/plugins/charmap/plugin.min.js
+wp-includes/js/tinymce/plugins/colorpicker/plugin.min.js
+wp-includes/js/tinymce/plugins/compat3x/plugin.min.js
+wp-includes/js/tinymce/plugins/directionality/plugin.min.js
+wp-includes/js/tinymce/plugins/fullscreen/plugin.min.js
+wp-includes/js/tinymce/plugins/hr/plugin.min.js
+wp-includes/js/tinymce/plugins/image/plugin.min.js
+wp-includes/js/tinymce/plugins/link/plugin.min.js
+wp-includes/js/tinymce/plugins/lists/plugin.min.js
+wp-includes/js/tinymce/plugins/media/plugin.min.js
+wp-includes/js/tinymce/plugins/paste/plugin.min.js
+wp-includes/js/tinymce/plugins/tabfocus/plugin.min.js
+wp-includes/js/tinymce/plugins/textcolor/plugin.min.js
+wp-includes/js/tinymce/plugins/wordpress/plugin.min.js
+wp-includes/js/tinymce/plugins/wpautoresize/plugin.min.js
+wp-includes/js/tinymce/plugins/wpdialogs/plugin.min.js
+wp-includes/js/tinymce/plugins/wpeditimage/plugin.min.js
+wp-includes/js/tinymce/plugins/wpemoji/plugin.min.js
+wp-includes/js/tinymce/plugins/wpgallery/plugin.min.js
+wp-includes/js/tinymce/plugins/wplink/plugin.min.js
+wp-includes/js/tinymce/plugins/wptextpattern/plugin.min.js
+wp-includes/js/tinymce/plugins/wpview/plugin.min.js
 # image
 wp-admin/images/wordpress-logo.svg
 wp-admin/images/dashboard-background.svg
@@ -757,3 +781,5 @@ wp-includes/blocks/categories/editor-rtl.min.css
 wp-includes/blocks/categories/editor.min.css
 wp-includes/blocks/categories/editor.css
 wp-includes/blocks/categories/style.min.css
+wp-includes/js/tinymce/skins/lightgray/content.inline.min.css
+wp-includes/js/tinymce/skins/lightgray/skin.min.css
