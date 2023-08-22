@@ -51,7 +51,7 @@ function render_block_core_comment_edit_link( $attributes, $content, $block ) {
  */
 function register_block_core_comment_edit_link() {
 	register_block_type_from_metadata(
-		__DIR__ . '/comment-edit-link',
+		ABSPATH . WPINC . '/blocks/comment-edit-link',
 		array(
 			'render_callback' => 'render_block_core_comment_edit_link',
 		)

@@ -12,7 +12,7 @@
  */
 function register_block_core_pattern() {
 	register_block_type_from_metadata(
-		__DIR__ . '/pattern',
+		ABSPATH . WPINC . '/blocks/pattern',
 		array(
 			'render_callback' => 'render_block_core_pattern',
 		)
@@ -26,7 +26,7 @@ function register_block_core_pattern() {
  *
  * @return string Returns the output of the pattern.
  */
-function render_block_core_pattern( $attributes ) {
+function render_block_core_pattern( $attributes, $arg2 = null, $arg3 = null ) {
 	if ( empty( $attributes['slug'] ) ) {
 		return '';
 	}

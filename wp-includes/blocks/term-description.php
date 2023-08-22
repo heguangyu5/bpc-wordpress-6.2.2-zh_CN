@@ -12,7 +12,7 @@
  *
  * @return string Returns the description of the current taxonomy term, if available
  */
-function render_block_core_term_description( $attributes ) {
+function render_block_core_term_description( $attributes, $arg2 = null, $arg3 = null ) {
 	$term_description = '';
 
 	if ( is_category() || is_tag() || is_tax() ) {
@@ -40,7 +40,7 @@ function render_block_core_term_description( $attributes ) {
  */
 function register_block_core_term_description() {
 	register_block_type_from_metadata(
-		__DIR__ . '/term-description',
+		ABSPATH . WPINC . '/blocks/term-description',
 		array(
 			'render_callback' => 'render_block_core_term_description',
 		)

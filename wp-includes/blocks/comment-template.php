@@ -121,7 +121,7 @@ function render_block_core_comment_template( $attributes, $content, $block ) {
  */
 function register_block_core_comment_template() {
 	register_block_type_from_metadata(
-		__DIR__ . '/comment-template',
+		ABSPATH . WPINC . '/blocks/comment-template',
 		array(
 			'render_callback'   => 'render_block_core_comment_template',
 			'skip_inner_blocks' => true,

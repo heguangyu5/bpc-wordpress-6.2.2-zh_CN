@@ -13,7 +13,7 @@
  *
  * @return string Returns the wrapper for the Comments pagination.
  */
-function render_block_core_comments_pagination( $attributes, $content ) {
+function render_block_core_comments_pagination( $attributes, $content, $arg3 = null ) {
 	if ( empty( trim( $content ) ) ) {
 		return '';
 	}
@@ -37,7 +37,7 @@ function render_block_core_comments_pagination( $attributes, $content ) {
  */
 function register_block_core_comments_pagination() {
 	register_block_type_from_metadata(
-		__DIR__ . '/comments-pagination',
+		ABSPATH . WPINC . '/blocks/comments-pagination',
 		array(
 			'render_callback' => 'render_block_core_comments_pagination',
 		)

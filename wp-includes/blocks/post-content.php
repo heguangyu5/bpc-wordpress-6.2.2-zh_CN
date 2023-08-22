@@ -72,7 +72,7 @@ function render_block_core_post_content( $attributes, $content, $block ) {
  */
 function register_block_core_post_content() {
 	register_block_type_from_metadata(
-		__DIR__ . '/post-content',
+		ABSPATH . WPINC . '/blocks/post-content',
 		array(
 			'render_callback' => 'render_block_core_post_content',
 		)

@@ -203,7 +203,7 @@ function get_block_core_post_featured_image_border_attributes( $attributes ) {
  */
 function register_block_core_post_featured_image() {
 	register_block_type_from_metadata(
-		__DIR__ . '/post-featured-image',
+		ABSPATH . WPINC . '/blocks/post-featured-image',
 		array(
 			'render_callback' => 'render_block_core_post_featured_image',
 		)

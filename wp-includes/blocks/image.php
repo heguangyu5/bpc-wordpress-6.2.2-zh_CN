@@ -33,7 +33,7 @@ function render_block_core_image( $attributes, $content, $arg3 = null ) {
  */
 function register_block_core_image() {
 	register_block_type_from_metadata(
-		__DIR__ . '/image',
+		ABSPATH . WPINC . '/blocks/image',
 		array(
 			'render_callback' => 'render_block_core_image',
 		)

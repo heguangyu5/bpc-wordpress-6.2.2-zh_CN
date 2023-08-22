@@ -12,7 +12,7 @@
  *
  * @return string Return the post comments title.
  */
-function render_block_core_comments_title( $attributes ) {
+function render_block_core_comments_title( $attributes, $arg2 = null, $arg3 = null ) {
 
 	if ( post_password_required() ) {
 		return;
@@ -87,7 +87,7 @@ function render_block_core_comments_title( $attributes ) {
  */
 function register_block_core_comments_title() {
 	register_block_type_from_metadata(
-		__DIR__ . '/comments-title',
+		ABSPATH . WPINC . '/blocks/comments-title',
 		array(
 			'render_callback' => 'render_block_core_comments_title',
 		)

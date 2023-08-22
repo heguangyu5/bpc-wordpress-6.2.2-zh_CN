@@ -12,7 +12,7 @@
  *
  * @return string The render.
  */
-function render_block_core_site_logo( $attributes ) {
+function render_block_core_site_logo( $attributes, $arg2 = null, $arg3 = null ) {
 	$adjust_width_height_filter = function ( $image ) use ( $attributes ) {
 		if ( empty( $attributes['width'] ) || empty( $image ) || ! $image[1] || ! $image[2] ) {
 			return $image;
@@ -94,7 +94,7 @@ add_action( 'rest_api_init', 'register_block_core_site_icon_setting', 10, 0 );
  */
 function register_block_core_site_logo() {
 	register_block_type_from_metadata(
-		__DIR__ . '/site-logo',
+		ABSPATH . WPINC . '/blocks/site-logo',
 		array(
 			'render_callback' => 'render_block_core_site_logo',
 		)

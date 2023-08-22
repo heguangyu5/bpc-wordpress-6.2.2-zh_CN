@@ -12,7 +12,7 @@
  *
  * @return string Returns the tag cloud for selected taxonomy.
  */
-function render_block_core_tag_cloud( $attributes ) {
+function render_block_core_tag_cloud( $attributes, $arg2 = null, $arg3 = null ) {
 	$smallest_font_size = $attributes['smallestFontSize'];
 	$unit               = ( preg_match( '/^[0-9.]+(?P<unit>[a-z%]+)$/i', $smallest_font_size, $m ) ? $m['unit'] : 'pt' );
 
@@ -45,7 +45,7 @@ function render_block_core_tag_cloud( $attributes ) {
  */
 function register_block_core_tag_cloud() {
 	register_block_type_from_metadata(
-		__DIR__ . '/tag-cloud',
+		ABSPATH . WPINC . '/blocks/tag-cloud',
 		array(
 			'render_callback' => 'render_block_core_tag_cloud',
 		)

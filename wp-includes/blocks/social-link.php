@@ -75,7 +75,7 @@ function render_block_core_social_link( $attributes, $content, $block ) {
  */
 function register_block_core_social_link() {
 	register_block_type_from_metadata(
-		__DIR__ . '/social-link',
+		ABSPATH . WPINC . '/blocks/social-link',
 		array(
 			'render_callback' => 'render_block_core_social_link',
 		)

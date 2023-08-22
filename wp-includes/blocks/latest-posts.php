@@ -33,7 +33,7 @@ function block_core_latest_posts_get_excerpt_length() {
  *
  * @return string Returns the post content with latest posts added.
  */
-function render_block_core_latest_posts( $attributes ) {
+function render_block_core_latest_posts( $attributes, $arg2 = null, $arg3 = null ) {
 	global $post, $block_core_latest_posts_excerpt_length;
 
 	$args = array(
@@ -204,7 +204,7 @@ function render_block_core_latest_posts( $attributes ) {
  */
 function register_block_core_latest_posts() {
 	register_block_type_from_metadata(
-		__DIR__ . '/latest-posts',
+		ABSPATH . WPINC . '/blocks/latest-posts',
 		array(
 			'render_callback' => 'render_block_core_latest_posts',
 		)

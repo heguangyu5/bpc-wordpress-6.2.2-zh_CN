@@ -1,4 +1,4 @@
-BPC_BIN = bpc_s
+BPC_BIN = bpc
 
 libwordpress.so:
 	./bpc-prepare.sh src.list
@@ -22,7 +22,7 @@ wordpress-althttpd:
 		-d max_execution_time=60                    \
 		-d upload_max_filesize=80M                  \
 		-d post_max_size=100M                       \
-		-d memory_limit=512M                        \
+		-d memory_limit=1024M                       \
 		-d display_errors=on                        \
 		-d log_errors=on                            \
 		-d date.timezone=Asia/Shanghai              \
@@ -54,6 +54,7 @@ libwordpresstmp:
 		-c bpc.conf \
 		-l wordpresstmp \
 		-u wordpress    \
+		--copt -Wno-trigraphs \
 		--input-file src-tmp.list
 
 install-libwordpresstmp:

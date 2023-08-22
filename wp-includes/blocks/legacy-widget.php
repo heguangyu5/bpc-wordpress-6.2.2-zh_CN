@@ -12,7 +12,7 @@
  *
  * @return string Rendered block.
  */
-function render_block_core_legacy_widget( $attributes ) {
+function render_block_core_legacy_widget( $attributes, $arg2 = null, $arg3 = null ) {
 	global $wp_widget_factory;
 
 	if ( isset( $attributes['id'] ) ) {
@@ -57,7 +57,7 @@ function render_block_core_legacy_widget( $attributes ) {
  */
 function register_block_core_legacy_widget() {
 	register_block_type_from_metadata(
-		__DIR__ . '/legacy-widget',
+		ABSPATH . WPINC . '/blocks/legacy-widget',
 		array(
 			'render_callback' => 'render_block_core_legacy_widget',
 		)

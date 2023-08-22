@@ -370,15 +370,31 @@ function _register_theme_block_patterns() {
 	$themes[] = wp_get_theme( $template );
 
 	foreach ( $themes as $theme ) {
-		$dirpath = $theme->get_stylesheet_directory() . '/patterns/';
-		if ( ! is_dir( $dirpath ) || ! is_readable( $dirpath ) ) {
-			continue;
+		//$dirpath = $theme->get_stylesheet_directory() . '/patterns/';
+		//if ( ! is_dir( $dirpath ) || ! is_readable( $dirpath ) ) {
+		//	continue;
+		//}
+		//if ( file_exists( $dirpath ) ) {
+			//$files = glob( $dirpath . '*.php' );
+		$dir = $theme->get_stylesheet_directory();
+		$listFile = $dir . '/patterns-files.php';
+		if (defined('__BPC__')) {
+		    $files = include_silent($listFile);
+		} else {
+		    if (file_exists($listFile)) {
+                $files = include $listFile;
+            } else {
+                $files = false;
+            }
 		}
-		if ( file_exists( $dirpath ) ) {
-			$files = glob( $dirpath . '*.php' );
 			if ( $files ) {
 				foreach ( $files as $file ) {
-					$pattern_data = get_file_data( $file, $default_headers );
+				    $file = $dir . '/patterns/' . $file;
+				    if (defined('__BPC__')) {
+				        $pattern_data = get_file_data( $file . '.src', $default_headers, '', 'bpcResource' );
+				    } else {
+				        $pattern_data = get_file_data( $file . '.src', $default_headers);
+				    }
 
 					if ( empty( $pattern_data['slug'] ) ) {
 						_doing_it_wrong(
@@ -480,7 +496,7 @@ function _register_theme_block_patterns() {
 					register_block_pattern( $pattern_data['slug'], $pattern_data );
 				}
 			}
-		}
+		//}
 	}
 }
 add_action( 'init', '_register_theme_block_patterns', 10, 0 );

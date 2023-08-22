@@ -91,7 +91,7 @@ function render_block_core_comments( $attributes, $content, $block ) {
  */
 function register_block_core_comments() {
 	register_block_type_from_metadata(
-		__DIR__ . '/comments',
+		ABSPATH . WPINC . '/blocks/comments',
 		array(
 			'render_callback'   => 'render_block_core_comments',
 			'skip_inner_blocks' => true,

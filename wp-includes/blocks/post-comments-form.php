@@ -57,7 +57,7 @@ function render_block_core_post_comments_form( $attributes, $content, $block ) {
  */
 function register_block_core_post_comments_form() {
 	register_block_type_from_metadata(
-		__DIR__ . '/post-comments-form',
+		ABSPATH . WPINC . '/blocks/post-comments-form',
 		array(
 			'render_callback' => 'render_block_core_post_comments_form',
 		)

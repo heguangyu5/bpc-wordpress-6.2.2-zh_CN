@@ -54,7 +54,7 @@ function render_block_core_post_date( $attributes, $content, $block ) {
  */
 function register_block_core_post_date() {
 	register_block_type_from_metadata(
-		__DIR__ . '/post-date',
+		ABSPATH . WPINC . '/blocks/post-date',
 		array(
 			'render_callback' => 'render_block_core_post_date',
 		)

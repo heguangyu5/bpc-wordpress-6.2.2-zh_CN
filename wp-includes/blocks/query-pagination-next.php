@@ -31,7 +31,7 @@ function render_block_core_query_pagination_next( $attributes, $content, $block 
 
 	// Check if the pagination is for Query that inherits the global context.
 	if ( isset( $block->context['query']['inherit'] ) && $block->context['query']['inherit'] ) {
-		$filter_link_attributes = function() use ( $wrapper_attributes ) {
+		$filter_link_attributes = function($arg = null) use ( $wrapper_attributes ) {
 			return $wrapper_attributes;
 		};
 		add_filter( 'next_posts_link_attributes', $filter_link_attributes );
@@ -64,7 +64,7 @@ function render_block_core_query_pagination_next( $attributes, $content, $block 
  */
 function register_block_core_query_pagination_next() {
 	register_block_type_from_metadata(
-		__DIR__ . '/query-pagination-next',
+		ABSPATH . WPINC . '/blocks/query-pagination-next',
 		array(
 			'render_callback' => 'render_block_core_query_pagination_next',
 		)

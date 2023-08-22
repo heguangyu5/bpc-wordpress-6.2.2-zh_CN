@@ -137,7 +137,7 @@ function render_block_core_avatar( $attributes, $content, $block ) {
  */
 function register_block_core_avatar() {
 	register_block_type_from_metadata(
-		__DIR__ . '/avatar',
+		ABSPATH . WPINC . '/blocks/avatar',
 		array(
 			'render_callback' => 'render_block_core_avatar',
 		)

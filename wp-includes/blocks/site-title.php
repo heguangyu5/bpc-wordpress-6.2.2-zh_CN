@@ -12,7 +12,7 @@
  *
  * @return string The render.
  */
-function render_block_core_site_title( $attributes ) {
+function render_block_core_site_title( $attributes, $arg2 = null, $arg3 = null ) {
 	$site_title = get_bloginfo( 'name' );
 	if ( ! $site_title ) {
 		return;
@@ -56,7 +56,7 @@ function render_block_core_site_title( $attributes ) {
  */
 function register_block_core_site_title() {
 	register_block_type_from_metadata(
-		__DIR__ . '/site-title',
+		ABSPATH . WPINC . '/blocks/site-title',
 		array(
 			'render_callback' => 'render_block_core_site_title',
 		)

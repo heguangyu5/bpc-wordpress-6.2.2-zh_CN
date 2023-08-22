@@ -12,7 +12,7 @@
  *
  * @return string Rendered HTML of the referenced block.
  */
-function render_block_core_block( $attributes ) {
+function render_block_core_block( $attributes, $arg2 = null, $arg3 = null ) {
 	static $seen_refs = array();
 
 	if ( empty( $attributes['ref'] ) ) {
@@ -56,7 +56,7 @@ function render_block_core_block( $attributes ) {
  */
 function register_block_core_block() {
 	register_block_type_from_metadata(
-		__DIR__ . '/block',
+		ABSPATH . WPINC . '/blocks/block',
 		array(
 			'render_callback' => 'render_block_core_block',
 		)

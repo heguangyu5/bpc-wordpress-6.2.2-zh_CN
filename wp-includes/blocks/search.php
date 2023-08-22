@@ -12,7 +12,7 @@
  *
  * @return string The search block markup.
  */
-function render_block_core_search( $attributes ) {
+function render_block_core_search( $attributes, $arg2 = null, $arg3 = null ) {
 	// Older versions of the Search block defaulted the label and buttonText
 	// attributes to `__( 'Search' )` meaning that many posts contain `<!--
 	// wp:search /-->`. Support these by defaulting an undefined label and
@@ -155,7 +155,7 @@ function render_block_core_search( $attributes ) {
  */
 function register_block_core_search() {
 	register_block_type_from_metadata(
-		__DIR__ . '/search',
+		ABSPATH . WPINC . '/blocks/search',
 		array(
 			'render_callback' => 'render_block_core_search',
 		)

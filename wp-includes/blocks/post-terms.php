@@ -100,7 +100,7 @@ function register_block_core_post_terms() {
 	}
 
 	register_block_type_from_metadata(
-		__DIR__ . '/post-terms',
+		ABSPATH . WPINC . '/blocks/post-terms',
 		array(
 			'render_callback' => 'render_block_core_post_terms',
 			'variations'      => array_merge( $built_ins, $custom_variations ),

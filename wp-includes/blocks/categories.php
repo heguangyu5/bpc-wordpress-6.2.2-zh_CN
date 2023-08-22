@@ -12,7 +12,7 @@
  *
  * @return string Returns the categories list/dropdown markup.
  */
-function render_block_core_categories( $attributes ) {
+function render_block_core_categories( $attributes, $arg2 = null, $arg3 = null ) {
 	static $block_id = 0;
 	++$block_id;
 
@@ -92,7 +92,7 @@ function build_dropdown_script_block_core_categories( $dropdown_id ) {
  */
 function register_block_core_categories() {
 	register_block_type_from_metadata(
-		__DIR__ . '/categories',
+		ABSPATH . WPINC . '/blocks/categories',
 		array(
 			'render_callback' => 'render_block_core_categories',
 		)

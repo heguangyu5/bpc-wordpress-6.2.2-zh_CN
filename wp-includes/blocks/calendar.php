@@ -12,7 +12,7 @@
  *
  * @return string Returns the block content.
  */
-function render_block_core_calendar( $attributes ) {
+function render_block_core_calendar( $attributes, $arg2 = null, $arg3 = null ) {
 	global $monthnum, $year;
 
 	// Calendar shouldn't be rendered
@@ -83,7 +83,7 @@ function render_block_core_calendar( $attributes ) {
  */
 function register_block_core_calendar() {
 	register_block_type_from_metadata(
-		__DIR__ . '/calendar',
+		ABSPATH . WPINC . '/blocks/calendar',
 		array(
 			'render_callback' => 'render_block_core_calendar',
 		)

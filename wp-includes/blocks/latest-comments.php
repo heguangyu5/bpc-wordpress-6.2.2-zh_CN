@@ -40,7 +40,7 @@ function wp_latest_comments_draft_or_post_title( $post = 0 ) {
  *
  * @return string Returns the post content with latest comments added.
  */
-function render_block_core_latest_comments( $attributes = array() ) {
+function render_block_core_latest_comments( $attributes = array(), $arg2 = null, $arg3 = null ) {
 	$comments = get_comments(
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-recent-comments.php */
 		apply_filters(
@@ -148,7 +148,7 @@ function render_block_core_latest_comments( $attributes = array() ) {
  */
 function register_block_core_latest_comments() {
 	register_block_type_from_metadata(
-		__DIR__ . '/latest-comments',
+		ABSPATH . WPINC . '/blocks/latest-comments',
 		array(
 			'render_callback' => 'render_block_core_latest_comments',
 		)

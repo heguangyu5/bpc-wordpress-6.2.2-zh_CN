@@ -109,9 +109,13 @@ function register_block_script_handle( $metadata, $field_name, $index = 0 ) {
 
 	$script_asset_raw_path = dirname( $metadata['file'] ) . '/' . substr_replace( $script_path, '.asset.php', - strlen( '.js' ) );
 	$script_handle         = generate_block_asset_handle( $metadata['name'], $field_name, $index );
+	if (defined('__BPC__')) {
+	    $script_asset_path = include_file_exists($script_asset_raw_path) ? $script_asset_raw_path : '';
+	} else {
 	$script_asset_path     = wp_normalize_path(
 		realpath( $script_asset_raw_path )
 	);
+    }
 
 	if ( empty( $script_asset_path ) ) {
 		_doing_it_wrong(
@@ -131,11 +135,22 @@ function register_block_script_handle( $metadata, $field_name, $index = 0 ) {
 	// Path needs to be normalized to work in Windows env.
 	static $wpinc_path_norm = '';
 	if ( ! $wpinc_path_norm ) {
+        if (defined('__BPC__')) {
+            $wpinc_path_norm = ABSPATH . WPINC;
+        } else {
 		$wpinc_path_norm = wp_normalize_path( realpath( ABSPATH . WPINC ) );
+        }
 	}
 
 	$theme_path_norm  = wp_normalize_path( get_theme_file_path() );
+    if (defined('__BPC__')) {
+        $script_path_norm = dirname( $metadata['file'] ) . '/' . $script_path;
+        if (!include_file_exists($script_path_norm)) {
+            $script_path_norm = '';
+        }
+    } else {
 	$script_path_norm = wp_normalize_path( realpath( dirname( $metadata['file'] ) . '/' . $script_path ) );
+    }
 
 	$is_core_block  = isset( $metadata['file'] ) && 0 === strpos( $metadata['file'], $wpinc_path_norm );
 	$is_theme_block = 0 === strpos( $script_path_norm, $theme_path_norm );
@@ -226,7 +241,14 @@ function register_block_style_handle( $metadata, $field_name, $index = 0 ) {
 		$style_path = "style$suffix.css";
 	}
 
+    if (defined('__BPC__')) {
+        $style_path_norm = dirname( $metadata['file'] ) . '/' . $style_path;
+        if (!include_file_exists($style_path_norm)) {
+            $style_path_norm = '';
+        }
+    } else {
 	$style_path_norm = wp_normalize_path( realpath( dirname( $metadata['file'] ) . '/' . $style_path ) );
+    }
 	$has_style_file  = '' !== $style_path_norm;
 
 	if ( $has_style_file ) {
@@ -270,7 +292,13 @@ function register_block_style_handle( $metadata, $field_name, $index = 0 ) {
 			$rtl_file = str_replace( '.css', '-rtl.css', $style_path_norm );
 		}
 
-		if ( is_rtl() && file_exists( $rtl_file ) ) {
+        if (defined('__BPC__')) {
+            $fileExistsFunc = 'include_file_exists';
+        } else {
+            $fileExistsFunc = 'file_exists';
+        }
+
+		if ( is_rtl() && $fileExistsFunc( $rtl_file ) ) {
 			wp_style_add_data( $style_handle, 'rtl', 'replace' );
 			wp_style_add_data( $style_handle, 'suffix', $suffix );
 			wp_style_add_data( $style_handle, 'path', $rtl_file );
@@ -479,12 +507,19 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
 	}
 
 	if ( ! empty( $metadata['render'] ) ) {
+        if (defined('__BPC__')) {
+            $template_path = dirname( $metadata['file'] ) . '/' . remove_block_asset_path_prefix( $metadata['render'] );
+            if (!include_file_exists($template_path)) {
+                $template_path = '';
+            }
+        } else {
 		$template_path = wp_normalize_path(
 			realpath(
 				dirname( $metadata['file'] ) . '/' .
 				remove_block_asset_path_prefix( $metadata['render'] )
 			)
 		);
+        }
 		if ( $template_path ) {
 			/**
 			 * Renders the block on the server.
@@ -547,9 +582,15 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
  * @return WP_Block_Type|false The registered block type on success, or false on failure.
  */
 function register_block_type( $block_type, $args = array() ) {
+    if (defined('__BPC__')) {
+        if ( is_string( $block_type ) && include_file_exists( $block_type . '/block.json' ) ) {
+            return register_block_type_from_metadata( $block_type, $args );
+        }
+    } else {
 	if ( is_string( $block_type ) && file_exists( $block_type ) ) {
 		return register_block_type_from_metadata( $block_type, $args );
 	}
+    }
 
 	return WP_Block_Type_Registry::get_instance()->register( $block_type, $args );
 }

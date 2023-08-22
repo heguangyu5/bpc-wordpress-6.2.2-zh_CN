@@ -41,12 +41,25 @@ function get_block_theme_folders( $theme_stylesheet = null ) {
 	$root_dir   = get_theme_root( $theme_name );
 	$theme_dir  = "$root_dir/$theme_name";
 
+    if (defined('__BPC__')) {
+        $blockTemplatesFiles = include_silent($theme_dir . '/block-templates-files.php');
+        if (!$blockTemplatesFiles) {
+            die($theme_dir . '/block-templates-files.php required for BPC');
+        }
+        if (isset($blockTemplatesFiles['block-templates']) || isset($blockTemplatesFiles['block-template-parts'])) {
+            return array(
+                'wp_template'      => 'block-templates',
+                'wp_template_part' => 'block-template-parts',
+            );
+        }
+    } else {
 	if ( file_exists( $theme_dir . '/block-templates' ) || file_exists( $theme_dir . '/block-template-parts' ) ) {
 		return array(
 			'wp_template'      => 'block-templates',
 			'wp_template_part' => 'block-template-parts',
 		);
 	}
+    }
 
 	return array(
 		'wp_template'      => 'templates',
@@ -231,6 +244,15 @@ function _filter_block_template_part_area( $type ) {
  */
 function _get_block_templates_paths( $base_directory ) {
 	$path_list = array();
+    if (defined('__BPC__')) {
+        $blockTemplatesFiles = include dirname($base_directory) . '/block-templates-files.php';
+        $dir = basename($base_directory);
+        if (isset($blockTemplatesFiles[$dir])) {
+            foreach ($blockTemplatesFiles[$dir] as $file) {
+                $path_list[] = $base_directory . '/' . $file;
+            }
+        }
+    } else {
 	if ( file_exists( $base_directory ) ) {
 		$nested_files      = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $base_directory ) );
 		$nested_html_files = new RegexIterator( $nested_files, '/^.+\.html$/i', RecursiveRegexIterator::GET_MATCH );
@@ -238,6 +260,7 @@ function _get_block_templates_paths( $base_directory ) {
 			$path_list[] = $path;
 		}
 	}
+    }
 	return $path_list;
 }
 
@@ -260,10 +283,15 @@ function _get_block_template_file( $template_type, $slug ) {
 		get_stylesheet() => get_stylesheet_directory(),
 		get_template()   => get_template_directory(),
 	);
+	if (defined('__BPC__')) {
+	    $fileExistsFunc = 'include_file_exists';
+	} else {
+	    $fileExistsFunc = 'file_exists';
+	}
 	foreach ( $themes as $theme_slug => $theme_dir ) {
 		$template_base_paths = get_block_theme_folders( $theme_slug );
 		$file_path           = $theme_dir . '/' . $template_base_paths[ $template_type ] . '/' . $slug . '.html';
-		if ( file_exists( $file_path ) ) {
+		if ( $fileExistsFunc( $file_path ) ) {
 			$new_template_item = array(
 				'slug'  => $slug,
 				'path'  => $file_path,
@@ -499,7 +527,11 @@ function _remove_theme_attribute_in_block_template_content( $template_content ) 
  */
 function _build_block_template_result_from_file( $template_file, $template_type ) {
 	$default_template_types = get_default_block_template_types();
+	if (defined('__BPC__')) {
+	    $template_content = resource_get_contents( $template_file['path'] );
+	} else {
 	$template_content       = file_get_contents( $template_file['path'] );
+	}
 	$theme                  = get_stylesheet();
 
 	$template                 = new WP_Block_Template();

@@ -39,7 +39,7 @@ function render_block_core_post_author_biography( $attributes, $content, $block 
  */
 function register_block_core_post_author_biography() {
 	register_block_type_from_metadata(
-		__DIR__ . '/post-author-biography',
+		ABSPATH . WPINC . '/blocks/post-author-biography',
 		array(
 			'render_callback' => 'render_block_core_post_author_biography',
 		)

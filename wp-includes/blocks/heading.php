@@ -19,7 +19,7 @@
  *
  * @return string The content of the block being rendered.
  */
-function block_core_heading_render( $attributes, $content ) {
+function block_core_heading_render( $attributes, $content, $arg3 = null ) {
 	if ( ! $content ) {
 		return $content;
 	}
@@ -42,7 +42,7 @@ function block_core_heading_render( $attributes, $content ) {
  */
 function register_block_core_heading() {
 	register_block_type_from_metadata(
-		__DIR__ . '/heading',
+		ABSPATH . WPINC . '/blocks/heading',
 		array(
 			'render_callback' => 'block_core_heading_render',
 		)

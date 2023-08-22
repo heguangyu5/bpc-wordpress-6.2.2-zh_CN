@@ -58,7 +58,7 @@ function render_block_core_post_title( $attributes, $content, $block ) {
  */
 function register_block_core_post_title() {
 	register_block_type_from_metadata(
-		__DIR__ . '/post-title',
+		ABSPATH . WPINC . '/blocks/post-title',
 		array(
 			'render_callback' => 'render_block_core_post_title',
 		)

@@ -315,6 +315,8 @@ wp-includes/blocks/comments-pagination-previous.php
 wp-includes/blocks/comments-title.php
 wp-includes/blocks/cover.php
 wp-includes/blocks/file.php
+wp-includes/blocks/file/view.asset.php
+wp-includes/blocks/file/view.min.asset.php
 wp-includes/blocks/gallery.php
 wp-includes/blocks/heading.php
 wp-includes/blocks/home-link.php
@@ -323,6 +325,10 @@ wp-includes/blocks/latest-comments.php
 wp-includes/blocks/latest-posts.php
 wp-includes/blocks/loginout.php
 wp-includes/blocks/navigation.php
+wp-includes/blocks/navigation/view-modal.min.asset.php
+wp-includes/blocks/navigation/view-modal.asset.php
+wp-includes/blocks/navigation/view.asset.php
+wp-includes/blocks/navigation/view.min.asset.php
 wp-includes/blocks/navigation-link.php
 wp-includes/blocks/navigation-submenu.php
 wp-includes/blocks/page-list.php
@@ -475,14 +481,6 @@ wp-admin/includes/class-custom-image-header.php
 wp-admin/includes/class-custom-background.php
 #wp-login.php
 wp-login.php
-wp-content/themes/twentytwentythree/patterns/call-to-action.php
-wp-content/themes/twentytwentythree/patterns/footer-default.php
-wp-content/themes/twentytwentythree/patterns/hidden-404.php
-wp-content/themes/twentytwentythree/patterns/hidden-comments.php
-wp-content/themes/twentytwentythree/patterns/hidden-no-results.php
-wp-content/themes/twentytwentythree/patterns/post-meta.php
-wp-content/themes/twentytwentythree/style.css
-wp-content/themes/twentytwentythree/templates/index.html
 #wp-admin/index.php
 wp-admin/index.php
 wp-admin/admin.php

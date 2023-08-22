@@ -72,7 +72,7 @@ function render_block_core_comment_content( $attributes, $content, $block ) {
  */
 function register_block_core_comment_content() {
 	register_block_type_from_metadata(
-		__DIR__ . '/comment-content',
+		ABSPATH . WPINC . '/blocks/comment-content',
 		array(
 			'render_callback' => 'render_block_core_comment_content',
 		)

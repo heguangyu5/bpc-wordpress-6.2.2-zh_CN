@@ -1216,7 +1216,7 @@ function wp_admin_bar_header() {
  *
  * @since 3.1.0
  */
-function _admin_bar_bump_cb() {
+function _admin_bar_bump_cb($arg = null) {
 	$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
 	?>
 <style<?php echo $type_attr; ?> media="screen">

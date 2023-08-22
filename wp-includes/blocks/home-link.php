@@ -144,7 +144,7 @@ function render_block_core_home_link( $attributes, $content, $block ) {
  */
 function register_block_core_home_link() {
 	register_block_type_from_metadata(
-		__DIR__ . '/home-link',
+		ABSPATH . WPINC . '/blocks/home-link',
 		array(
 			'render_callback' => 'render_block_core_home_link',
 		)

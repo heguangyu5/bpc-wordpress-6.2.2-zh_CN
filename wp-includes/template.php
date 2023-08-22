@@ -698,17 +698,22 @@ function get_attachment_template() {
  */
 function locate_template( $template_names, $load = false, $load_once = true, $args = array() ) {
 	$located = '';
+	if (defined('__BPC__')) {
+	    $fileExistsFunc = 'include_file_exists';
+	} else {
+	    $fileExistsFunc = 'file_exists';
+	}
 	foreach ( (array) $template_names as $template_name ) {
 		if ( ! $template_name ) {
 			continue;
 		}
-		if ( file_exists( STYLESHEETPATH . '/' . $template_name ) ) {
+		if ( $fileExistsFunc( STYLESHEETPATH . '/' . $template_name ) ) {
 			$located = STYLESHEETPATH . '/' . $template_name;
 			break;
-		} elseif ( file_exists( TEMPLATEPATH . '/' . $template_name ) ) {
+		} elseif ( $fileExistsFunc( TEMPLATEPATH . '/' . $template_name ) ) {
 			$located = TEMPLATEPATH . '/' . $template_name;
 			break;
-		} elseif ( file_exists( ABSPATH . WPINC . '/theme-compat/' . $template_name ) ) {
+		} elseif ( $fileExistsFunc( ABSPATH . WPINC . '/theme-compat/' . $template_name ) ) {
 			$located = ABSPATH . WPINC . '/theme-compat/' . $template_name;
 			break;
 		}

@@ -2436,8 +2436,7 @@ function wp_filter_out_block_nodes( $nodes ) {
 		$nodes,
 		function( $node ) {
 			return ! in_array( 'blocks', $node['path'], true );
-		},
-		ARRAY_FILTER_USE_BOTH
+		}
 	);
 }
 

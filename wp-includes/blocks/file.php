@@ -13,7 +13,7 @@
  *
  * @return string Returns the block content.
  */
-function render_block_core_file( $attributes, $content ) {
+function render_block_core_file( $attributes, $content, $arg3 = null ) {
 	$should_load_view_script = ! empty( $attributes['displayPreview'] ) && ! wp_script_is( 'wp-block-file-view' );
 	if ( $should_load_view_script ) {
 		wp_enqueue_script( 'wp-block-file-view' );
@@ -49,7 +49,7 @@ function render_block_core_file( $attributes, $content ) {
  */
 function register_block_core_file() {
 	register_block_type_from_metadata(
-		__DIR__ . '/file',
+		ABSPATH . WPINC . '/blocks/file',
 		array(
 			'render_callback' => 'render_block_core_file',
 		)

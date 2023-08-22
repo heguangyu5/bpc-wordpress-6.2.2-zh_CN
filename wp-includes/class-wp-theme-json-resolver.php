@@ -636,7 +636,13 @@ class WP_Theme_JSON_Resolver {
 		$path      = $template ? get_template_directory() : get_stylesheet_directory();
 		$candidate = $path . '/' . $file_name;
 
-		return is_readable( $candidate ) ? $candidate : '';
+        if (defined('__BPC__')) {
+            $readableFunc = 'include_file_exists';
+        } else {
+            $readableFunc = 'is_readable';
+        }
+
+		return $readableFunc( $candidate ) ? $candidate : '';
 	}
 
 	/**

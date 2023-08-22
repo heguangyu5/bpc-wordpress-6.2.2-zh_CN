@@ -53,7 +53,7 @@ function render_block_core_comments_pagination_numbers( $attributes, $content, $
  */
 function register_block_core_comments_pagination_numbers() {
 	register_block_type_from_metadata(
-		__DIR__ . '/comments-pagination-numbers',
+		ABSPATH . WPINC . '/blocks/comments-pagination-numbers',
 		array(
 			'render_callback' => 'render_block_core_comments_pagination_numbers',
 		)

@@ -50,7 +50,7 @@ function render_block_core_read_more( $attributes, $content, $block ) {
  */
 function register_block_core_read_more() {
 	register_block_type_from_metadata(
-		__DIR__ . '/read-more',
+		ABSPATH . WPINC . '/blocks/read-more',
 		array(
 			'render_callback' => 'render_block_core_read_more',
 		)
