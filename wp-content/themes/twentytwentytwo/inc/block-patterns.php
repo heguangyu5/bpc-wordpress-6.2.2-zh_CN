@@ -132,4 +132,4 @@ function twentytwentytwo_register_block_patterns() {
 		);
 	}
 }
-add_action( 'init', 'twentytwentytwo_register_block_patterns', 9 );
+add_action( 'init', 'twentytwentytwo_register_block_patterns', 9, 0 );

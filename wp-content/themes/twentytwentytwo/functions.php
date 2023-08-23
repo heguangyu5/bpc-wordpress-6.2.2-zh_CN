@@ -31,7 +31,7 @@ if ( ! function_exists( 'twentytwentytwo_support' ) ) :
 
 endif;
 
-add_action( 'after_setup_theme', 'twentytwentytwo_support' );
+add_action( 'after_setup_theme', 'twentytwentytwo_support', 10, 0 );
 
 if ( ! function_exists( 'twentytwentytwo_styles' ) ) :
 
@@ -61,7 +61,7 @@ if ( ! function_exists( 'twentytwentytwo_styles' ) ) :
 
 endif;
 
-add_action( 'wp_enqueue_scripts', 'twentytwentytwo_styles' );
+add_action( 'wp_enqueue_scripts', 'twentytwentytwo_styles', 10, 0 );
 
 // Add block patterns
 require get_template_directory() . '/inc/block-patterns.php';
