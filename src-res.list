@@ -168,6 +168,7 @@ wp-admin/js/media.min.js
 wp-admin/js/comment.min.js
 wp-admin/js/privacy-tools.min.js
 wp-includes/js/comment-reply.min.js
+wp-includes/js/tinymce/wp-tinymce.js
 wp-includes/js/tinymce/themes/modern/theme.min.js
 wp-includes/js/tinymce/plugins/charmap/plugin.min.js
 wp-includes/js/tinymce/plugins/colorpicker/plugin.min.js
