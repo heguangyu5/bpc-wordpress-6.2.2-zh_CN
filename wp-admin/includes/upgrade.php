@@ -546,6 +546,8 @@ if ( ! function_exists( 'wp_new_blog_notification' ) ) :
 	 *                           usually passed instead of the actual password.
 	 */
 	function wp_new_blog_notification( $blog_title, $blog_url, $user_id, $password ) {
+	    if (defined('__BPC__')) {
+	    } else {
 		$user      = new WP_User( $user_id );
 		$email     = $user->user_email;
 		$name      = $user->user_login;
@@ -610,6 +612,7 @@ https://wordpress.org/
 			$installed_email['message'],
 			$installed_email['headers']
 		);
+	    }
 	}
 endif;
 
