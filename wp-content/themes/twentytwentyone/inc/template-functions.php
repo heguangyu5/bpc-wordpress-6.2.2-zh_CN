@@ -50,7 +50,7 @@ function twenty_twenty_one_post_classes( $classes ) {
 
 	return $classes;
 }
-add_filter( 'post_class', 'twenty_twenty_one_post_classes', 10, 3 );
+add_filter( 'post_class', 'twenty_twenty_one_post_classes' );
 
 /**
  * Add a pingback url auto-discovery header for single posts, pages, or attachments.
@@ -64,7 +64,7 @@ function twenty_twenty_one_pingback_header() {
 		echo '<link rel="pingback" href="', esc_url( get_bloginfo( 'pingback_url' ) ), '">';
 	}
 }
-add_action( 'wp_head', 'twenty_twenty_one_pingback_header' );
+add_action( 'wp_head', 'twenty_twenty_one_pingback_header', 10, 0 );
 
 /**
  * Remove the `no-js` class from body if JS is supported.
@@ -76,7 +76,7 @@ add_action( 'wp_head', 'twenty_twenty_one_pingback_header' );
 function twenty_twenty_one_supports_js() {
 	echo '<script>document.body.classList.remove("no-js");</script>';
 }
-add_action( 'wp_footer', 'twenty_twenty_one_supports_js' );
+add_action( 'wp_footer', 'twenty_twenty_one_supports_js', 10, 0 );
 
 /**
  * Changes comment form default fields.
@@ -154,7 +154,7 @@ function twenty_twenty_one_continue_reading_link_excerpt() {
 }
 
 // Filter the excerpt more link.
-add_filter( 'excerpt_more', 'twenty_twenty_one_continue_reading_link_excerpt' );
+add_filter( 'excerpt_more', 'twenty_twenty_one_continue_reading_link_excerpt', 10, 0 );
 
 /**
  * Creates the continue reading link.
@@ -168,7 +168,7 @@ function twenty_twenty_one_continue_reading_link() {
 }
 
 // Filter the content more link.
-add_filter( 'the_content_more_link', 'twenty_twenty_one_continue_reading_link' );
+add_filter( 'the_content_more_link', 'twenty_twenty_one_continue_reading_link', 10, 0 );
 
 if ( ! function_exists( 'twenty_twenty_one_post_title' ) ) {
 	/**

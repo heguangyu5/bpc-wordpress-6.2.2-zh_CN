@@ -42,6 +42,7 @@ wp-includes/css/dist/nux/style.min.css
 wp-includes/css/dist/reusable-blocks/style.min.css
 wp-includes/css/media-views.min.css
 wp-includes/css/dist/block-library/common.min.css
+wp-includes/css/dist/block-library/theme.min.css
 wp-includes/css/classic-themes.min.css
 # js
 wp-includes/js/jquery/jquery.min.js

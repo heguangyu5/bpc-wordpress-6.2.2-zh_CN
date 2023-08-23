@@ -108,5 +108,5 @@ if ( function_exists( 'register_block_style' ) ) {
 			)
 		);
 	}
-	add_action( 'init', 'twenty_twenty_one_register_block_styles' );
+	add_action( 'init', 'twenty_twenty_one_register_block_styles', 10, 0 );
 }

@@ -24,7 +24,7 @@ if ( function_exists( 'register_block_pattern_category' ) ) {
 			array( 'label' => esc_html__( 'Twenty Twenty-One', 'twentytwentyone' ) )
 		);
 	}
-	add_action( 'init', 'twenty_twenty_one_register_block_pattern_category' );
+	add_action( 'init', 'twenty_twenty_one_register_block_pattern_category', 10, 0 );
 }
 
 /**
@@ -138,5 +138,5 @@ if ( function_exists( 'register_block_pattern' ) ) {
 		);
 
 	}
-	add_action( 'init', 'twenty_twenty_one_register_block_pattern' );
+	add_action( 'init', 'twenty_twenty_one_register_block_pattern', 10, 0 );
 }

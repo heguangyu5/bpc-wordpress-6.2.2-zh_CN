@@ -489,7 +489,7 @@ function wp_admin_bar_customize_menu( $wp_admin_bar ) {
 			),
 		)
 	);
-	add_action( 'wp_before_admin_bar_render', 'wp_customize_support_script' );
+	add_action( 'wp_before_admin_bar_render', 'wp_customize_support_script', 10, 0 );
 }
 
 /**

@@ -19,9 +19,9 @@
  * @return void
  */
 function twenty_twenty_one_switch_theme() {
-	add_action( 'admin_notices', 'twenty_twenty_one_upgrade_notice' );
+	add_action( 'admin_notices', 'twenty_twenty_one_upgrade_notice', 10, 0 );
 }
-add_action( 'after_switch_theme', 'twenty_twenty_one_switch_theme' );
+add_action( 'after_switch_theme', 'twenty_twenty_one_switch_theme', 10, 0 );
 
 /**
  * Adds a message for unsuccessful theme switch.
@@ -67,7 +67,7 @@ function twenty_twenty_one_customize() {
 		)
 	);
 }
-add_action( 'load-customize.php', 'twenty_twenty_one_customize' );
+add_action( 'load-customize.php', 'twenty_twenty_one_customize', 10, 0 );
 
 /**
  * Prevents the Theme Preview from being loaded on WordPress versions prior to 5.3.
@@ -89,4 +89,4 @@ function twenty_twenty_one_preview() {
 		);
 	}
 }
-add_action( 'template_redirect', 'twenty_twenty_one_preview' );
+add_action( 'template_redirect', 'twenty_twenty_one_preview', 10, 0 );

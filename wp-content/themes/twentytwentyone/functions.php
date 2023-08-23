@@ -340,10 +340,10 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 		add_theme_support( 'custom-units' );
 
 		// Remove feed icon link from legacy RSS widget.
-		add_filter( 'rss_widget_feed_link', '__return_empty_string' );
+		add_filter( 'rss_widget_feed_link', '__return_empty_string', 10, 0 );
 	}
 }
-add_action( 'after_setup_theme', 'twenty_twenty_one_setup' );
+add_action( 'after_setup_theme', 'twenty_twenty_one_setup', 10, 0 );
 
 /**
  * Register widget area.
@@ -368,7 +368,7 @@ function twenty_twenty_one_widgets_init() {
 		)
 	);
 }
-add_action( 'widgets_init', 'twenty_twenty_one_widgets_init' );
+add_action( 'widgets_init', 'twenty_twenty_one_widgets_init', 10, 0 );
 
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
@@ -387,7 +387,7 @@ function twenty_twenty_one_content_width() {
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	$GLOBALS['content_width'] = apply_filters( 'twenty_twenty_one_content_width', 750 );
 }
-add_action( 'after_setup_theme', 'twenty_twenty_one_content_width', 0 );
+add_action( 'after_setup_theme', 'twenty_twenty_one_content_width', 0, 0 );
 
 /**
  * Enqueue scripts and styles.
@@ -466,7 +466,7 @@ function twenty_twenty_one_scripts() {
 		true
 	);
 }
-add_action( 'wp_enqueue_scripts', 'twenty_twenty_one_scripts' );
+add_action( 'wp_enqueue_scripts', 'twenty_twenty_one_scripts', 10, 0 );
 
 /**
  * Enqueue block editor script.
@@ -480,7 +480,7 @@ function twentytwentyone_block_editor_script() {
 	wp_enqueue_script( 'twentytwentyone-editor', get_theme_file_uri( '/assets/js/editor.js' ), array( 'wp-blocks', 'wp-dom' ), wp_get_theme()->get( 'Version' ), true );
 }
 
-add_action( 'enqueue_block_editor_assets', 'twentytwentyone_block_editor_script' );
+add_action( 'enqueue_block_editor_assets', 'twentytwentyone_block_editor_script', 10, 0 );
 
 /**
  * Fix skip link focus in IE11.
@@ -508,7 +508,7 @@ function twenty_twenty_one_skip_link_focus_fix() {
 		<?php
 	}
 }
-add_action( 'wp_print_footer_scripts', 'twenty_twenty_one_skip_link_focus_fix' );
+add_action( 'wp_print_footer_scripts', 'twenty_twenty_one_skip_link_focus_fix', 10, 0 );
 
 /**
  * Enqueue non-latin language styles.
@@ -524,7 +524,7 @@ function twenty_twenty_one_non_latin_languages() {
 		wp_add_inline_style( 'twenty-twenty-one-style', $custom_css );
 	}
 }
-add_action( 'wp_enqueue_scripts', 'twenty_twenty_one_non_latin_languages' );
+add_action( 'wp_enqueue_scripts', 'twenty_twenty_one_non_latin_languages', 10, 0 );
 
 // SVG Icons class.
 require get_template_directory() . '/classes/class-twenty-twenty-one-svg-icons.php';
@@ -543,8 +543,8 @@ require get_template_directory() . '/inc/menu-functions.php';
 require get_template_directory() . '/inc/template-tags.php';
 
 // Customizer additions.
-require get_template_directory() . '/classes/class-twenty-twenty-one-customize.php';
-new Twenty_Twenty_One_Customize();
+//require get_template_directory() . '/classes/class-twenty-twenty-one-customize.php';
+//new Twenty_Twenty_One_Customize();
 
 // Block Patterns.
 require get_template_directory() . '/inc/block-patterns.php';
@@ -580,7 +580,7 @@ function twentytwentyone_customize_preview_init() {
 		true
 	);
 }
-add_action( 'customize_preview_init', 'twentytwentyone_customize_preview_init' );
+add_action( 'customize_preview_init', 'twentytwentyone_customize_preview_init', 10, 0 );
 
 /**
  * Enqueue scripts for the customizer.
@@ -599,7 +599,7 @@ function twentytwentyone_customize_controls_enqueue_scripts() {
 		true
 	);
 }
-add_action( 'customize_controls_enqueue_scripts', 'twentytwentyone_customize_controls_enqueue_scripts' );
+add_action( 'customize_controls_enqueue_scripts', 'twentytwentyone_customize_controls_enqueue_scripts', 10, 0 );
 
 /**
  * Calculate classes for the main <html> element.
@@ -639,7 +639,7 @@ function twentytwentyone_add_ie_class() {
 	</script>
 	<?php
 }
-add_action( 'wp_footer', 'twentytwentyone_add_ie_class' );
+add_action( 'wp_footer', 'twentytwentyone_add_ie_class', 10, 0 );
 
 if ( ! function_exists( 'wp_get_list_item_separator' ) ) :
 	/**

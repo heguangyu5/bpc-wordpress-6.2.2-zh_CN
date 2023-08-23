@@ -20,10 +20,10 @@ class Twenty_Twenty_One_Custom_Colors {
 	public function __construct() {
 
 		// Enqueue color variables for customizer & frontend.
-		add_action( 'wp_enqueue_scripts', array( $this, 'custom_color_variables' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'custom_color_variables' ), 10, 0 );
 
 		// Enqueue color variables for editor.
-		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_custom_color_variables' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_custom_color_variables' ), 10, 0 );
 
 		// Add body-class if needed.
 		add_filter( 'body_class', array( $this, 'body_class' ) );

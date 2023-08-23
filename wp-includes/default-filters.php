@@ -321,7 +321,7 @@ add_filter( 'rest_authentication_errors', 'rest_application_password_check_error
 add_filter( 'rest_authentication_errors', 'rest_cookie_check_errors', 100 );
 
 // Actions.
-add_action( 'wp_head', '_wp_render_title_tag', 1 );
+add_action( 'wp_head', '_wp_render_title_tag', 1, 0 );
 add_action( 'wp_head', 'wp_enqueue_scripts', 1, 0 );
 add_action( 'wp_head', 'wp_resource_hints', 2, 0 );
 add_action( 'wp_head', 'wp_preload_resources', 1, 0 );
@@ -338,7 +338,7 @@ add_action( 'wp_head', 'wp_print_head_scripts', 9, 0 );
 add_action( 'wp_head', 'wp_generator', 10, 0 );
 add_action( 'wp_head', 'rel_canonical', 10, 0 );
 add_action( 'wp_head', 'wp_shortlink_wp_head', 10, 0 );
-add_action( 'wp_head', 'wp_custom_css_cb', 101 );
+add_action( 'wp_head', 'wp_custom_css_cb', 101, 0 );
 add_action( 'wp_head', 'wp_site_icon', 99, 0 );
 add_action( 'wp_footer', 'wp_print_footer_scripts', 20, 0 );
 add_action( 'template_redirect', 'wp_shortlink_header', 11, 0 );

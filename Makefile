@@ -9,6 +9,7 @@ libwordpress:
 		-c bpc.conf  \
 		-l wordpress \
 		--pseudo-class-list WP_HTTP_IXR_Client,IXR_Error,WP_Customize_Manager,WP_Customize_Panel,getID3,WP_Filesystem_Base,SimplePie,WP_SimplePie_Sanitize_KSES,SimplePie_Cache,WP_Press_This_Plugin \
+		--copt -Wno-trigraphs \
 		--input-file src.list
 
 install-libwordpress:

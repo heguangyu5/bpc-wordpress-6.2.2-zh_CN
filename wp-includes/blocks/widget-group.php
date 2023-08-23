@@ -75,4 +75,4 @@ function discard_sidebar_being_rendered() {
 	global $_sidebar_being_rendered;
 	unset( $_sidebar_being_rendered );
 }
-add_action( 'dynamic_sidebar_after', 'discard_sidebar_being_rendered' );
+add_action( 'dynamic_sidebar_after', 'discard_sidebar_being_rendered', 10, 0 );
