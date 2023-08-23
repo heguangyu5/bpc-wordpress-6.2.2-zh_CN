@@ -128,7 +128,7 @@ add_action( 'personal_options_update', 'send_confirmation_on_profile_email' );
 
 // Update hooks.
 add_action( 'load-plugins.php', 'wp_plugin_update_rows', 20 ); // After wp_update_plugins() is called.
-add_action( 'load-themes.php', 'wp_theme_update_rows', 20 ); // After wp_update_themes() is called.
+add_action( 'load-themes.php', 'wp_theme_update_rows', 20, 0 ); // After wp_update_themes() is called.
 
 add_action( 'admin_notices', 'update_nag', 3, 0 );
 add_action( 'admin_notices', 'deactivated_plugins_notice', 5, 0 );

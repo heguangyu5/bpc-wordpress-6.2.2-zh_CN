@@ -1233,8 +1233,13 @@ final class WP_Theme implements ArrayAccess {
 			return false;
 		}
 
+        if (defined('__BPC__')) {
+            $fileExistsFunc = 'include_file_exists';
+        } else {
+            $fileExistsFunc = 'file_exists';
+        }
 		foreach ( array( 'png', 'gif', 'jpg', 'jpeg', 'webp' ) as $ext ) {
-			if ( file_exists( $this->get_stylesheet_directory() . "/screenshot.$ext" ) ) {
+			if ( $fileExistsFunc( $this->get_stylesheet_directory() . "/screenshot.$ext" ) ) {
 				$this->cache_add( 'screenshot', 'screenshot.' . $ext );
 				if ( 'relative' === $uri ) {
 					return 'screenshot.' . $ext;

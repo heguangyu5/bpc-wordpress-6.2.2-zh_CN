@@ -3,6 +3,8 @@ placeholder-tmp.php
 wp-comments-post.php
 wp-includes/template-loader.php
 wp-includes/template-canvas.php
+#wp-admin/themes.php
+wp-admin/themes.php
 #twentytwentythree
 wp-content/themes/twentytwentythree/theme.json
 wp-content/themes/twentytwentythree/style.css

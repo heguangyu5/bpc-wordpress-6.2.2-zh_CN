@@ -279,9 +279,16 @@ function get_locale_stylesheet_uri() {
 	$stylesheet_dir_uri = get_stylesheet_directory_uri();
 	$dir                = get_stylesheet_directory();
 	$locale             = get_locale();
-	if ( file_exists( "$dir/$locale.css" ) ) {
+
+	if (defined('__BPC__')) {
+	    $fileExistsFunc = 'include_file_exists';
+	} else {
+	    $fileExistsFunc = 'file_exists';
+	}
+
+	if ( $fileExistsFunc( "$dir/$locale.css" ) ) {
 		$stylesheet_uri = "$stylesheet_dir_uri/$locale.css";
-	} elseif ( ! empty( $wp_locale->text_direction ) && file_exists( "$dir/{$wp_locale->text_direction}.css" ) ) {
+	} elseif ( ! empty( $wp_locale->text_direction ) && $fileExistsFunc( "$dir/{$wp_locale->text_direction}.css" ) ) {
 		$stylesheet_uri = "$stylesheet_dir_uri/{$wp_locale->text_direction}.css";
 	} else {
 		$stylesheet_uri = '';
@@ -500,12 +507,37 @@ function search_theme_directories( $force = false ) {
 	foreach ( $wp_theme_directories as $theme_root ) {
 
 		// Start with directories in the root of the active theme directory.
+		if (defined('__BPC__')) {
+		    $dirs = getenv('WP_THEMES');
+		    if (!$dirs) {
+		        trigger_error("ENV WP_THEMES required", E_USER_NOTICE);
+		        continue;
+		    }
+		    $dirs = explode(',', $dirs);
+		} else {
 		$dirs = @ scandir( $theme_root );
 		if ( ! $dirs ) {
 			trigger_error( "$theme_root is not readable", E_USER_NOTICE );
 			continue;
 		}
+		}
 		foreach ( $dirs as $dir ) {
+		    if (defined('__BPC__')) {
+		        if ('.' === $dir[0] || 'CVS' === $dir) {
+		            continue;
+		        }
+		        if (include_file_exists($theme_root . '/' . $dir . '/style.css')) {
+		            // wp-content/themes/a-single-theme
+		            // wp-content/themes is $theme_root, a-single-theme is $dir.
+		            $found_themes[ $dir ] = array(
+		                'theme_file' => $dir . '/style.css',
+		                'theme_root' => $theme_root,
+		            );
+		        } else {
+		            trigger_error( "wp-content/themes/a-folder-of-themes/* not support now!", E_USER_NOTICE );
+		            continue;
+		        }
+		    } else {
 			if ( ! is_dir( $theme_root . '/' . $dir ) || '.' === $dir[0] || 'CVS' === $dir ) {
 				continue;
 			}
@@ -546,6 +578,7 @@ function search_theme_directories( $force = false ) {
 						'theme_root' => $theme_root,
 					);
 				}
+			}
 			}
 		}
 	}
@@ -867,15 +900,21 @@ function validate_current_theme() {
 		return true;
 	}
 
+	if (defined('__BPC__')) {
+	    $fileExistsFunc = 'include_file_exists';
+	} else {
+	    $fileExistsFunc = 'file_exists';
+	}
+
 	if (
-		! file_exists( get_template_directory() . '/templates/index.html' )
-		&& ! file_exists( get_template_directory() . '/block-templates/index.html' ) // Deprecated path support since 5.9.0.
-		&& ! file_exists( get_template_directory() . '/index.php' )
+		! $fileExistsFunc( get_template_directory() . '/templates/index.html' )
+		&& ! $fileExistsFunc( get_template_directory() . '/block-templates/index.html' ) // Deprecated path support since 5.9.0.
+		&& ! $fileExistsFunc( get_template_directory() . '/index.php' )
 	) {
 		// Invalid.
-	} elseif ( ! file_exists( get_template_directory() . '/style.css' ) ) {
+	} elseif ( ! $fileExistsFunc( get_template_directory() . '/style.css' ) ) {
 		// Invalid.
-	} elseif ( is_child_theme() && ! file_exists( get_stylesheet_directory() . '/style.css' ) ) {
+	} elseif ( is_child_theme() && ! $fileExistsFunc( get_stylesheet_directory() . '/style.css' ) ) {
 		// Invalid.
 	} else {
 		// Valid.

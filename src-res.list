@@ -192,6 +192,8 @@ wp-includes/js/tinymce/plugins/wpgallery/plugin.min.js
 wp-includes/js/tinymce/plugins/wplink/plugin.min.js
 wp-includes/js/tinymce/plugins/wptextpattern/plugin.min.js
 wp-includes/js/tinymce/plugins/wpview/plugin.min.js
+wp-includes/js/customize-base.min.js
+wp-admin/js/theme.min.js
 # image
 wp-admin/images/wordpress-logo.svg
 wp-admin/images/dashboard-background.svg

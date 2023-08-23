@@ -346,10 +346,10 @@ add_action( 'wp_print_footer_scripts', '_wp_footer_scripts', 10, 0 );
 add_action( 'init', '_register_core_block_patterns_and_categories', 10, 0 );
 add_action( 'init', 'check_theme_switched', 99, 0 );
 add_action( 'init', array( 'WP_Block_Supports', 'init' ), 22 );
-add_action( 'switch_theme', 'wp_clean_theme_json_cache' );
-add_action( 'start_previewing_theme', 'wp_clean_theme_json_cache' );
-add_action( 'after_switch_theme', '_wp_menus_changed' );
-add_action( 'after_switch_theme', '_wp_sidebars_changed' );
+add_action( 'switch_theme', 'wp_clean_theme_json_cache', 10, 0 );
+add_action( 'start_previewing_theme', 'wp_clean_theme_json_cache', 10, 0 );
+add_action( 'after_switch_theme', '_wp_menus_changed', 10, 0 );
+add_action( 'after_switch_theme', '_wp_sidebars_changed', 10, 0 );
 add_action( 'wp_print_styles', 'print_emoji_styles', 10, 0 );
 add_action( 'plugins_loaded', '_wp_theme_json_webfonts_handler', 10, 0 );
 
