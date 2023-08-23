@@ -39,11 +39,12 @@ run:
 	mkdir /tmp/wordpress/wp-includes
 	mkdir /tmp/wordpress/wp-includes/images
 	mkdir /tmp/wordpress/wp-content
-	cp wordpress-althttpd /tmp/wordpress
+	cp wordpress-althttpd /tmp/wordpress/
 	cp -r wp-includes/certificates /tmp/wordpress/wp-includes/
 	cp -r wp-includes/images/media /tmp/wordpress/wp-includes/images/
 	cp -r wp-content/languages /tmp/wordpress/wp-content/
-	DB_NAME=wordpress_bpc DB_USER=rootpw DB_PASSWORD=123456 /tmp/wordpress/wordpress-althttpd -project-name wordpress -port 7878 -root /tmp/wordpress -http-header X-WP-Nonce
+	cp start.sh /tmp/wordpress/
+	/tmp/wordpress/start.sh
 
 libwordpresstmp.so:
 	./bpc-prepare.sh src-tmp.list
