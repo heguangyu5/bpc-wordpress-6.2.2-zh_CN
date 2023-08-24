@@ -201,6 +201,15 @@ wp-admin/images/dashboard-background.svg
 wp-admin/images/spinner.gif
 wp-includes/js/thickbox/loadingAnimation.gif
 wp-includes/images/spinner.gif
+wp-includes/images/media/archive.png
+wp-includes/images/media/audio.png
+wp-includes/images/media/code.png
+wp-includes/images/media/default.png
+wp-includes/images/media/document.png
+wp-includes/images/media/interactive.png
+wp-includes/images/media/spreadsheet.png
+wp-includes/images/media/text.png
+wp-includes/images/media/video.png
 wp-includes/js/imgareaselect/border-anim-v.gif
 wp-includes/js/imgareaselect/border-anim-h.gif
 # json
