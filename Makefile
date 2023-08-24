@@ -37,9 +37,7 @@ wordpress-althttpd-static:
 run:
 	rm -rf /tmp/wordpress
 	mkdir /tmp/wordpress
-	mkdir /tmp/wordpress/wp-includes
 	cp wordpress-althttpd /tmp/wordpress/
-	cp -r wp-includes/certificates /tmp/wordpress/wp-includes/
 	cp start.sh /tmp/wordpress/
 	/tmp/wordpress/start.sh
 
