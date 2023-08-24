@@ -760,8 +760,14 @@ function load_textdomain( $domain, $mofile, $locale = null ) {
 	 */
 	$mofile = apply_filters( 'load_textdomain_mofile', $mofile, $domain );
 
+    if (defined('__BPC__')) {
+        if (!include_file_exists($mofile)) {
+            return false;
+        }
+    } else {
 	if ( ! is_readable( $mofile ) ) {
 		return false;
+	}
 	}
 
 	if ( ! $locale ) {
@@ -1221,11 +1227,22 @@ function load_script_translations( $file, $handle, $domain ) {
 	 */
 	$file = apply_filters( 'load_script_translation_file', $file, $handle, $domain );
 
+    if (defined('__BPC__')) {
+        if ( !$file ) {
+            return false;
+        }
+
+        $translations = resource_get_contents($file);
+        if (!$translations) {
+            return false;
+        }
+    } else {
 	if ( ! $file || ! is_readable( $file ) ) {
 		return false;
 	}
 
 	$translations = file_get_contents( $file );
+    }
 
 	/**
 	 * Filters script translations for the given file, script handle and text domain.
@@ -1367,6 +1384,13 @@ function translate_user_role( $name, $domain = 'default' ) {
  *                  Language codes are formed by stripping the .mo extension from the language file names.
  */
 function get_available_languages( $dir = null ) {
+    if (defined('__BPC__')) {
+        $languages = getenv('WP_LANGUAGES');
+        if ($languages) {
+            return explode(',', $languages);
+        }
+        return array();
+    } else {
 	$languages = array();
 
 	$lang_files = glob( ( is_null( $dir ) ? WP_LANG_DIR : $dir ) . '/*.mo' );
@@ -1389,6 +1413,7 @@ function get_available_languages( $dir = null ) {
 	 * @param string   $dir       The directory where the language files were found.
 	 */
 	return apply_filters( 'get_available_languages', $languages, $dir );
+    }
 }
 
 /**

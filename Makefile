@@ -43,7 +43,6 @@ run:
 	cp wordpress-althttpd /tmp/wordpress/
 	cp -r wp-includes/certificates /tmp/wordpress/wp-includes/
 	cp -r wp-includes/images/media /tmp/wordpress/wp-includes/images/
-	cp -r wp-content/languages /tmp/wordpress/wp-content/
 	cp start.sh /tmp/wordpress/
 	/tmp/wordpress/start.sh
 

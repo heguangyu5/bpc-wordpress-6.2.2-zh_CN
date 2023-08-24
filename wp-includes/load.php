@@ -524,7 +524,13 @@ function wp_debug_mode() {
  */
 function wp_set_lang_dir() {
 	if ( ! defined( 'WP_LANG_DIR' ) ) {
-		if ( file_exists( WP_CONTENT_DIR_REAL . '/languages' ) && @is_dir( WP_CONTENT_DIR_REAL . '/languages' ) || ! @is_dir( ABSPATH_REAL . WPINC . '/languages' ) ) {
+        if (defined('__BPC__')) {
+            define( 'WP_LANG_DIR', WP_CONTENT_DIR . '/languages' );
+            if ( ! defined('LANGDIR') ) {
+                define( 'LANGDIR', 'wp-content/languages' );
+            }
+        } else {
+		if ( file_exists( WP_CONTENT_DIR . '/languages' ) && @is_dir( WP_CONTENT_DIR . '/languages' ) || ! @is_dir( ABSPATH_REAL . WPINC . '/languages' ) ) {
 			/**
 			 * Server path of the language directory.
 			 *
@@ -532,7 +538,7 @@ function wp_set_lang_dir() {
 			 *
 			 * @since 2.1.0
 			 */
-			define( 'WP_LANG_DIR', WP_CONTENT_DIR_REAL . '/languages' );
+			define( 'WP_LANG_DIR', WP_CONTENT_DIR . '/languages' );
 			if ( ! defined( 'LANGDIR' ) ) {
 				// Old static relative path maintained for limited backward compatibility - won't work in some cases.
 				define( 'LANGDIR', 'wp-content/languages' );
@@ -550,6 +556,7 @@ function wp_set_lang_dir() {
 				// Old relative path maintained for backward compatibility.
 				define( 'LANGDIR', WPINC . '/languages' );
 			}
+		}
 		}
 	}
 }
@@ -1377,6 +1384,12 @@ function wp_load_translations_early() {
 		$wp_textdomain_registry = new WP_Textdomain_Registry();
 	}
 
+    if (defined('__BPC__')) {
+        $fileExistsFunc = 'include_file_exists';
+    } else {
+        $fileExistsFunc = 'file_exists';
+    }
+
 	while ( true ) {
 		if ( defined( 'WPLANG' ) ) {
 			if ( '' === WPLANG ) {
@@ -1393,6 +1406,15 @@ function wp_load_translations_early() {
 			break;
 		}
 
+        if (defined('__BPC__')) {
+            if ( defined( 'WP_LANG_DIR' ) ) {
+                $locations[] = WP_LANG_DIR;
+            }
+            if ( defined( 'WP_CONTENT_DIR' ) ) {
+                $locations[] = WP_CONTENT_DIR . '/languages';
+            }
+            $locations[] = ABSPATH . 'wp-content/languages';
+        } else {
 		if ( defined( 'WP_LANG_DIR' ) && @is_dir( WP_LANG_DIR ) ) {
 			$locations[] = WP_LANG_DIR;
 		}
@@ -1408,6 +1430,7 @@ function wp_load_translations_early() {
 		if ( @is_dir( ABSPATH . WPINC . '/languages' ) ) {
 			$locations[] = ABSPATH . WPINC . '/languages';
 		}
+		}
 
 		if ( ! $locations ) {
 			break;
@@ -1418,9 +1441,9 @@ function wp_load_translations_early() {
 		foreach ( $locales as $locale ) {
 		    $break = false;
 			foreach ( $locations as $location ) {
-				if ( file_exists( $location . '/' . $locale . '.mo' ) ) {
+				if ( $fileExistsFunc( $location . '/' . $locale . '.mo' ) ) {
 					load_textdomain( 'default', $location . '/' . $locale . '.mo', $locale );
-					if ( defined( 'WP_SETUP_CONFIG' ) && file_exists( $location . '/admin-' . $locale . '.mo' ) ) {
+					if ( defined( 'WP_SETUP_CONFIG' ) && $fileExistsFunc( $location . '/admin-' . $locale . '.mo' ) ) {
 						load_textdomain( 'default', $location . '/admin-' . $locale . '.mo', $locale );
 					}
 					$break = true;

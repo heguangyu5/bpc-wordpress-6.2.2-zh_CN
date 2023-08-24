@@ -43,7 +43,11 @@ if ( ! class_exists( 'MO', false ) ) :
 		 * @return bool True if the import from file was successful, otherwise false.
 		 */
 		public function import_from_file( $filename ) {
+            if (defined('__BPC__')) {
+                $reader = new POMO_StringReader(resource_get_contents($filename));
+            } else {
 			$reader = new POMO_FileReader( $filename );
+			}
 
 			if ( ! $reader->is_resource() ) {
 				return false;
